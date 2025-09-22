@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Глобальные переменные ===== */
+:root{
+  --container: 1390px;
+  --radius: 18px;
+
+  --site-bg: #EAEEF7;   /* общий фон сайта */
+  --panel:   #ffffff;   /* фон модулей/панелей */
+  --fg:      #0f172a;
+  --muted:   #475569;
+
+  --accent:   #6a5bff;
+  --accent-2: #6be0ff;
+  --accent-3: #3a2ae3;
+  --highlight:#ffd45c;
+
+  --shadow-sm: 0 6px 18px rgba(2,6,23,.08);
+  --shadow-lg: 0 18px 48px rgba(2,6,23,.14);
+}
+
+/* ===== База ===== */
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  background: var(--site-bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+  font-weight: 500; /* Inter 500 — по запросу */
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+
+/* Контейнер 1390 */
+.container{
+  width:100%;
+  max-width: calc(var(--container) + 48px);
+  margin: 0 auto;
+}
+
+/* Универсальная белая панель-модуль */
+.module{
+  background: var(--panel);
+  border-radius: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Кнопки */
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:16px 22px; border-radius:14px;
+  font-weight:600; text-decoration:none;
+  transition: transform .14s, box-shadow .14s, background .14s;
+}
+.btn--primary{ background: var(--accent); color:#fff; box-shadow: var(--shadow-sm); }
+.btn--primary:hover{ background:#584af6; transform:translateY(-1px); }
+.btn--ghost{ background:#fff; color:var(--fg); border:1px solid #e5e7eb; }
+.btn--ghost:hover{ background:#f8fafc; }
+
+/* Хелперы */
+.text-muted{ color: var(--muted); }
