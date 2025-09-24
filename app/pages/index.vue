@@ -8,6 +8,7 @@
     <InteractiveLessons/>
     <MoreTasksFeatures/>
     <Progress />
+    <UcsBrand />
     <BikeNotBicycle/>
     <PricingTickets/>
     <FaqBlock />

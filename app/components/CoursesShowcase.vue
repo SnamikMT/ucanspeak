@@ -99,7 +99,7 @@ import adult     from '@/assets/img/course-adult.svg'
 /* Заголовок */
 .head{ position:relative; text-align:center; margin-bottom:0; }
 .title{
-  margin:0 0 51px 0; /* как у тебя */
+  margin:0 0 51px 0;
   font-family: Inter, sans-serif;
   font-weight:500;
   font-size:55px;
@@ -112,21 +112,21 @@ import adult     from '@/assets/img/course-adult.svg'
   background:#FFD249;
   padding:.1em .3em;
   border-radius:10px;
-  transform: rotate(1.51deg); /* наклон highlight в другую сторону */
+  transform: rotate(1.51deg);
 }
 
-/* Плашка под заголовком — опущена ещё на 10px (с 16px до 26px) */
+/* Плашка под заголовком */
 .note{
   position:relative;
   display:inline-block;
   width:555px; height:96px;
   background:#fff;
   border-radius:10px;
-  box-shadow: 3px 4px 9px rgba(0,0,0,.25); /* #00000040 25%, x3 y4 blur9 */
-  transform: translateY(26px) rotate(5.26deg); /* ↓ на 10px */
+  box-shadow: 3px 4px 9px rgba(0,0,0,.25);
+  transform: translateY(26px) rotate(5.26deg);
   padding:16px 24px 14px 24px;
   text-align:left;
-  z-index:3; /* поверх панели и картинок */
+  z-index:3;
 }
 .noteText{
   margin:0;
@@ -139,7 +139,7 @@ import adult     from '@/assets/img/course-adult.svg'
 }
 .line2{ position:relative; display:inline-block; }
 .underline{
-  position:absolute; left:0; bottom:-24px; /* чуть ниже и БЕЗ поворота */
+  position:absolute; left:0; bottom:-24px;
   pointer-events:none;
 }
 .pin{
@@ -149,23 +149,23 @@ import adult     from '@/assets/img/course-adult.svg'
   pointer-events:none;
 }
 
-/* ПАНЕЛЬ 1390x540 — центрируем, внутренние отступы 30, gap 20 */
+/* ПАНЕЛЬ (десктоп 1390x540) */
 .panel{
   width:1390px; height:540px;
-  margin:0 auto;                         /* центр */
+  margin:0 auto;
   background:#fff;
   border-radius:20px;
-  padding:30px;                          /* по краям 30px */
+  padding:30px;
   box-shadow:0 12px 32px rgba(16,24,40,.08);
-  position:relative;                     /* базис для абсолютных координат картинок */
+  position:relative;
   display:grid;
-  grid-template-columns: 340px 1fr;      /* слева 340px колонка */
-  column-gap:20px;                       /* между колонками 20px */
+  grid-template-columns: 340px 1fr;
+  column-gap:20px;
   align-items:start;
-  z-index:1;                             /* ниже плашки */
+  z-index:1;
 }
 
-/* Левая колонка: карточки 340 шириной, между собой 20, отступы 30 обеспечены паддингом панели */
+/* Левая колонка */
 .left{
   width:340px;
   display:flex; flex-direction:column; gap:20px;
@@ -199,7 +199,7 @@ import adult     from '@/assets/img/course-adult.svg'
   border-radius:6px; padding:0 .22em; font-weight:500;
 }
 
-/* Кнопка 340x46 */
+/* Кнопка */
 .demoBtn{
   width:340px; height:46px;
   background:#B87EFF; color:#fff; text-decoration:none;
@@ -217,26 +217,161 @@ import adult     from '@/assets/img/course-adult.svg'
   display:grid; place-items:center; flex:0 0 36px;
 }
 
-/* Холст картинок: абсолютные координаты от .panel (1390x540), без поворотов; ПОД плашкой */
+/* Холст картинок (десктоп) */
 .canvas{
-  position:absolute; inset:0;           /* совпадает с панелью */
-  z-index:1;                            /* ниже плашки */
+  position:absolute; inset:0;
+  z-index:1;
 }
 .cardImg{
   position:absolute; display:block;
-  width:auto; height:auto;              /* натуральный размер SVG */
+  width:auto; height:auto;
   filter: drop-shadow(0 20px 36px rgba(16,24,40,.12));
-  transform: none;                      /* никаких поворотов */
+  transform:none;
 }
 
-/* Оверлеи (если будут индивидуальные SVG для карточек) */
+/* Оверлеи */
 .overlay{
   position:absolute; display:block; pointer-events:none;
   width:auto; height:auto;
 }
 
+/* =========================
+   А Д А П Т И В
+   ========================= */
+
+/* Лэптопы/планшеты (≤1200px) — панель резиновая, без фиксированных размеров */
+@media (max-width: 1200px){
+  .title{ font-size:48px; }
+  .note{
+    width:520px; height:auto;
+    transform: translateY(22px) rotate(4deg);
+  }
+  .underline{ bottom:-20px; }
+  .pin{ right:-10px; top:-20px; width:84px; height:84px; }
+
+  .panel{
+    width:100%; height:auto;
+    max-width:1040px;
+    padding:24px;
+    grid-template-columns: 320px 1fr;
+    margin:0 24px;            /* поля внутри контейнера */
+  }
+  .left{ width:100%; }
+  .item{ width:100%; }
+  .demoBtn{ width:100%; }
+  /* картинкам дадим “подложку”, но остаёмся в абсолюте до следующего брейкпоинта */
+  .canvas{ position:relative; height:520px; border-radius:16px; }
+}
+
+/* Планшеты/большие телефоны (≤992px) — одна колонка, картинки уходят в сетку */
+@media (max-width: 992px){
+  .title{ font-size:40px; }
+  .note{
+    width:min(640px, 92vw);
+    transform: translateY(18px) rotate(2.5deg);
+    padding:14px 18px;
+  }
+  .noteText{ font-size:18px; }
+  .underline{ bottom:-16px; }
+  .pin{ display:none; } /* убираем значок-гвоздик, чтобы не мешал */
+
+  .panel{
+    max-width:780px;
+    margin:0 auto;
+    padding:20px;
+    grid-template-columns: 1fr;      /* одна колонка */
+    row-gap:16px;
+  }
+  .left{
+    width:100%;
+    gap:14px;
+  }
+  .item{ padding:14px 16px; }
+  .itemTitle{ font-size:17px; }
+  .itemText,.itemList{ font-size:15px; }
+
+  /* Холст перестаёт быть абсолютным: делаем простой грид */
+  .canvas{
+    position:relative;
+    inset:auto;
+    height:auto;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:12px;
+  }
+  .cardImg{
+    position:static;
+    width:100%;
+    height:auto;
+    filter: drop-shadow(0 10px 20px rgba(16,24,40,.12));
+  }
+
+  .demoBtn{
+    height:48px;
+    padding:0 8px 0 16px;
+  }
+  .demoBtn span{ font-size:15px; }
+}
+
+/* Мобилки (≤600px) — компактная типографика, картинки в один столбец */
+@media (max-width: 600px){
+  .wrap{ padding:28px 0 44px; }
+
+  .title{
+    font-size:28px;
+    line-height:1.02;
+    margin:0 0 32px 0;
+    letter-spacing:-0.04em;
+  }
+  .brand{ border-radius:8px; }
+
+  .note{
+    width:auto;
+    max-width:calc(100% - 32px); /* визуальные поля */
+    transform: translateY(12px) rotate(1.2deg);
+    padding:12px 14px 12px 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.18);
+  }
+  .noteText{ font-size:16px; line-height:1.28; }
+  .underline{ bottom:-12px; max-width:100%; height:auto; }
+
+  .panel{
+    margin:0 16px;
+    padding:16px;
+    border-radius:16px;
+    box-shadow:0 8px 22px rgba(16,24,40,.06);
+    row-gap:14px;
+  }
+  .left{ gap:12px; }
+  .item{ padding:12px 12px; border-radius:10px; }
+  .itemTitle{ font-size:16px; margin-bottom:2px; }
+  .itemText,.itemList{ font-size:14px; }
+  .itemList li{ margin:.2em 0; }
+
+  .demoBtn{
+    width:100%; height:44px; border-radius:10px;
+  }
+  .demoBtn i{ width:32px; height:32px; border-radius:8px; }
+
+  /* Картинки — в один столбец */
+  .canvas{
+    grid-template-columns: 1fr;
+    gap:10px;
+  }
+}
+
+/* Очень узкие (≤360px) — ещё чуть компактнее */
+@media (max-width: 360px){
+  .title{ font-size:24px; }
+  .noteText{ font-size:15px; }
+  .panel{ padding:14px; }
+  .itemTitle{ font-size:15px; }
+  .itemText,.itemList{ font-size:13.5px; }
+}
+
 /* Адаптив-заглушка (по макету фикс 1390x540) */
 @media (max-width: 1500px){
-  /* При необходимости можно включить масштабирование панели и координат картинок */
+  /* масштабирование панели и координат картинок больше не требуется,
+     т.к. ниже 1200px переходим на резиновую/мобильную компоновку */
 }
 </style>
