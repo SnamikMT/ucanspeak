@@ -69,12 +69,14 @@ import wave from '@/assets/img/hero-wave.svg'
 
 /* Сетка: выравниваем ПО ВЕРХУ */
 .grid{
-  position:relative; z-index:2;      /* контент поверх волны */
+  position:relative; 
+  z-index:2;
   display:grid;
   grid-template-columns: 1.2fr .8fr;
   gap:48px;
-  align-items:start;                  /* ключевой момент — по верху */
+  align-items:stretch;   /* ВАЖНО: теперь левая колонка = по высоте правой */
 }
+
 
 /* Левый столбец:
    - слева отступ 50
@@ -82,9 +84,9 @@ import wave from '@/assets/img/hero-wave.svg'
    - внизу добавляем 50, чтобы CTA совпал с нижним краем картинки */
 .left{
   padding-left:50px;
-  min-height:500px;                  /* ровно как картинка */
-  padding-bottom:50px;               /* добиваемся совпадения с bottom:50 справа */
-  display:flex; flex-direction:column;
+  padding-bottom:50px;
+  display:flex;
+  flex-direction:column;
 }
 
 /* Заголовок — Inter 500, 65px, 95%, -6%, две строки */
