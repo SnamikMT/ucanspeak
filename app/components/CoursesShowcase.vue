@@ -3,18 +3,26 @@
     <div class="container">
       <!-- Заголовок -->
       <header :class="$style.head">
-        <h2 :class="$style.title">
+        <!-- Десктопная версия заголовка (как было) -->
+        <h2 :class="[$style.title, $style.titleDesk]">
           <span :class="$style.brand">Ucanspeak</span>
           — лёгкий способ<br>заговорить на английском
+        </h2>
+
+        <!-- Мобильная версия в 3 строки -->
+        <h2 :class="[$style.title, $style.titleMob]" aria-label="Ucanspeak - лёгкий способ заговорить на английском">
+          <span :class="$style.mLine"><span :class="$style.brand">Ucanspeak</span> — лёгкий</span>
+          <span :class="$style.mLine">способ заговорить</span>
+          <span :class="$style.mLine">на английском</span>
         </h2>
 
         <!-- Плашка (перекрывает белый блок) -->
         <div :class="$style.note">
           <p :class="$style.noteText">
-            Полноценная система разговорной практики:<br>
+            Полноценная система разговорной практики:
+            <br />
             <span :class="$style.line2">
-              интерактивные уроки + аудиотренажер
-              <!-- Обводка второй строки (натуральный размер, без поворота) -->
+              <span :class="$style.lineText">интерактивные уроки + аудиотренажер</span>
               <img :class="$style.underline" :src="underline" alt="" aria-hidden="true" />
             </span>
           </p>
@@ -22,9 +30,9 @@
         </div>
       </header>
 
-      <!-- Белый блок 1390x540 -->
+      <!-- Панель 1390×540 -->
       <div :class="$style.panel">
-        <!-- Левая колонка: 340 ширина; отступы панели по 30; gap 20 -->
+        <!-- Левая колонка -->
         <aside :class="$style.left">
           <div :class="$style.item">
             <strong :class="$style.itemTitle">Курс английского для взрослых</strong>
@@ -39,13 +47,32 @@
           <div :class="$style.item">
             <strong :class="$style.itemTitle">Тренажер по английскому + тесты</strong>
             <ul :class="$style.itemList">
-              <li><mark>Школьный курс</mark>: 400+ уроков, грамматика со 2 по 11 класс</li>
-              <li><mark>Взрослый курс</mark>: 170+ уроков, 4 уровня</li>
-              <li><mark>Туризм</mark>: 180+ уроков, 2 уровня</li>
+              <li :class="$style.liRow">
+                <span :class="$style.tag" style="--dx:-6px; --oy:-2px;">
+                  <span :class="$style.tagText">Школьный курс:</span>
+                  <img :src="decorSchool" :class="$style.tagUnderline" alt="" aria-hidden="true" />
+                </span>
+                &nbsp;400+ уроков, грамматика со 2 по 11 класс
+              </li>
+
+              <li :class="$style.liRow">
+                <span :class="$style.tag" style="--dx:-4px; --oy:-2px;">
+                  <span :class="$style.tagText">Взрослый курс:</span>
+                  <img :src="decorSchool" :class="$style.tagUnderline" alt="" aria-hidden="true" />
+                </span>
+                &nbsp;170+ уроков, 4 уровня
+              </li>
+
+              <li :class="$style.liRow">
+                <span :class="$style.tag" style="--dx:-2px; --oy:-2px;">
+                  <span :class="$style.tagText">Туризм:</span>
+                  <img :src="decorTalk" :class="$style.tagUnderline" alt="" aria-hidden="true" />
+                </span>
+                &nbsp;180+ уроков, 2 уровня
+              </li>
             </ul>
           </div>
 
-          <!-- Кнопка 340x46 -->
           <a href="#" :class="$style.demoBtn">
             <span>Бесплатный демодоступ на 14 дней</span>
             <i aria-hidden="true">
@@ -57,22 +84,11 @@
           </a>
         </aside>
 
-        <!-- Правый холст: позиции строго от панели 1390x540 -->
+        <!-- Правый холст -->
         <div :class="$style.canvas">
-          <!-- 1-я картинка -->
-          <img :src="talk" alt="" :class="$style.cardImg" :style="{ left: '438px', top: '152px', zIndex: 1 }" />
-          <!-- место под индивидуальный SVG-оверлей 1-й (если появится): 
-          <img :src="decorTalk" alt="" :class="$style.overlay" style="left:438px; top:152px; z-index:2"> -->
-
-          <!-- 2-я картинка -->
+          <img :src="talk"   alt="" :class="$style.cardImg" :style="{ left: '438px', top: '152px', zIndex: 1 }" />
           <img :src="school" alt="" :class="$style.cardImg" :style="{ left: '735px', top: '27px',  zIndex: 2 }" />
-          <!-- место под индивидуальный SVG-оверлей 2-й:
-          <img :src="decorSchool" alt="" :class="$style.overlay" style="left:735px; top:27px; z-index:3"> -->
-
-          <!-- 3-я картинка (поверх второй) -->
-          <img :src="adult" alt="" :class="$style.cardImg" :style="{ left: '980px', top: '198px', zIndex: 4 }" />
-          <!-- место под индивидуальный SVG-оверлей 3-й:
-          <img :src="decorAdult" alt="" :class="$style.overlay" style="left:980px; top:198px; z-index:5"> -->
+          <img :src="adult"  alt="" :class="$style.cardImg" :style="{ left: '980px', top: '198px', zIndex: 3 }" />
         </div>
       </div>
     </div>
@@ -80,21 +96,20 @@
 </template>
 
 <script setup lang="ts">
-import pin       from '@/assets/img/pin.svg'         // 104x104
-import underline from '@/assets/img/underline.svg'   // подчёркивание второй строки (натуральный размер)
-import talk      from '@/assets/img/course-talk.svg'
-import school    from '@/assets/img/course-school.svg'
-import adult     from '@/assets/img/course-adult.svg'
+import pin       from '@/assets/img/pin.svg'
+import underline from '@/assets/img/underline.svg'
 
-// Если появятся отдельные SVG-обводки для каждой картинки — раскомментируй:
-// import decorTalk   from '@/assets/img/decor-talk.svg'
-// import decorSchool from '@/assets/img/decor-school.svg'
-// import decorAdult  from '@/assets/img/decor-adult.svg'
+import talk   from '@/assets/img/course-talk.svg'
+import school from '@/assets/img/course-school.svg'
+import adult  from '@/assets/img/course-adult.svg'
+
+import decorTalk   from '@/assets/img/decor-school.svg'
+import decorSchool from '@/assets/img/decor-talk.svg'
 </script>
 
 <style module>
 /* Секция */
-.wrap{ background:#E9EFF7; padding:36px 0 64px; }
+.wrap{ padding:140px 0 0; }
 
 /* Заголовок */
 .head{ position:relative; text-align:center; margin-bottom:0; }
@@ -107,6 +122,10 @@ import adult     from '@/assets/img/course-adult.svg'
   letter-spacing:-0.05em;
   color:#2C2C2C;
 }
+/* переключатели версий заголовка */
+.titleDesk{ display:block; }
+.titleMob{ display:none; }
+
 .brand{
   display:inline-block;
   background:#FFD249;
@@ -129,19 +148,19 @@ import adult     from '@/assets/img/course-adult.svg'
   z-index:3;
 }
 .noteText{
-  margin:0;
-  font-family: Inter, sans-serif;
-  font-weight:500;
-  font-size:20px;
-  line-height:1.3;
-  letter-spacing:-0.03em;
-  color:#2C2C2C;
+  margin:0; font-family: Inter, sans-serif; font-weight:500;
+  font-size:20px; line-height:1.3; letter-spacing:-0.03em; color:#2C2C2C;
 }
-.line2{ position:relative; display:inline-block; }
+.line2{ position:relative; display:inline-block; z-index:0; }
+.lineText{ position:relative; z-index:1; }
 .underline{
-  position:absolute; left:0; bottom:-24px;
-  pointer-events:none;
+  position:absolute; left:0; top:0;
+  transform: translateY(calc(-5% + var(--oy, 0px))) rotate(-6deg);
+  transform-origin:left center;
+  width:auto; height:auto; pointer-events:none; z-index:-1;
 }
+
+/* pin */
 .pin{
   position:absolute; right:-22px; top:-28px;
   width:104px; height:104px;
@@ -149,7 +168,7 @@ import adult     from '@/assets/img/course-adult.svg'
   pointer-events:none;
 }
 
-/* ПАНЕЛЬ (десктоп 1390x540) */
+/* Панель 1390×540 */
 .panel{
   width:1390px; height:540px;
   margin:0 auto;
@@ -163,53 +182,45 @@ import adult     from '@/assets/img/course-adult.svg'
   column-gap:20px;
   align-items:start;
   z-index:1;
+  overflow:visible; /* важно: даём вылезти последней карточке на мобилке */
 }
 
 /* Левая колонка */
-.left{
-  width:340px;
-  display:flex; flex-direction:column; gap:20px;
-}
+.left{ width:340px; display:flex; flex-direction:column; gap:20px; }
 .item{
-  width:340px;
-  background:#F7F9FE;
-  border:2px solid #EAEEF7;
-  border-radius:12px;
-  padding:16px 18px;
-  box-sizing:border-box;
+  width:340px; background:#F7F9FE; border:2px solid #EAEEF7;
+  border-radius:12px; padding:16px 18px; box-sizing:border-box;
 }
 .itemTitle{
-  display:block; color:#2C2C2C;
-  font-family: Inter, sans-serif;
-  font-weight:600; font-size:18px;
-  line-height:1.3; letter-spacing:-0.03em;
-  margin-bottom:4px;
+  display:block; color:#2C2C2C; font-family: Inter, sans-serif;
+  font-weight:600; font-size:18px; line-height:1.3; letter-spacing:-0.03em; margin-bottom:4px;
 }
-.itemText,
-.itemList{
-  font-family: Inter, sans-serif;
-  font-weight:500; font-size:16px;
-  line-height:1.3; letter-spacing:-0.03em;
-  color:#2C2C2C;
+.itemText, .itemList{
+  font-family: Inter, sans-serif; font-weight:500; font-size:16px;
+  line-height:1.3; letter-spacing:-0.03em; color:#2C2C2C;
 }
 .itemList{ margin:8px 0 0 0; padding:0; list-style:none; }
-.itemList li{ margin:.25em 0; }
-.item mark{
-  background: linear-gradient(#fff 60%, #FFE58A 60% 88%, transparent 88%);
-  border-radius:6px; padding:0 .22em; font-weight:500;
+.itemList li{ margin:.28em 0; line-height:1.35; }
+
+/* Овалы */
+.liRow{ position:relative; }
+.tag{ position:relative; display:inline-block; z-index:0; }
+.tagText{ position:relative; z-index:1; }
+.tagUnderline{
+  position:absolute; left:0; top:64%;
+  transform: translate(calc(var(--dx, 0px)), calc(-50% + var(--oy, 0px)));
+  transform-origin:left center;
+  width:auto; height:auto; pointer-events:none; z-index:-1;
 }
 
 /* Кнопка */
 .demoBtn{
-  width:340px; height:46px;
-  background:#B87EFF; color:#fff; text-decoration:none;
+  width:340px; height:46px; background:#B87EFF; color:#fff; text-decoration:none;
   border-radius:12px; display:flex; align-items:center; justify-content:space-between;
-  padding:0 5px 0 16px; margin-top:0;
-  box-shadow:0 8px 22px rgba(184,126,255,.25);
+  padding:0 5px 0 16px; margin-top:0; box-shadow:0 8px 22px rgba(184,126,255,.25);
 }
 .demoBtn span{
-  font-family: Inter, sans-serif;
-  font-weight:600; font-size:16px;
+  font-family: Inter, sans-serif; font-weight:600; font-size:16px;
   line-height:1.3; letter-spacing:-0.03em;
 }
 .demoBtn i{
@@ -217,161 +228,92 @@ import adult     from '@/assets/img/course-adult.svg'
   display:grid; place-items:center; flex:0 0 36px;
 }
 
-/* Холст картинок (десктоп) */
-.canvas{
-  position:absolute; inset:0;
-  z-index:1;
-}
+/* Холст картинок (ПК) */
+.canvas{ position:absolute; inset:0; z-index:1; }
 .cardImg{
-  position:absolute; display:block;
-  width:auto; height:auto;
+  position:absolute; display:block; width:auto; height:auto;
   filter: drop-shadow(0 20px 36px rgba(16,24,40,.12));
   transform:none;
 }
 
-/* Оверлеи */
-.overlay{
-  position:absolute; display:block; pointer-events:none;
-  width:auto; height:auto;
-}
+/* ========= АДАПТИВ ========= */
 
-/* =========================
-   А Д А П Т И В
-   ========================= */
-
-/* Лэптопы/планшеты (≤1200px) — панель резиновая, без фиксированных размеров */
+/* планшеты */
 @media (max-width: 1200px){
   .title{ font-size:48px; }
-  .note{
-    width:520px; height:auto;
-    transform: translateY(22px) rotate(4deg);
-  }
-  .underline{ bottom:-20px; }
-  .pin{ right:-10px; top:-20px; width:84px; height:84px; }
-
   .panel{
-    width:100%; height:auto;
-    max-width:1040px;
-    padding:24px;
-    grid-template-columns: 320px 1fr;
-    margin:0 24px;            /* поля внутри контейнера */
+    width:100%; height:auto; max-width:1040px;
+    padding:24px; grid-template-columns: 1fr; row-gap:16px; margin:0 24px;
   }
   .left{ width:100%; }
-  .item{ width:100%; }
-  .demoBtn{ width:100%; }
-  /* картинкам дадим “подложку”, но остаёмся в абсолюте до следующего брейкпоинта */
-  .canvas{ position:relative; height:520px; border-radius:16px; }
-}
-
-/* Планшеты/большие телефоны (≤992px) — одна колонка, картинки уходят в сетку */
-@media (max-width: 992px){
-  .title{ font-size:40px; }
+  .item, .demoBtn{ width:100%; }
+  /* картинки тут пока ещё оставим как абсолюты для ПК позиций */
   .note{
-    width:min(640px, 92vw);
-    transform: translateY(18px) rotate(2.5deg);
+    width:auto; height:auto; transform: translateY(22px) rotate(4deg);
     padding:14px 18px;
   }
-  .noteText{ font-size:18px; }
-  .underline{ bottom:-16px; }
-  .pin{ display:none; } /* убираем значок-гвоздик, чтобы не мешал */
-
-  .panel{
-    max-width:780px;
-    margin:0 auto;
-    padding:20px;
-    grid-template-columns: 1fr;      /* одна колонка */
-    row-gap:16px;
-  }
-  .left{
-    width:100%;
-    gap:14px;
-  }
-  .item{ padding:14px 16px; }
-  .itemTitle{ font-size:17px; }
-  .itemText,.itemList{ font-size:15px; }
-
-  /* Холст перестаёт быть абсолютным: делаем простой грид */
-  .canvas{
-    position:relative;
-    inset:auto;
-    height:auto;
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap:12px;
-  }
-  .cardImg{
-    position:static;
-    width:100%;
-    height:auto;
-    filter: drop-shadow(0 10px 20px rgba(16,24,40,.12));
-  }
-
-  .demoBtn{
-    height:48px;
-    padding:0 8px 0 16px;
-  }
-  .demoBtn span{ font-size:15px; }
+  .pin{ right:-10px; top:-20px; width:84px; height:84px; }
 }
 
-/* Мобилки (≤600px) — компактная типографика, картинки в один столбец */
+/* мобильные */
 @media (max-width: 600px){
-  .wrap{ padding:28px 0 44px; }
+  .wrap{ padding:120px 0 0; }
 
-  .title{
-    font-size:28px;
-    line-height:1.02;
-    margin:0 0 32px 0;
-    letter-spacing:-0.04em;
+  /* заголовки: прячем десктопную версию, показываем мобильную в 3 строки */
+  .titleDesk{ display:none; }
+  .titleMob{ display:block; }
+  .titleMob{ 
+    margin:0 0 24px 0;
+    font-size:33px; line-height:1.02; letter-spacing:-0.04em; color:#2C2C2C;
   }
+  .mLine{ display:block; } /* жёстко 3 строки */
+
   .brand{ border-radius:8px; }
 
+  .head{ padding:0 16px; }
   .note{
-    width:auto;
-    max-width:calc(100% - 32px); /* визуальные поля */
-    transform: translateY(12px) rotate(1.2deg);
-    padding:12px 14px 12px 14px;
+    max-width:calc(100% - 32px);
+    transform: translateY(12px) rotate(1.8deg);
+    padding:12px 14px;
     box-shadow: 0 4px 10px rgba(0,0,0,.18);
   }
   .noteText{ font-size:16px; line-height:1.28; }
   .underline{ bottom:-12px; max-width:100%; height:auto; }
+  .pin{ width:72px; height:72px; top:-14px; right:-12px; }
 
   .panel{
-    margin:0 16px;
-    padding:16px;
-    border-radius:16px;
+    width:100%;
+    margin:0; padding:16px; border-radius:16px;
     box-shadow:0 8px 22px rgba(16,24,40,.06);
-    row-gap:14px;
+    height:auto;               /* высоту берём по контенту */
+    overflow:visible;          /* даём вылезти последней карточке */
   }
-  .left{ gap:12px; }
-  .item{ padding:12px 12px; border-radius:10px; }
+  .left{ width:100%; gap:12px; }
+  .item{ width:100%; padding:12px; border-radius:10px; }
   .itemTitle{ font-size:16px; margin-bottom:2px; }
   .itemText,.itemList{ font-size:14px; }
   .itemList li{ margin:.2em 0; }
-
-  .demoBtn{
-    width:100%; height:44px; border-radius:10px;
-  }
+  .demoBtn{ width:100%; height:44px; border-radius:10px; }
   .demoBtn i{ width:32px; height:32px; border-radius:8px; }
 
-  /* Картинки — в один столбец */
-  .canvas{
-    grid-template-columns: 1fr;
-    gap:10px;
+   .canvas{
+    position:relative;
+    height:360px;       /* рабочая зона */
+    margin-top:8px;
   }
-}
 
-/* Очень узкие (≤360px) — ещё чуть компактнее */
-@media (max-width: 360px){
-  .title{ font-size:24px; }
-  .noteText{ font-size:15px; }
-  .panel{ padding:14px; }
-  .itemTitle{ font-size:15px; }
-  .itemText,.itemList{ font-size:13.5px; }
-}
+  /* фикс: карточки шириной 180 на мобилке */
+  .canvas > img{
+    left:50% !important;
+    right:auto !important;
+    transform:translateX(-50%);
+    width:180px !important;   /* ← фикс ширины */
+    height:auto !important;
+  }
 
-/* Адаптив-заглушка (по макету фикс 1390x540) */
-@media (max-width: 1500px){
-  /* масштабирование панели и координат картинок больше не требуется,
-     т.к. ниже 1200px переходим на резиновую/мобильную компоновку */
+  /* вертикальный стек с лёгким наездом */
+  .canvas > img:nth-child(1){ bottom:140px; top:auto !important; z-index:1; }
+  .canvas > img:nth-child(2){ bottom:60px;  top:auto !important; z-index:2; }
+  .canvas > img:nth-child(3){ bottom:-92px; top:auto !important; z-index:3; } /* уходит на 92px ниже белого */
 }
 </style>

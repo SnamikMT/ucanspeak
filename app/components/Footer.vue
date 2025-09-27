@@ -78,7 +78,7 @@ function scrollTop() {
 <style module>
 /* общий блок */
 .wrap{
-  margin-top:140px;              /* внешний отступ сверху */
+  margin-top:140px;
   position:relative;
   background:#fff;
   border-radius:16px;
@@ -86,83 +86,96 @@ function scrollTop() {
   height:800px;
 }
 
-/* шапка футера */
+/* верхняя полоса */
 .top{
   position:relative;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:50px 32px 53px;        /* 50 сверху, 53 снизу как просили */
+  padding:50px 32px 0;   /* сверху 50 */
+  padding-left:50px;     /* слева 50 */
 }
 .topLogo{ height:26px; width:auto; display:block; }
 .upBtn{
-  position:relative;             /* справа в той же строке */
   width:40px; height:40px;
-  border-radius:12px;
-  border:0; cursor:pointer;
+  border-radius:12px; border:0; cursor:pointer;
   background:linear-gradient(180deg,#B07EFF,#7B5BFF);
   box-shadow:0 6px 14px rgba(123,91,255,.25);
   display:flex; align-items:center; justify-content:center;
 }
 
-/* контент */
-.inner{ position:relative; z-index:2; padding:0 32px; }
+/* контентная часть */
+.inner{
+  position:relative; z-index:2;
+  padding:53px 32px 0;   /* от логотипа сверху 53 */
+  padding-left:50px;     /* слева 50 */
+}
 .grid{ display:grid; grid-template-columns:1.1fr 1.1fr 1fr; gap:48px; }
 .col{ min-width:0; }
 
 /* заголовки колонок */
 .head{
-  margin:0 0 20px;               /* отступ снизу 20 */
-  color:#B7C6E4;                 /* цвет по макету */
-  font:700 12px/1 Inter, sans-serif;
-  letter-spacing:.08em;
-  text-transform:none;
+  margin:0 0 20px;
+  color:#B7C6E4;
+  font-family: Inter, sans-serif;
+  font-weight:600;
+  font-size:14px;
+  line-height:1.3;
+  letter-spacing:-0.03em;
 }
 
 /* списки */
 .list{ list-style:none; margin:0; padding:0; }
-.list li + li{ margin-top:12px; }   /* расстояние 12 между пунктами */
+.list li + li{ margin-top:12px; }
 .list a{
-  color:#3A4559;
+  color:#808080;
   text-decoration:none;
-  font:500 14px/1.45 Inter, sans-serif;
+  font-family: Inter, sans-serif;
+  font-weight:500;
+  font-size:14px;
+  line-height:1.3;
+  letter-spacing:-0.03em;
 }
 .list a:hover{ color:#1F56FF; }
 
 /* телефон */
 .phone{
   display:inline-block;
-  color:#2C2C2C;
+  color:#808080;
   text-decoration:none;
-  font:700 18px/1.2 Inter, sans-serif;
+  font-family: Inter, sans-serif;
+  font-weight:500;
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-0.04em;
 }
 
 /* волна снизу */
 .wave{
-  position:absolute;
-  bottom:0; left:0;
-  width:100%; height:auto;
-  z-index:1;
-  pointer-events:none;
+  position:absolute; bottom:0; left:0;
+  width:100%; height:auto; z-index:1; pointer-events:none;
 }
 
-/* большой svg-логотип на самом дне */
+/* большой svg-логотип */
 .logoMark{
-  position:absolute;
-  bottom:0; left:0;
-  width:100%;
-  height:auto;
-  z-index:2;
-  pointer-events:none;
+  position:absolute; bottom:0; left:0;
+  width:100%; height:auto; z-index:2; pointer-events:none;
 }
 
 @media (max-width:1100px){
   .grid{ grid-template-columns:1fr 1fr; gap:32px; }
 }
 @media (max-width:720px){
-  .top{ padding:40px 16px 40px; }
-  .inner{ padding:0 16px; }
+  .top{ padding:40px 16px 0; padding-left:16px; }
+  .inner{ padding:32px 16px 0; }
   .grid{ grid-template-columns:1fr; gap:24px; }
-  .phone{ font-size:16px; }
+  .phone{ font-size:20px; }
 }
+
+@media (max-width: 640px){
+  /* сверху 120 как всегда */
+  .wrap{ margin:120px 15px 0; height: 1232px;}
+  .grid{ grid-template-columns:1fr; gap:53px; }
+}
+
 </style>

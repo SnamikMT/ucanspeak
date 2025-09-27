@@ -46,7 +46,7 @@ import mic   from '@/assets/img/feat-mic.png'
 </script>
 
 <style module>
-.band{ background:#EEF2F7; padding:16px 0 36px; }
+.band{ padding:16px 0 0; }
 
 .srOnly{
   position:absolute !important; width:1px; height:1px; margin:-1px; padding:0;
@@ -56,12 +56,18 @@ import mic   from '@/assets/img/feat-mic.png'
 /* 3 колонки по 450px, строго как в макете */
 .grid{
   display:grid;
-  grid-template-columns: repeat(3, 450px);
+  grid-template-columns: repeat(3, 1fr);
   gap:24px;
-  justify-content:space-between; /* ровно распределяем три карточки */
+  max-width:1390px;   /* ← фикс ширины на пк */
+  margin:0 auto;      /* центрируем */
 }
+
 
 @media (max-width: 1024px){
   .grid{ grid-template-columns:1fr; }
+}
+
+@media (max-width:640px){
+  .band{ padding:16px 15px 0; }
 }
 </style>

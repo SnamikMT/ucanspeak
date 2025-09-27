@@ -16,38 +16,40 @@
         <!-- 1) Герой-карточка -->
         <article :class="$style.hero" :style="{ '--wave': `url(${wave})` }">
           <h3 :class="$style.heroTitle">
-            Как это<br>
+            Как это<br />
             <span :class="$style.bubble">работает?</span>
           </h3>
           <img :class="$style.parrot" :src="parrot" alt="" aria-hidden="true" />
         </article>
 
         <!-- 2–5) Шаги -->
-        <StepCard num="01">
+        <StepCard num="01" :class="$style.stepCard">
           Вы слушаете, читаете и повторяете фразы, копируя произношение
           и интонации носителей языка.
         </StepCard>
 
-        <StepCard num="02">
+        <StepCard num="02" :class="$style.stepCard">
           Вы смотрите видеофрагменты из фильмов и мультфильмов, переводите
           и повторяете фразы.
         </StepCard>
 
-        <StepCard num="03">
+        <StepCard num="03" :class="$style.stepCard">
           Вы переводите с русского на английский или с английского на русский,
           сверяясь с ответом.
         </StepCard>
 
-        <StepCard num="04">
+        <StepCard num="04" :class="$style.stepCard">
           Вы отрабатываете разговорные навыки до автоматизма в аудиотренажёре,
           совмещая занятия английским с повседневными делами.
         </StepCard>
 
         <!-- 6) Карточка с текстом и большой кнопкой -->
-        <article :class="$style.ctaCard">
-          <div :class="$style.ctaText">
-            Видеоинструкции в демоуроках помогут сделать ваши занятия
-            максимально эффективными.
+        <article :class="[$style.ctaCard, $style.stepCard]">
+          <div :class="$style.rowText">
+            <img :src="star" alt="" :class="$style.starIcon" />
+            <p :class="$style.stepText">
+              Видеоинструкции в демоуроках помогут сделать ваши занятия максимально эффективными.
+            </p>
           </div>
 
           <a href="#" :class="$style.ctaBtn">
@@ -68,17 +70,21 @@
 <script setup lang="ts">
 import StepCard from './StepCard.vue'
 import parrot from '@/assets/img/feat-parrot2.png'
-import wave from '@/assets/img/how-wave.svg'  // ваш фоновый SVG
+import wave from '@/assets/img/how-wave.svg'
+import star from '@/assets/img/star.png'
 </script>
 
 <style module>
 /* фон секции */
-.wrap{ background:#E9EFF7; padding:36px 0 52px; }
+.wrap{
+  background:#E9EFF7;
+  padding-top:140px;  /* ПК отступ */
+}
 
-/* Заголовок и описание (по Figma) */
-.head{ text-align:center; margin-bottom:24px; }
+/* Заголовок и описание */
+.head{ text-align:center; margin-bottom:70px; }
 .title{
-  margin:0 0 12px;
+  margin:0 0 30px;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight:500; font-size:55px; line-height:.95; letter-spacing:-.05em; color:#2C2C2C;
 }
@@ -87,57 +93,71 @@ import wave from '@/assets/img/how-wave.svg'  // ваш фоновый SVG
   transform:rotate(-1.51deg); box-shadow:inset 0 -2px 0 rgba(0,0,0,.06);
 }
 .lead{
-  margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  margin:0 auto;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight:500; font-size:18px; line-height:1.3; letter-spacing:-.03em; color:#2C2C2C;
+  max-width:620px;
 }
 
-/* ===== Сетка: 3 колонки по 450px, 2 ряда по 200px ===== */
+/* ===== Сетка (ПК фикс 1390) ===== */
 .grid{
   display:grid;
   grid-template-columns: repeat(3, 450px);
   grid-auto-rows: 200px;
   gap:24px;
   justify-content:space-between;
+
+  max-width:1390px;   /* ← фикс ширины на ПК */
+  margin:0 auto;      /* центрируем внутри контейнера */
 }
-.grid > *{ width:450px; height:200px; }
+.grid > *{ width:450px; height:200px; border-radius:20px; }
 
 /* ===== Герой-карточка ===== */
 .hero{
-  position:relative; border-radius:20px; overflow:hidden;
+  position:relative; overflow:hidden;
   background:#41BCF8; box-shadow:0 8px 22px rgba(16,24,40,.06);
-  padding:30px;
 }
-/* приклеиваем SVG-фон к карточке */
 .hero::before{
   content:""; position:absolute; inset:0; background-image: var(--wave);
   background-repeat:no-repeat; background-size:cover; background-position:center;
-  opacity:1; pointer-events:none;
 }
 .heroTitle{
-  position:relative; z-index:1;
+  position:absolute; left:30px; right:30px; bottom:40px;
+  margin:0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight:800; font-size:32px; line-height:1.05; letter-spacing:-.02em; color:#fff;
+  font-weight:500; font-size:40px; line-height:1.15; letter-spacing:-.05em; color:#fff;
 }
 .bubble{
-  display:inline-block; background:#fff; color:#2C2C2C;
-  padding:.16em .6em; border-radius:10px; transform:rotate(-1.51deg); margin-left:.25rem;
+  display:inline-flex; align-items:center; justify-content:center;
+  width:214px; height:50px;
+  background:#fff; color:#2C2C2C;
+  border-radius:10px;
+  transform:rotate(1.51deg);
+  margin-left:.25rem;
   box-shadow:0 6px 16px rgba(0,0,0,.12);
 }
-/* попугай ограничен по размерам, чтобы не вылезал из 200px */
 .parrot{
   position:absolute; right:22px; bottom:12px;
   width:200px; max-width:42%; height:auto; object-fit:contain; pointer-events:none;
 }
 
-/* ===== CTA-карточка (последняя) ===== */
+/* ===== Общий текст шагов ===== */
+.stepCard p,
+.stepText{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:500; font-size:16px; line-height:1.3; letter-spacing:-.03em; color:#2C2C2C;
+  max-width:85%;
+}
+
+/* ===== CTA-карточка ===== */
 .ctaCard{
-  position:relative; border-radius:20px; background:#fff; box-shadow:0 8px 22px rgba(16,24,40,.06);
+  position:relative; background:#fff; box-shadow:0 8px 22px rgba(16,24,40,.06);
   padding:30px; display:flex; flex-direction:column; justify-content:flex-end; gap:18px; overflow:hidden;
 }
-.ctaText{
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight:500; font-size:18px; line-height:1.3; letter-spacing:-.03em; color:#2C2C2C;
-}
+.rowText{ display:flex; align-items:flex-start; gap:12px; }
+.starIcon{ width:24px; height:25px; flex:0 0 24px; }
+
 .ctaBtn{
   display:flex; align-items:center; justify-content:space-between;
   width:100%; height:56px; padding:0 12px 0 18px; border-radius:16px;
@@ -150,10 +170,41 @@ import wave from '@/assets/img/how-wave.svg'  // ваш фоновый SVG
 }
 .ctaBtn span{ flex:1; }
 
-/* адаптив */
-@media (max-width: 1200px){
-  .grid{ grid-template-columns:1fr; justify-content:initial; }
+/* ===== Адаптив ===== */
+
+/* Планшет: одна колонка, снимаем фикс ширины */
+@media (max-width:1200px){
+  .grid{
+    grid-template-columns:1fr;
+    gap:20px;
+    justify-content:initial;
+    max-width:none;           /* ← снимаем 1390 на меньших экранах */
+  }
   .grid > *{ width:100%; height:auto; }
   .hero{ height:220px; }
+  .stepCard p, .stepText{ max-width:100%; }
+}
+
+/* Мобилка: стандартные правила (секции и типографика у тебя уже общие) */
+@media (max-width:640px){
+  .wrap{ padding-top:120px; } /* как во всех мобильных секциях */
+
+  .head{ margin-bottom:32px; }
+  .title{
+    font-size:33px;
+    line-height:1.02;
+    letter-spacing:-0.04em;
+    margin-bottom:14px;
+  }
+  .lead{ font-size:16px; }
+
+  .grid{
+    grid-template-columns:1fr;
+    gap:20px;             /* между карточками ровно 20 */
+  }
+  .grid > *{
+    width:100%;
+    height:auto;
+  }
 }
 </style>

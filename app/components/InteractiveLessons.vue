@@ -18,7 +18,7 @@
         <!-- 1 -->
         <div :class="$style.topTile" style="--bg:#41BCF8">
           <div :class="$style.topTileBody">
-            <img :src="bgVideo" :class="$style.topTileBG" alt="" />
+            <img :src="bgVideo"   :class="$style.topTileBG"   alt="" />
             <img :src="shotVideo" :class="$style.topTileShot" alt="Видеофрагменты" />
           </div>
           <footer :class="$style.topTileBar">
@@ -30,7 +30,7 @@
         <!-- 2 -->
         <div :class="$style.topTile" style="--bg:#FFDE76">
           <div :class="$style.topTileBody">
-            <img :src="bgDialogs" :class="$style.topTileBG" alt="" />
+            <img :src="bgDialogs"   :class="$style.topTileBG"   alt="" />
             <img :src="shotDialogs" :class="$style.topTileShot" alt="Диалоги" />
           </div>
           <footer :class="$style.topTileBar">
@@ -42,7 +42,7 @@
         <!-- 3 -->
         <div :class="$style.topTile" style="--bg:#C8BDFF">
           <div :class="$style.topTileBody">
-            <img :src="bgGrammar" :class="$style.topTileBG" alt="" />
+            <img :src="bgGrammar"   :class="$style.topTileBG"   alt="" />
             <img :src="shotGrammar" :class="$style.topTileShot" alt="Грамматика" />
           </div>
           <footer :class="$style.topTileBar">
@@ -109,7 +109,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
 
 <style module>
 /* секция */
-.wrap{ background:#E9EFF7; padding:28px 0 42px; }
+.wrap{ padding:140px 0 0; }
 
 /* шапка */
 .head{ text-align:center; margin:0 0 50px; } /* 50 до карточек */
@@ -119,18 +119,18 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   font-weight:500;
   font-size:55px;
   line-height:.95;
-  letter-spacing:-0.05em;
+  letter-spacing:-0.05ем;
   color:#2C2C2C;
 }
 .hl{ display:inline-block; background:#FFD249; padding:.06em .28em; border-radius:10px; transform:rotate(1.2deg); }
 
 /* описание */
 .lead{
-  margin-top:30px;                 /* сверху 30 */
+  margin-top:30px;
   font-family:Inter, sans-serif;
   font-weight:500;
   font-size:18px;
-  line-height:1.3;                  /* 130% */
+  line-height:1.3;
   letter-spacing:-0.03em;
   color:#2C2C2C;
 }
@@ -140,42 +140,27 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   display:grid; grid-template-columns: repeat(3, 450px);
   gap:24px; justify-content:space-between;
 }
-
-/* карточка теперь с общим радиусом + обрезание содержимого */
 .topTile{
   width:450px; height:408px;
   position:relative; border-radius:20px; overflow:hidden;
   background: var(--bg);
 }
-
-/* верхняя часть занимает всю высоту, но резервирует место под нижний бар */
-.topTileBody{
-  position:relative; height:100%;
-  padding-bottom:105px;            /* место под бар */
-}
-
-/* фоновая «волна» уходит далеко под низ верхней части */
+.topTileBody{ position:relative; height:100%; padding-bottom:105px; }
 .topTileBG{
   position:absolute; left:0; right:0; bottom:0;
   width:100%; height:auto; display:block; object-fit:cover; pointer-events:none;
 }
-
-/* скрин прижат к верху, без width; подстраховал максимальную ширину */
 .topTileShot{
   position:absolute; left:50%; top:2px; transform:translateX(-50%);
   display:block; width:auto; height:auto; max-width:92%; object-fit:contain;
   filter: drop-shadow(0 8px 22px rgba(16,24,40,.18));
 }
-
-/* нижняя плашка — внутри карточки, абсолютна внизу, со своим радиусом снизу */
 .topTileBar{
   position:absolute; left:0; right:0; bottom:0;
   height:105px; background: var(--bg);
   border-radius: 20px;
   padding:30px; display:flex; flex-direction:column; justify-content:center;
 }
-
-/* типографика плашки */
 .metric{
   font-family: Inter, sans-serif; font-weight:600; font-size:36px;
   line-height:1.3; letter-spacing:-0.03em; margin:0;
@@ -185,7 +170,6 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   font-family: Inter, sans-serif; font-weight:500; font-size:20px;
   line-height:1.3; letter-spacing:-0.03em;
 }
-
 /* белый текст только у первой карточки */
 .topGrid > :nth-child(1) .metric,
 .topGrid > :nth-child(1) .label{ color:#fff; }
@@ -215,22 +199,72 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   font-family:Inter, sans-serif; font-weight:600; font-size:14px;
   line-height:1.3; letter-spacing:-0.03em; text-align:center;
 }
-/* текст снизу слева, отступы 30 */
 .bottomText{
-  position:absolute; left:30px; bottom:30px; right:240px;
+  position:absolute; left:30px; bottom:30px;
   margin:0;
   font-family:Inter, sans-serif; font-weight:500; font-size:20px;
   line-height:1.2; letter-spacing:-0.03em; color:#0F172A; text-align:left;
+  max-width:50%;
 }
 .bottomArt{
-  position:absolute; right:10px; bottom:-6px;
+  position:absolute; right:50px; bottom:-6px;
   width:auto; height:auto; object-fit:contain; pointer-events:none;
+  max-width:280px; max-height:230px;
 }
 
-/* адаптив */
+/* ====== Адаптив ====== */
+
+/* Планшеты — стекаем блоки в одну колонку */
 @media (max-width: 1280px){
   .topGrid{ grid-template-columns:1fr; }
   .bottomGrid{ grid-template-columns:1fr; }
   .topTile, .bottomCard{ width:100%; }
+}
+
+/* Мобилка: ТОЛЬКО нижние карточки — без изменений контейнера/секций */
+@media (max-width: 640px){
+  .bottomGrid{ gap:16px; }
+  .bottomCard{
+    height:358px;
+    border-radius:16px;
+    padding-top:25px;
+    padding-left:25px;
+    padding-right:25px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .wrap{ padding:120px 15px 0; }
+
+  .title {
+    font-size: 33px;
+  }
+
+  .lead {
+    font-size: 16px;
+  }
+  .num{
+    position:static;
+    margin:0;
+    width:32px; height:32px;           /* остаётся кругом */
+    border-radius:50%;
+  }
+  .bottomText{
+    position:static;
+    margin-top:30px;                   /* между цифрой и текстом 30 */
+    max-width:100%;
+    font-size:16px;
+    line-height:1.25;
+    text-align:left;
+  }
+  .bottomArt{
+    position:absolute;
+    left:50%; bottom:0;                /* упирается в низ, по центру */
+    right:auto;
+    transform:translateX(-50%);
+    max-width:220px; max-height:190px;
+    width:auto; height:auto;
+  }
 }
 </style>

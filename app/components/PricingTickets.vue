@@ -50,55 +50,30 @@
 <script setup lang="ts">
 import cut from '@/assets/img/ticketCut.svg'
 
-/** важно: cls = ключ CSS-модуля, а не '$style.xxx' */
 const cards = [
-  {
-    title: 'Демо',
+  { title: 'Демо',
     text: 'Вас ждут бесплатные задания: десятки упражнений на лексику, грамматику, произношение',
-    price: 'от 600 ₽/мес',
-    color: '#3232E9',
-    cls: 'blue',
-    rot: '0deg',
-    dark: false
-  },
-  {
-    title: 'Старт',
+    price: 'от 600 ₽/мес', color: '#3232E9', cls: 'blue', rot: '0deg', dark: false },
+  { title: 'Старт',
     text: 'Индивидуальная программа для обучения от 20 минут занятий в день, ничего лишнего, сможете настроить всё под себя',
-    price: 'от 600 ₽/мес',
-    color: '#B87EFF',
-    cls: 'violet',
-    rot: '-8deg',
-    dark: false
-  },
-  {
-    title: 'Эксперт',
+    price: 'от 600 ₽/мес', color: '#B87EFF', cls: 'violet', rot: '-8deg', dark: false },
+  { title: 'Эксперт',
     text: 'Максимальный доступ ко всем упражнениям и материалам на сайте, занимайтесь сколько хотите',
-    price: 'от 600 ₽/мес',
-    color: '#FF9B76',
-    cls: 'peach',
-    rot: '4deg',
-    dark: false
-  },
-  {
-    title: 'Максимум',
+    price: 'от 600 ₽/мес', color: '#FF9B76', cls: 'peach', rot: '4deg', dark: false },
+  { title: 'Максимум',
     text: 'Доступ к платформе НАВСЕГДА и уроки с персональным преподавателем в подарок. Для тех, кто хочет достичь вершины мастерства в английском',
-    price: 'от 600 ₽/мес',
-    color: '#FFD551',
-    cls: 'yellow',
-    rot: '0deg',
-    dark: true
-  }
+    price: 'от 600 ₽/мес', color: '#FFD551', cls: 'yellow', rot: '0deg', dark: true },
 ]
 </script>
 
 <style module>
 .wrap{ background:#E9EFF7; padding-top:140px; }
 
-/* Заголовок/лид */
+/* Заголовок/лид — ПК */
 .head{ text-align:center; margin-bottom:87px; }
 .title{
   font-family:Inter, sans-serif; font-weight:500; font-size:55px;
-  line-height:.95; letter-spacing:-.05em; color:#111;
+  line-height:.95; letter-spacing:-.05em; color:#111; margin:0;
 }
 .hl{ background:#FFD249; border-radius:12px; padding:.02em .28em; }
 .lead{
@@ -106,7 +81,7 @@ const cards = [
   font-size:18px; line-height:1.3; letter-spacing:-.03em; color:#2C2C2C;
 }
 
-/* Сетка карточек */
+/* Сетка карточек — ПК */
 .grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
 
 /* Карточка */
@@ -115,10 +90,10 @@ const cards = [
   transform: rotate(var(--rot));
   border-radius:20px; padding:26px; min-height:460px;
   display:flex; flex-direction:column; position:relative;
-  box-shadow:0 18px 40px rgba(16,24,40,.16); overflow:visible;
+  overflow:visible;
 }
 
-/* Цветовые темы */
+/* Темы */
 .blue{ background:#3232E9; color:#fff; }
 .violet{ background:#B87EFF; color:#fff; }
 .peach{ background:#FF9B76; color:#fff; }
@@ -139,11 +114,11 @@ const cards = [
   font-size:36px; line-height:1.3; letter-spacing:-.03em;
 }
 
-/* SVG-перфорация (растягиваем до краёв) */
+/* Перфорация */
 .cutWrap{ margin:0 -26px; }
 .cut{ display:block; width:100%; height:auto; pointer-events:none; }
 
-/* Кнопка по центру */
+/* Кнопка */
 .btn{
   margin:20px auto 0; width:218px; height:46px; border-radius:10px;
   background:#fff; display:flex; align-items:center; justify-content:space-between;
@@ -155,10 +130,52 @@ const cards = [
   background: var(--accent);
 }
 
-/* Адаптив */
-@media (max-width:1200px){ .grid{ grid-template-columns:repeat(2,1fr); } }
+/* ===== Адаптив ===== */
+
+/* 2 колонки на планшете */
+@media (max-width:1200px){
+  .grid{ grid-template-columns:repeat(2,1fr); }
+}
+
+/* Мобилка: базовая ширина 390, поля по 15 */
 @media (max-width:640px){
-  .grid{ grid-template-columns:1fr; }
-  .ticket{ transform:none; }
+  /* контейнер секции — 390px + 15px поля */
+  .wrap > .container{
+    max-width:390px;
+    margin:0 auto;
+    padding-left:15px;
+    padding-right:15px;
+    box-sizing:border-box;
+  }
+
+  .wrap{ padding:120px 15px 0; margin-top: 0;}
+
+  .head{ margin-bottom:28px; }
+  .title{
+    font-size:33px;
+    line-height:1.02;
+    letter-spacing:-0.04em;
+  }
+  .hl{ border-radius:8px; }
+  .lead{
+    font-size:16px;             /* как просили */
+    line-height:1.3;
+    letter-spacing:-0.03em;
+  }
+
+  .grid{ grid-template-columns:1fr; gap:16px; }
+
+  .ticket{
+    transform:none;
+    padding:20px;
+    border-radius:16px;
+    min-height:unset;
+  }
+  .tTitle{ font-size:24px; }
+  .tText{ font-size:15px; }
+  .price{ font-size:28px; margin:14px 0; }
+
+  .cutWrap{ margin:0 -20px; }   /* растянуть до краёв карточки */
+  .btn{ width:100%; max-width:360px; }
 }
 </style>
