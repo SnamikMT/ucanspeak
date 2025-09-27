@@ -1,25 +1,23 @@
 <template>
   <header :class="$style.wrap">
-    <div class="container">
-      <div :class="$style.bar">
-        <!-- Логотип -->
-        <a href="/" :class="$style.logo">ucanspeak</a>
+    <div :class="$style.bar">
+      <!-- Логотип -->
+      <a href="/" :class="$style.logo">ucanspeak</a>
 
-        <!-- Навигация (десктоп) -->
-        <nav :class="$style.nav">
-          <a href="#" class="btn btn--ghost" :class="$style.navBtn">Тарифы</a>
-          <a href="#" class="btn btn--ghost" :class="$style.navBtn">Преподавателям</a>
-          <a href="#" class="btn btn--ghost" :class="$style.navBtn">Контакты</a>
-        </nav>
+      <!-- Навигация (десктоп) -->
+      <nav :class="$style.nav">
+        <a href="#" class="btn btn--ghost" :class="$style.navBtn">Тарифы</a>
+        <a href="#" class="btn btn--ghost" :class="$style.navBtn">Преподавателям</a>
+        <a href="#" class="btn btn--ghost" :class="$style.navBtn">Контакты</a>
+      </nav>
 
-        <!-- CTA десктоп -->
-        <a href="#" class="btn btn--primary" :class="$style.primary">Перейти на платформу</a>
+      <!-- CTA десктоп -->
+      <a href="#" class="btn btn--primary" :class="$style.primary">Перейти на платформу</a>
 
-        <!-- Кнопка меню (мобилка) -->
-        <button type="button" :class="$style.menuBtn" aria-label="Открыть меню">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+      <!-- Кнопка меню (мобилка) -->
+      <button type="button" :class="$style.menuBtn" aria-label="Открыть меню">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 </template>
@@ -27,9 +25,12 @@
 <style module>
 .wrap{ padding:18px 0; }
 
+/* Центровка и фикс ширина */
 .bar{
   display:flex; align-items:center; justify-content:space-between;
-  padding:14px 80px;
+  width:1390px;
+  margin:0 auto;
+  padding:14px 0; /* только вертикальные отступы */
 }
 
 .logo{
@@ -50,7 +51,7 @@
   display:none;
   flex-direction:column; justify-content:center; gap:5px;
   width:44px; height:36px;
-  border:1px solid rgba(44,44,44,0.3); /* #2C2C2C4D */
+  border:1px solid rgba(44,44,44,0.3);
   border-radius:8px;
   background:transparent;
   cursor:pointer;
@@ -64,8 +65,13 @@
 }
 
 /* ===== Адаптив ===== */
+@media (max-width:1390px){
+  .bar{
+    width:100%;
+    padding:14px 20px; /* боковые паддинги при сжатии */
+  }
+}
 @media (max-width:768px){
-  .bar{ padding:14px 20px; }
   .nav, .primary{ display:none; }
   .menuBtn{ display:flex; }
 }

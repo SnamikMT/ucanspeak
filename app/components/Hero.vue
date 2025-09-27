@@ -5,9 +5,12 @@
         <!-- ЛЕВО -->
         <div :class="$style.left">
           <h1 :class="$style.title">
-            <span :class="$style.t1">Заговорите</span>
-            <span :class="$style.t2"><span :class="$style.hl">на&nbsp;английском</span> уже</span>
-            <span :class="$style.t3">сегодня с&nbsp;Ucanspeak</span>
+            <span :class="$style.line1">
+              Заговорите <span :class="$style.hl">на&nbsp;английском</span>
+            </span>
+            <span :class="$style.line2">
+              уже сегодня с&nbsp;Ucanspeak
+            </span>
           </h1>
 
           <p :class="$style.lead">
@@ -72,8 +75,14 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   letter-spacing:-0.06em;
   color:#141414;
 }
-.t1,.t2,.t3{ display:inline; } /* десктоп — в одну строку */
-.hl{ display:inline-block; background:#FFD249; padding:.05em .28em; border-radius:.28em; transform: rotate(1.2deg); }
+.line1, .line2{ display:block; } /* ДВЕ строки на ПК */
+.hl{
+  display:inline-block;
+  background:#FFD249;
+  padding:.05em .28em;
+  border-radius:.28em;
+  transform: rotate(1.2deg);
+}
 
 .lead{
   margin:0 0 24px;
@@ -119,30 +128,29 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 
 /* ===== Mobile ===== */
 @media (max-width:640px){
-  .wrap{ padding:0px 15px 0; }
+  .wrap{ padding:0 15px 0; }
 
   .panel{
     padding:20px 0 0;
-    height:660px;           /* фикс высота по ТЗ */
+    height:660px;           /* фикс высота */
     min-height:660px;
   }
 
   .left{ padding-left:25px; padding-right:25px; }
 
-  /* 3 строки заголовка */
+  /* заголовок — 3 строки (как было по макету мобилки) */
   .title{
     font-size:33px; line-height:.95; letter-spacing:-.05em;
     text-align:left; margin-bottom:12px;
   }
-  .t1,.t2,.t3{ display:block; }   /* каждая часть — своя строка */
+  .line1, .line2{ display:block; }
   .hl{ border-radius:10px; transform: rotate(1.2deg); }
 
-  .lead{ font-size:16px; margin-top:10px; max-width:none; text-align:left; }
+  .lead{ font-size:14px; margin-top:10px; max-width:none; text-align:left; }
 
   .bgDesk{ display:none; }
   .bgMob{ display:block; position:absolute; left:0; right:0; bottom:40px; width:100%; height:auto; z-index:1; }
 
-  /* Круг 162×162, от правого края 15, как раньше */
   .mediaBox{
     width:162px; height:162px; border-radius:50%;
     right:15px; top:300px; left:auto; bottom:auto;
@@ -155,7 +163,6 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
     box-shadow:0 8px 18px rgba(184,126,255,.35);
   }
 
-  /* табы слева от круга */
   .badge1, .badge2{
     left:25px; right:auto; width:254px; height:auto; padding:12px 14px;
     background:#EAEEF7; box-shadow:0 8px 18px rgba(17,24,39,.10);
@@ -164,12 +171,10 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   .badge1{ top:41%; transform:rotate(5deg); }
   .badge2{ top:63%; transform:rotate(-5deg); }
 
-  /* CTA — снизу, отступы 25 по бокам и снизу */
   .cta{
     position:absolute; left:25px; right:25px; bottom:25px;
     width:auto; height:56px; margin:0;
   }
-
   .cta i{ width:36px; height:36px; }
 }
 </style>
