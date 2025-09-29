@@ -50,38 +50,32 @@
           </span>
         </div>
 
-        <!-- Мобильные табы (как на макете) -->
+        <!-- Мобильные табы -->
         <div :class="$style.mobBadges">
           <span :class="[$style.mbadge, $style.m1]">
             <img :src="icoDialog" :class="$style.micon" alt="" />
             <b>Диалог-расспрос*</b>
           </span>
-
           <span :class="[$style.mbadge, $style.m2]">
             <img :src="icoAnswer" :class="$style.micon" alt="" />
             <b>Ответы на вопросы</b>
           </span>
-
           <span :class="[$style.mbadge, $style.m3]">
             <img :src="icoCompare" :class="$style.micon" alt="" />
             <b>Сравнение двух фото*</b>
           </span>
-
           <span :class="[$style.mbadge, $style.m4]">
             <img :src="icoQ" :class="$style.micon" alt="" />
             <b>Вопросы по ключевым словам*</b>
           </span>
-
           <span :class="[$style.mbadge, $style.m5]">
             <img :src="icoMonolog" :class="$style.micon" alt="" />
             <b>Тематические монологи*</b>
           </span>
-
           <span :class="[$style.mbadge, $style.m6]">
             <img :src="icoPhoto" :class="$style.micon" alt="" />
             <b>Описание фото</b>
           </span>
-
           <span :class="[$style.mbadge, $style.m7]">
             <img :src="icoTalks" :class="$style.micon" alt="" />
             <b>Короткие беседы (Small Talks)</b>
@@ -99,7 +93,15 @@
               <br />переключения языков
             </h3>
           </div>
-          <img :src="imgPhone" :class="$style.cardImg" alt="">
+          <!-- @2x файл, но показываем в размере макета -->
+          <img
+            :src="imgPhone2x"
+            :class="$style.cardImg"
+            alt=""
+            :style="{ width: imgSize.phone.w + 'px', height: imgSize.phone.h + 'px' }"
+            decoding="async"
+            fetchpriority="low"
+          >
         </div>
 
         <div :class="$style.card">
@@ -110,7 +112,14 @@
               <br />онлайн переводчик
             </h3>
           </div>
-          <img :src="imgTranslate" :class="$style.cardImg" alt="" style="right:-60px;">
+          <img
+            :src="imgTranslate2x"
+            :class="$style.cardImg"
+            alt=""
+            :style="{ width: imgSize.translate.w + 'px', height: imgSize.translate.h + 'px' }"
+            decoding="async"
+            fetchpriority="low"
+          >
         </div>
 
         <div :class="$style.card">
@@ -121,7 +130,14 @@
               <br />таблицы по английскому
             </h3>
           </div>
-          <img :src="imgTables" :class="$style.cardImg" alt="" style="right:-40px;">
+          <img
+            :src="imgTables2x"
+            :class="$style.cardImg"
+            alt=""
+            :style="{ width: imgSize.tables.w + 'px', height: imgSize.tables.h + 'px' }"
+            decoding="async"
+            fetchpriority="low"
+          >
         </div>
       </div>
     </div>
@@ -129,18 +145,26 @@
 </template>
 
 <script setup lang="ts">
-import imgPhone     from '@/assets/img/extras-phone.png'
-import imgTranslate from '@/assets/img/extras-translate.png'
-import imgTables    from '@/assets/img/extras-tables.png'
+/* можно оставлять только @2x файлы */
+import imgPhone2x     from '@/assets/img/extras-phone.png'
+import imgTranslate2x from '@/assets/img/extras-translate.png'
+import imgTables2x    from '@/assets/img/extras-tables.png'
 
 /* SVG-иконки для верхних плашек */
-import icoMonolog from '@/assets/img/extras-ico-monolog.svg'  // 1
-import icoCompare from '@/assets/img/extras-ico-compare.svg'  // 2
-import icoQ       from '@/assets/img/extras-ico-q.svg'        // 3
-import icoDialog  from '@/assets/img/extras-ico-dialog.svg'   // 4
-import icoPhoto   from '@/assets/img/extras-ico-photo.svg'    // 5
-import icoAnswer  from '@/assets/img/extras-ico-answer.svg'   // 6
-import icoTalks   from '@/assets/img/extras-ico-talks.svg'    // 7
+import icoMonolog from '@/assets/img/extras-ico-monolog.svg'
+import icoCompare from '@/assets/img/extras-ico-compare.svg'
+import icoQ       from '@/assets/img/extras-ico-q.svg'
+import icoDialog  from '@/assets/img/extras-ico-dialog.svg'
+import icoPhoto   from '@/assets/img/extras-ico-photo.svg'
+import icoAnswer  from '@/assets/img/extras-ico-answer.svg'
+import icoTalks   from '@/assets/img/extras-ico-talks.svg'
+
+/* Размеры ИМЕННО из макета (CSS px) */
+const imgSize = {
+  phone:     { w: 115, h: 142 },  // подставь свои точные
+  translate: { w: 178, h: 142 },
+  tables:    { w: 128, h: 153 },
+}
 </script>
 
 <style module>
@@ -177,20 +201,21 @@ import icoTalks   from '@/assets/img/extras-ico-talks.svg'    // 7
 
 .hl{
   position:relative;
-  z-index:0;
   display:inline-block;
 }
 .hl::before{
   content:"";
   position:absolute;
   left:50%; top:50%;
-  width:497px; height:72px;   /* desktop */
+  width:497px; height:72px;
   background:#FFD24A;
   border-radius:12px;
   transform: translate(-50%,-50%) rotate(1.2deg);
   z-index:-1;
   box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
+  pointer-events: none;
 }
+
 .tline{ display:block; }
 
 .note{
@@ -260,9 +285,14 @@ import icoTalks   from '@/assets/img/extras-ico-talks.svg'    // 7
   margin:0; color:#1F2937; font-family: Inter, system-ui, sans-serif;
   font-weight:600; font-size:18px; line-height:1.3; letter-spacing:-0.03em; text-align:left;
 }
+
+/* === Картинка карточки: прижата вправо-вниз, БЕЗ width/height в CSS === */
 .cardImg{
-  position:absolute; right:12px; bottom:0; display:block; width:auto; height:auto;
-  object-fit:contain; pointer-events:none;
+  position:absolute;
+  right:0; bottom:0;     /* как просили */
+  display:block;
+  object-fit:contain;
+  pointer-events:none;
 }
 
 /* ===== МОБИЛЬНЫЕ бэйджи ===== */
@@ -293,7 +323,6 @@ import icoTalks   from '@/assets/img/extras-ico-talks.svg'    // 7
   .cardText{ right:24px; max-width:68%; }
 }
 
-/* телефоны ~390, секции как на макете */
 @media (max-width: 640px){
   .wrap{ margin-top:120px; }
   .inner{ padding:120px 15px 20px; }
@@ -303,17 +332,14 @@ import icoTalks   from '@/assets/img/extras-ico-talks.svg'    // 7
   }
   .note{ margin-top:20px; font-size:16px; line-height:1.3; }
 
-  /* уменьшенная жёлтая подложка */
   .hl::before{
     width: calc(100% - 12px);
     height: 48px;
     transform: translate(-50%,-50%) rotate(1.2deg);
   }
 
-  /* мобильные табы показать */
   .mobBadges{ display:block; }
 
-  /* сетка карточек — один столбец */
   .grid{
     margin-top:36px;
     grid-template-columns:1fr;
@@ -323,6 +349,5 @@ import icoTalks   from '@/assets/img/extras-ico-talks.svg'    // 7
   .plus{ left:20px; top:20px; width:26px; height:26px; }
   .cardText{ left:20px; right:20px; bottom:20px; max-width:70%; }
   .cardTitle{ font-size:16px; }
-  .cardImg{ right:8px; bottom:0; max-height:78%; max-width:52%; }
 }
 </style>

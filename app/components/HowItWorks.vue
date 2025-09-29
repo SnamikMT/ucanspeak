@@ -14,11 +14,18 @@
 
       <div :class="$style.grid">
         <!-- 1) Герой-карточка -->
-        <article :class="$style.hero" :style="{ '--wave': `url(${wave})` }">
+        <article :class="$style.hero">
+          <!-- волна (была background-image) -->
+          <img :src="wave" :class="$style.wave" alt="" aria-hidden="true" />
+          <!-- PNG-фон под текст "Как это работает" -->
+          <img :src="heroBg" :class="$style.heroBg" alt="" aria-hidden="true" />
+
           <h3 :class="$style.heroTitle">
             Как это<br />
             <span :class="$style.bubble">работает?</span>
           </h3>
+
+          <!-- попугай -->
           <img :class="$style.parrot" :src="parrot" alt="" aria-hidden="true" />
         </article>
 
@@ -55,7 +62,7 @@
           <a href="#" :class="$style.ctaBtn">
             <span>Бесплатный демоурок без регистрации</span>
             <i aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M7 17L17 7M17 7H9M17 7V15"
                       stroke="#41BCF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -72,6 +79,8 @@ import StepCard from './StepCard.vue'
 import parrot from '@/assets/img/feat-parrot2.png'
 import wave from '@/assets/img/how-wave.svg'
 import star from '@/assets/img/star.png'
+/* PNG-фон для героя */
+import heroBg from '@/assets/img/how-hero-bg.png'
 </script>
 
 <style module>
@@ -116,17 +125,36 @@ import star from '@/assets/img/star.png'
 .hero{
   position:relative; overflow:hidden;
   background:#41BCF8; box-shadow:0 8px 22px rgba(16,24,40,.06);
+  border-radius:20px;
 }
-.hero::before{
-  content:""; position:absolute; inset:0; background-image: var(--wave);
-  background-repeat:no-repeat; background-size:cover; background-position:center;
+
+/* волна как <img> */
+.wave{
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  pointer-events:none;
+  z-index:0;
 }
+
+/* PNG-фон под текст "Как это работает" */
+.heroBg{
+  position:absolute;
+  left:26px; bottom:26px;    /* подгоните под макет */
+  width:auto; height:88px;   /* высота по дизайну */
+  pointer-events:none;
+  z-index:1;                 /* над волной, под текстом */
+}
+
 .heroTitle{
   position:absolute; left:30px; right:30px; bottom:40px;
   margin:0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight:500; font-size:40px; line-height:1.15; letter-spacing:-.05em; color:#fff;
+  z-index:2; /* поверх фоновых слоёв */
 }
+
 .bubble{
   display:inline-flex; align-items:center; justify-content:center;
   width:214px; height:50px;
@@ -136,9 +164,14 @@ import star from '@/assets/img/star.png'
   margin-left:.25rem;
   box-shadow:0 6px 16px rgba(0,0,0,.12);
 }
+
 .parrot{
-  position:absolute; right:22px; bottom:12px;
-  width:200px; max-width:42%; height:auto; object-fit:contain; pointer-events:none;
+  position:absolute;
+  right:5px; bottom:0;       /* как просили */
+  width:200px; max-width:42%;
+  height:auto; object-fit:contain;
+  pointer-events:none;
+  z-index:2;
 }
 
 /* ===== Общий текст шагов ===== */
@@ -163,12 +196,20 @@ import star from '@/assets/img/star.png'
   width:100%; height:56px; padding:0 12px 0 18px; border-radius:16px;
   background:#41BCF8; color:#fff; text-decoration:none; font-weight:700;
   box-shadow:0 6px 16px rgba(65,188,248,.35);
+  gap:12px;
 }
 .ctaBtn i{
   display:inline-grid; place-items:center; width:40px; height:40px; border-radius:12px;
-  background:#fff; margin-left:12px;
+  background:#fff;
+  flex:0 0 40px; /* иконка не сжимается */
 }
-.ctaBtn span{ flex:1; }
+.ctaBtn span{
+  flex:1;
+  white-space: nowrap;        /* одна строка */
+  overflow: hidden;           /* обрезаем лишнее */
+  text-overflow: ellipsis;    /* троеточие при нехватке ширины */
+  font-size: 15px;
+}
 
 /* ===== Адаптив ===== */
 
@@ -183,11 +224,13 @@ import star from '@/assets/img/star.png'
   .grid > *{ width:100%; height:auto; }
   .hero{ height:220px; }
   .stepCard p, .stepText{ max-width:100%; }
+
+  .heroBg{ left:20px; bottom:22px; height:72px; }
 }
 
-/* Мобилка: стандартные правила (секции и типографика у тебя уже общие) */
+/* Мобилка: стандартные правила */
 @media (max-width:640px){
-  .wrap{ padding-top:120px; } /* как во всех мобильных секциях */
+  .wrap{ padding-top:120px; }
 
   .head{ margin-bottom:32px; }
   .title{
@@ -200,11 +243,13 @@ import star from '@/assets/img/star.png'
 
   .grid{
     grid-template-columns:1fr;
-    gap:20px;             /* между карточками ровно 20 */
+    gap:20px;
   }
-  .grid > *{
-    width:100%;
-    height:auto;
-  }
+  .grid > *{ width:100%; height:auto; }
+
+  .hero{ height:220px; }
+  .heroTitle{ font-size:30px; bottom:32px; }
+  .heroBg{ left:16px; bottom:20px; height:64px; }
+  .parrot{ width:170px; max-width:48%; }
 }
 </style>

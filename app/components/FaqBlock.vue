@@ -21,20 +21,15 @@
             type="button"
             :class="$style.item"
             @click="toggle(i)"
+            :aria-expanded="openIndex === i"
           >
             <span :class="$style.text">{{ item.q }}</span>
-            <span :class="$style.plus" :data-open="openIndex === i">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+
+            <!-- Плюс: всегда две палочки; при открытии вращаем весь значок -->
+            <span :class="$style.plus" :data-open="openIndex === i" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <rect x="6" y="1" width="2" height="12" rx="1" fill="white"/>
-                <rect
-                  v-if="openIndex !== i"
-                  x="1"
-                  y="6"
-                  width="12"
-                  height="2"
-                  rx="1"
-                  fill="white"
-                />
+                <rect x="1" y="6" width="12" height="2" rx="1" fill="white"/>
               </svg>
             </span>
           </button>
@@ -135,18 +130,31 @@ function toggle(i: number) {
   text-align:left;
   box-shadow:0 10px 22px rgba(16,24,40,.06);
 }
+
+/* Типографика вопроса — Inter Medium 20 / 120% / -3% */
 .text{
   flex:1 1 auto; min-width:0;
   font-family:Inter,sans-serif;
-  font-weight:500; font-size:20px; line-height:1.2; letter-spacing:-0.03em; color:#111827;
+  font-weight:500;            /* Medium */
+  font-size:20px;
+  line-height:1.2;            /* 120% */
+  letter-spacing:-0.03em;     /* -3% */
+  color:#111827;
 }
+
+/* Иконка плюс */
 .plus{
   flex:0 0 32px;
   width:32px; height:32px;
   background:#B87EFF; border-radius:999px;
   display:grid; place-items:center; user-select:none;
+  transition: transform .18s ease, background-color .18s ease;
+  transform-origin:center;
 }
-.plus[data-open="true"]{ background:#9A5DDB; }
+.plus[data-open="true"]{
+  background:#9A5DDB;
+  transform: rotate(45deg);   /* превращаем плюс в закрывашку (×) */
+}
 
 /* ответ */
 .answer{

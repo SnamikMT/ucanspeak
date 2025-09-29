@@ -111,7 +111,6 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
 /* секция */
 .wrap{ padding:140px 0 0; }
 
-/* шапка */
 .head{ text-align:center; margin:0 0 50px; } /* 50 до карточек */
 .title{
   margin:0;
@@ -119,7 +118,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   font-weight:500;
   font-size:55px;
   line-height:.95;
-  letter-spacing:-0.05ем;
+  letter-spacing:-0.05em; /* ← латинское em */
   color:#2C2C2C;
 }
 .hl{ display:inline-block; background:#FFD249; padding:.06em .28em; border-radius:10px; transform:rotate(1.2deg); }
@@ -138,7 +137,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
 /* ===== верхние карточки ===== */
 .topGrid{
   display:grid; grid-template-columns: repeat(3, 450px);
-  gap:24px; justify-content:space-between;
+  gap:20px; justify-content:space-between;
 }
 .topTile{
   width:450px; height:408px;
@@ -157,7 +156,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
 }
 .topTileBar{
   position:absolute; left:0; right:0; bottom:0;
-  height:105px; background: var(--bg);
+  height:115px; background: var(--bg);
   border-radius: 20px;
   padding:30px; display:flex; flex-direction:column; justify-content:center;
 }
@@ -166,7 +165,6 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   line-height:1.3; letter-spacing:-0.03em; margin:0;
 }
 .label{
-  margin-top:8px;
   font-family: Inter, sans-serif; font-weight:500; font-size:20px;
   line-height:1.3; letter-spacing:-0.03em;
 }
@@ -239,11 +237,13 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
 
   .title {
     font-size: 33px;
+    letter-spacing:-0.04em; /* ← тоже явно латинское em */
   }
 
   .lead {
     font-size: 16px;
   }
+
   .num{
     position:static;
     margin:0;

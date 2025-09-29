@@ -6,7 +6,7 @@
         <!-- Десктопная версия заголовка (как было) -->
         <h2 :class="[$style.title, $style.titleDesk]">
           <span :class="$style.brand">Ucanspeak</span>
-          — лёгкий способ<br>заговорить на английском
+          — легкий способ<br>заговорить на английском
         </h2>
 
         <!-- Мобильная версия в 3 строки -->
@@ -86,7 +86,7 @@
 
         <!-- Правый холст -->
         <div :class="$style.canvas">
-          <img :src="talk"   alt="" :class="$style.cardImg" :style="{ left: '438px', top: '152px', zIndex: 1 }" />
+          <img :src="talk"   alt="" :class="$style.cardImg" :style="{ left: '450px', top: '152px', zIndex: 1 }" />
           <img :src="school" alt="" :class="$style.cardImg" :style="{ left: '735px', top: '27px',  zIndex: 2 }" />
           <img :src="adult"  alt="" :class="$style.cardImg" :style="{ left: '980px', top: '198px', zIndex: 3 }" />
         </div>
@@ -99,9 +99,9 @@
 import pin       from '@/assets/img/pin.svg'
 import underline from '@/assets/img/underline.svg'
 
-import talk   from '@/assets/img/course-talk.svg'
-import school from '@/assets/img/course-school.svg'
-import adult  from '@/assets/img/course-adult.svg'
+import talk   from '@/assets/img/course-talk.png'
+import school from '@/assets/img/course-school.png'
+import adult  from '@/assets/img/course-adult.png'
 
 import decorTalk   from '@/assets/img/decor-school.svg'
 import decorSchool from '@/assets/img/decor-talk.svg'
@@ -231,7 +231,7 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 /* Холст картинок (ПК) */
 .canvas{ position:absolute; inset:0; z-index:1; }
 .cardImg{
-  position:absolute; display:block; width:auto; height:auto;
+  position:absolute; display:block; width:325px; height:auto;
   filter: drop-shadow(0 20px 36px rgba(16,24,40,.12));
   transform:none;
 }

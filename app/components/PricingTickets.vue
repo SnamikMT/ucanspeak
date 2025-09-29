@@ -115,7 +115,7 @@ const cards = [
 }
 
 /* Перфорация */
-.cutWrap{ margin:0 -26px; }
+.cutWrap{ margin:0 -27px; }
 .cut{ display:block; width:100%; height:auto; pointer-events:none; }
 
 /* Кнопка */

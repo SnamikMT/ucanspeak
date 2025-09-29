@@ -148,22 +148,45 @@ import iconTime       from '@/assets/img/feature-time.svg'
 
 /* Сетка блока */
 /* Мягкая колонка слева: не выпирает за контейнер */
-.grid{
-  margin-top:50px;
-  display:grid;
-  grid-template-columns: minmax(0,540px) 1fr;
-  gap:24px; align-items:start;
+/* Сетка блока */
+.grid {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 654px 318px 318px; /* фикс как в макете */
+  gap: 20px;
+  justify-content: center; /* чтобы общая ширина центрировалась */
 }
 
-/* Видео */
-.video{
-  position:relative;
-  border-radius:14px;
+/* Лево: видео */
+.video {
+  position: relative;
+  width: 654px;
+  height: 330px;
 }
-.poster{
-  width:100%; height:330px; object-fit:cover; display:block;
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px;            /* радиус совпадает с контейнером */
 }
 
+/* Правые карточки */
+.right {
+  display: grid;
+  grid-template-columns: 318px 318px; /* фикс ширина */
+  gap: 20px;
+}
+.info {
+  width: 318px;
+  height: 330px;
+  background: #E8F0FF;
+  border-radius: 20px;
+  padding: 30px 24px 24px 30px;
+  color: #2C2C2C;
+  display: flex;
+  flex-direction: column;
+}
 /* Play 94×50, треугольник белый 26×26 */
 .play{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
@@ -198,15 +221,6 @@ import iconTime       from '@/assets/img/feature-time.svg'
 .pin{
   position:absolute; right:-18px; top:-58px;
   pointer-events:none;
-}
-
-/* Правые карточки */
-.right{
-  display:grid; grid-template-columns: 1fr 1fr; gap:20px; /* как было */
-}
-.info{
-  height:330px; background:#E8F0FF; border-radius:10px;
-  padding:30px 24px 24px 30px; color:#2C2C2C; display:flex; flex-direction:column;
 }
 
 /* Подзаголовки по ТЗ: Inter 500 / 30px / 95% */

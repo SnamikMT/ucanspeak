@@ -8,7 +8,7 @@
           num="01"
           title="Аудиотренажер<br>и интерактивные онлайн уроки"
           :img="phone"
-          :artWidth="188" 
+          :artWidth="142" 
           :artRight="-8"
           :artBottom="-10"
         />
@@ -17,18 +17,19 @@
         num="02"
         title="Приоритет –<br>разговорная практика"
         :img="parrot"
-        :artRight="24" 
-        :artBottom="8"  
+        :artWidth="105" 
+        :artRight="50" 
+        :artBottom="11"  
         />
 
         <!-- 03: микрофон — чуть левее -->
         <FeatureCard
         num="03"
         title="Озвучено<br>носителями языка"
-        pill="Native speakers"
         :img="mic"
-        :artRight="18" 
-        :artBottom="-6"
+        :artRight="30" 
+        :artWidth="168" 
+        :artBottom="0"
         :pillRight="38"
         :pillBottom="54"
         />
@@ -57,7 +58,7 @@ import mic   from '@/assets/img/feat-mic.png'
 .grid{
   display:grid;
   grid-template-columns: repeat(3, 1fr);
-  gap:24px;
+  gap:20px;
   max-width:1390px;   /* ← фикс ширины на пк */
   margin:0 auto;      /* центрируем */
 }

@@ -36,7 +36,7 @@ body{
 /* Контейнер 1390 */
 .container{
   width:100%;
-  max-width: calc(var(--container) + 48px);
+  max-width: 1390px;
   margin: 0 auto;
 }
 

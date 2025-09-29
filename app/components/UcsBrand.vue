@@ -119,7 +119,7 @@ import cert2   from '@/assets/img/cert-2.png'
 .wrap{ background:#E9EFF7; padding-top:140px; }
 .stage{ width:1390px; margin:0 auto; }
 .head{ text-align:center; margin-bottom:70px; }
-.title{ margin:0; font-family:Inter,sans-serif; font-weight:700; font-size:52px; line-height:1.02; letter-spacing:-0.02em; color:#1F2937; }
+.title{ margin:0; font-family:Inter,sans-serif; font-weight:500; font-size:55px; line-height:0.95; letter-spacing:-0.05em; color:#2C2C2C; }
 .hl{ display:inline-block; background:#FFD249; padding:.08em .3em; border-radius:10px; transform:rotate(1.3deg); }
 
 .row{ display:flex; gap:20px; }

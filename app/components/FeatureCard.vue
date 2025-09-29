@@ -6,15 +6,17 @@
     <!-- Текст строго под кружком и левым краем -->
     <h3 :class="$style.title" v-html="title"></h3>
 
-    <!-- Иллюстрация: никогда не превышает карточку, обрезка регулируется оффсетами -->
+    <!-- Иллюстрация: размер только из пропсов, позиция от правого/нижнего края -->
     <img
       :class="$style.art"
       :src="img"
       alt=""
       aria-hidden="true"
       :style="{
-        right: (artRight ?? 10) + 'px',
-        bottom: (artBottom ?? -6) + 'px'
+        right: (artRight ?? 0) + 'px',
+        bottom: (artBottom ?? 0) + 'px',
+        ...(artWidth  ? { width:  artWidth  + 'px' } : {}),
+        ...(artHeight ? { height: artHeight + 'px' } : {})
       }"
     />
 
@@ -36,7 +38,10 @@ defineProps<{
   title: string
   img: string
   pill?: string
+  /* размеры арта по макету (CSS-пиксели). Можно задать один или оба */
   artWidth?: number
+  artHeight?: number
+  /* смещения от правого/нижнего края */
   artRight?: number
   artBottom?: number
   pillRight?: number
@@ -90,20 +95,15 @@ defineProps<{
 }
 
 /* ---- Иллюстрация справа ----
-   Защита от глобальных стилей: max-width/height сброшены */
+   НЕТ width/height в CSS — размеры идут только из инлайна (пропсы) */
 .art{
   position:absolute;
-  right:10px; bottom:-6px;
+  right:0; bottom:0;                     /* базовая привязка */
   display:block;
-  width:auto; height:auto;              /* управляем только через inline width */
   max-width:none !important;
   max-height:none !important;
   object-fit:contain !important;
   pointer-events:none; user-select:none;
-
-  /* Внутренние ограничения, чтобы никогда не «залезть» выше карточки */
-  /* по высоте картинка не должна превышать высоту карточки */
-  /* (с учётом возможного отрицательного bottom мы всё равно в пределах overflow:hidden) */
 }
 
 /* ---- Плашка на 3-й карточке ---- */
@@ -122,7 +122,7 @@ defineProps<{
   box-shadow:0 6px 14px rgba(124,92,255,.22);
 }
 
-/* ---- Мобилка: ширина 100%, высота помягче ---- */
+/* ---- Адаптив ---- */
 @media (max-width: 1024px){
   .card{ width:100%; height:180px; }
   .title{ max-width:60%; font-size:18px; }

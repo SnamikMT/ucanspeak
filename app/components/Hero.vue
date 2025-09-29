@@ -1,48 +1,65 @@
 <template>
   <section :class="$style.wrap">
-    <div class="container">
-      <div :class="$style.panel">
-        <!-- ЛЕВО -->
-        <div :class="$style.left">
-          <h1 :class="$style.title">
-            <span :class="$style.line1">
-              Заговорите <span :class="$style.hl">на&nbsp;английском</span>
-            </span>
-            <span :class="$style.line2">
-              уже сегодня с&nbsp;Ucanspeak
-            </span>
-          </h1>
+    <div :class="$style.panel">
+      <!-- ===== Встроенный Header внутри Hero ===== -->
+      <div :class="$style.bar">
+        <!-- Логотип -->
+        <a href="/" :class="$style.logo">ucanspeak</a>
 
-          <p :class="$style.lead">
-            Интерактивная платформа обучения английскому языку: выучите легко и быстро более 5000
-            английских разговорных фраз, занимаясь всего 20 минут в день в любое удобное для вас время.
-          </p>
-        </div>
+        <!-- Навигация (desktop) -->
+        <nav :class="$style.nav">
+          <a href="#" class="btn btn--ghost" :class="$style.navBtn">Тарифы</a>
+          <a href="#" class="btn btn--ghost" :class="$style.navBtn">Преподавателям</a>
+          <a href="#" class="btn btn--ghost" :class="$style.navBtn">Контакты</a>
+        </nav>
 
-        <!-- ПРАВО: видео-кружок -->
-        <div :class="$style.mediaBox">
-          <img :class="$style.mediaImg" src="/hero-girl.jpg" alt="Ucanspeak" />
-          <button type="button" :class="$style.playBtn" aria-label="Смотреть демо">
-            <svg width="13" height="16" viewBox="0 0 13 16" fill="none" aria-hidden="true">
-              <path d="M1 1v14l11-7L1 1z" fill="#fff"/>
-            </svg>
-          </button>
-        </div>
+        <!-- CTA (desktop) -->
+        <a href="#" class="btn btn--primary" :class="$style.primary">Перейти на платформу</a>
 
-        <!-- CTA -->
-        <a href="#" :class="$style.cta">
-          <span>Бесплатный демоурок без регистрации</span>
-          <i aria-hidden="true"><img src="@/assets/img/hero-arrow.svg" alt="" /></i>
-        </a>
-
-        <!-- Табы -->
-        <aside :class="$style.badge1">Для тех, кто готов заниматься самостоятельно</aside>
-        <aside :class="$style.badge2">Для взрослых и детей<br/>с любым уровнем языка</aside>
-
-        <!-- Фоны -->
-        <img :class="$style.bgDesk" :src="waveDesk" alt="" aria-hidden="true" />
-        <img :class="$style.bgMob"  :src="waveMob"  alt="" aria-hidden="true" />
+        <!-- Бургер (mobile) -->
+        <button type="button" :class="$style.menuBtn" aria-label="Открыть меню">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+
+      <!-- ===== Левый столбец: заголовок + лид ===== -->
+      <div :class="$style.left">
+        <h1 :class="$style.title">
+          <span :class="$style.line1">
+            Заговорите <span :class="$style.hl">на&nbsp;английском</span>
+          </span>
+          <span :class="$style.line2">уже сегодня с&nbsp;Ucanspeak</span>
+        </h1>
+
+        <p :class="$style.lead">
+          Интерактивная платформа обучения английскому языку: выучите легко и быстро более 5000
+          английских разговорных фраз, занимаясь всего 20 минут в день в любое удобное для вас время.
+        </p>
+      </div>
+
+      <!-- ===== Правый столбец: медиа ===== -->
+      <div :class="$style.mediaBox">
+        <img :class="$style.mediaImg" src="/hero-girl.jpg" alt="Ucanspeak" />
+        <button type="button" :class="$style.playBtn" aria-label="Смотреть демо">
+          <svg width="13" height="16" viewBox="0 0 13 16" fill="none" aria-hidden="true">
+            <path d="M1 1v14l11-7L1 1z" fill="#fff"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- ===== CTA ===== -->
+      <a href="#" :class="$style.cta">
+        <span>Бесплатный демоурок без регистрации</span>
+        <i aria-hidden="true"><img src="@/assets/img/hero-arrow.svg" alt="" /></i>
+      </a>
+
+      <!-- ===== Бэйджи ===== -->
+      <aside :class="$style.badge1">Для тех, кто готов заниматься самостоятельно</aside>
+      <aside :class="$style.badge2">Для взрослых и детей<br/>с любым уровнем языка</aside>
+
+      <!-- ===== Фоновые волны ===== -->
+      <img :class="$style.bgDesk" :src="waveDesk" alt="" aria-hidden="true" />
+      <img :class="$style.bgMob"  :src="waveMob"  alt="" aria-hidden="true" />
     </div>
   </section>
 </template>
@@ -53,21 +70,68 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 </script>
 
 <style module>
-.wrap{ padding:12px 0 28px; background:#E9EFF7; }
+/* фон страницы */
+.wrap{
+  padding: 25px 0 28px;
+  background:#E9EFF7;
+}
 
-/* ===== Desktop ===== */
+/* белая панель героя: внутри — и шапка, и контент */
 .panel{
   position:relative;
-  max-width:1390px; margin:0 auto;
-  border-radius:20px; background:#fff; overflow:hidden; isolation:isolate;
+  max-width:1390px;
+  margin:0 auto;
+  border-radius:20px;
+  background:#fff;
+  overflow:hidden;
+  isolation:isolate;
   box-shadow:0 12px 40px rgba(0,0,0,.06);
-  padding:36px 0 64px;
-  min-height:640px;
+  min-height:700px;
+  /* вертикальные паддинги под контент, верх закрывает header-бар */
+  padding:0 0 64px;
 }
-.left{ padding-left:50px; display:flex; flex-direction:column; z-index:2; }
+
+/* ===== Встроенный header-бар ===== */
+.bar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 25px 50px 66px 50px;
+}
+
+.logo{
+  font-weight:800;
+  font-size:22px;
+  letter-spacing:.2px;
+  text-decoration:none;
+  color:#4363f5;
+}
+
+.nav{ display:flex; gap:10px; }
+.navBtn{ padding:10px 14px; border-radius:12px; font-weight:500; }
+.primary{ padding:12px 16px; border-radius:12px; }
+
+/* бургер только на мобилке */
+.menuBtn{
+  display:none;
+  flex-direction:column; justify-content:center; gap:5px;
+  width:44px; height:36px;
+  border:1px solid rgba(44,44,44,0.3);
+  border-radius:8px;
+  background:transparent;
+  cursor:pointer;
+}
+.menuBtn span{
+  display:block; height:2px; width:20px;
+  background:#2C2C2C; border-radius:2px; margin:0 auto;
+}
+
+/* ===== Контент слева ===== */
+.left{
+  padding-left:50px; padding-right:30px;
+  display:flex; flex-direction:column; z-index:2;
+}
 
 .title{
-  margin:0 0 18px;
+  margin:10px 0 18px;      /* небольшой отступ от шапки */
   font-family: Inter, sans-serif;
   font-weight:500;
   font-size:65px;
@@ -75,7 +139,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   letter-spacing:-0.06em;
   color:#141414;
 }
-.line1, .line2{ display:block; } /* ДВЕ строки на ПК */
+.line1, .line2{ display:block; }
 .hl{
   display:inline-block;
   background:#FFD249;
@@ -91,7 +155,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   max-width:594px;
 }
 
-/* badges */
+/* ===== Бэйджи (desktop) ===== */
 .badgeBase{
   position:absolute; background:#EAEEF7; border-radius:10px; padding:16px 20px;
   font:500 16px/1.3 Inter,sans-serif; letter-spacing:-.03em;
@@ -100,7 +164,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 .badge1{ composes: badgeBase; width:260px; height:74px; transform:rotate(5deg);  top:389px; left:148px; }
 .badge2{ composes: badgeBase; width:241px; height:74px; transform:rotate(-5deg); top:403px; left:535px; }
 
-/* right media (desktop) */
+/* ===== Правый медиа-бокс ===== */
 .mediaBox{
   position:absolute; bottom:50px; right:50px;
   width:320px; height:500px; border-radius:20px; overflow:hidden;
@@ -113,6 +177,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   display:grid; place-items:center; box-shadow:0 10px 28px rgba(184,126,255,.45); cursor:pointer;
 }
 
+/* CTA внутри панели */
 .cta{
   position:absolute; bottom:50px; left:50px;
   display:flex; align-items:center; justify-content:space-between;
@@ -123,27 +188,29 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 .cta i{ width:50px; height:50px; border-radius:10px; background:#fff; display:grid; place-items:center; }
 .cta i img{ width:22px; height:16px; }
 
-.bgDesk{ position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; z-index:1; display:block; }
-.bgMob{ display:none; }
+/* Фоны */
+.bgDesk{ position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; z-index:1; display:block; pointer-events:none;}
+.bgMob{ display:none; pointer-events:none;}
 
-/* ===== Mobile ===== */
+/* ===== Адаптив ===== */
+@media (max-width:1390px){
+  .panel{ margin:0 15px; } /* мягкие поля по краям при сужении */
+}
+
+@media (max-width:768px){
+  .nav, .primary{ display:none; }
+  .menuBtn{ display:flex; }
+}
+
 @media (max-width:640px){
-  .wrap{ padding:0 15px 0; }
-
-  .panel{
-    padding:20px 0 0;
-    height:660px;           /* фикс высота */
-    min-height:660px;
-  }
-
+  .panel{ height:660px; min-height:660px; }
+  .bar{ padding:16px 18px; }  /* компактнее шапка */
   .left{ padding-left:25px; padding-right:25px; }
 
-  /* заголовок — 3 строки (как было по макету мобилки) */
   .title{
     font-size:33px; line-height:.95; letter-spacing:-.05em;
     text-align:left; margin-bottom:12px;
   }
-  .line1, .line2{ display:block; }
   .hl{ border-radius:10px; transform: rotate(1.2deg); }
 
   .lead{ font-size:14px; margin-top:10px; max-width:none; text-align:left; }

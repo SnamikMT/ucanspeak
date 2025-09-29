@@ -73,7 +73,7 @@ import bikeWaveMobile from '@/assets/img/bike-wave-mobile.png' // мобильн
   font-size:55px;
   line-height:.95;
   letter-spacing:-0.05em;
-  color:#1A1A1A;
+  color:#2C2C2C;
 }
 .hl{
   background:#FFD249;
