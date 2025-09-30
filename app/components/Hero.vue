@@ -1,26 +1,8 @@
 <template>
   <section :class="$style.wrap">
     <div :class="$style.panel">
-      <!-- ===== Встроенный Header внутри Hero ===== -->
-      <div :class="$style.bar">
-        <!-- Логотип -->
-        <a href="/" :class="$style.logo">ucanspeak</a>
-
-        <!-- Навигация (desktop) -->
-        <nav :class="$style.nav">
-          <a href="#" class="btn btn--ghost" :class="$style.navBtn">Тарифы</a>
-          <a href="#" class="btn btn--ghost" :class="$style.navBtn">Преподавателям</a>
-          <a href="#" class="btn btn--ghost" :class="$style.navBtn">Контакты</a>
-        </nav>
-
-        <!-- CTA (desktop) -->
-        <a href="#" class="btn btn--primary" :class="$style.primary">Перейти на платформу</a>
-
-        <!-- Бургер (mobile) -->
-        <button type="button" :class="$style.menuBtn" aria-label="Открыть меню">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+      <!-- ВСТАВЛЕННАЯ ШАПКА -->
+      <Header :inside-hero="true" />
 
       <!-- ===== Левый столбец: заголовок + лид ===== -->
       <div :class="$style.left">
@@ -65,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+import Header from '@/components/Header.vue'
 import waveDesk from '@/assets/img/hero-wave.svg'
 import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 </script>

@@ -1,18 +1,6 @@
-<template>
-  <main class="container">
-    <Hero />
-    <Features />
-    <HowItWorks />
-    <CoursesShowcase/>
-    <AudioTrainer/>
-    <InteractiveLessons/>
-    <MoreTasksFeatures/>
-    <Progress />
-    <UcsBrand />
-    <BikeNotBicycle/>
-    <PricingTickets/>
-    <FaqBlock />
-    <Testimonials />
-    <Footer />
-  </main>
-</template>
+<script setup lang="ts">
+const router = useRouter()
+onMounted(() => router.replace('/students'))
+</script>
+
+<template><div /></template>
