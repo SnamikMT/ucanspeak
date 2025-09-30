@@ -1,5 +1,13 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/', '/teachers'],   // перечисли все реальные страницы
+      ignore: ['/signup-teacher'],  // ссылки-заглушки
+      failOnError: false            // чтобы не падать из-за пропущенных
+    }
+  },
   devtools: { enabled: true },
   srcDir: 'app',
   pages: true,
