@@ -8,6 +8,12 @@ import TeachersMoreTasksFeatures from '~/components/teachers/TeacherMoreTasksFea
 import TeachersFaqBlock from '~/components/teachers/TeacherFaqBlock.vue'
 import TeachersTestimonials from '~/components/teachers/TeacherTestimonials.vue'
 import TeachersPricingTickets from '~/components/teachers/TeacherPricingTickets.vue'
+import TeachersCoopBanner from '~/components/teachers/TeacherCoopBanner.vue'
+import TeachersEnjoyResults from '~/components/teachers/TeacherEnjoyResults.vue'
+import TeachersInteractiveLessons from '~/components/teachers/TeacherInteractiveLessons.vue'
+import UseReadyLessons from '~/components/teachers/UseReadyLessons.vue'
+import TeachersFeatures from '~/components/teachers/TeacherFeatures.vue'
+
 
 useHead({ title: 'Ucanspeak — Преподавателям' })
 </script>
@@ -18,12 +24,14 @@ useHead({ title: 'Ucanspeak — Преподавателям' })
     <TeachersHowItWorks />
     <TeachersPromoBanner />
     <TeachersCoursesShowcase />
-    <TeachersAudioTrainer />
-    <TeachersInteractiveLessons />
-    <TeachersProgress />
     <TeachersUcsBrand />
+    <TeachersInteractiveLessons />
+    <UseReadyLessons />
+    <TeachersFeatures />
+    <TeachersExclusives />
+    <TeachersEnjoyResults/>
+    <TeachersCoopBanner/>
     <TeachersMoreTasksFeatures />
-    <TeachersBikeNotBicycle />
     <TeachersPricingTickets />
     <TeachersFaqBlock />
     <TeachersTestimonials />
