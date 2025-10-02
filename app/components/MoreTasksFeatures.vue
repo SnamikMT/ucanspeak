@@ -1,20 +1,49 @@
 <template>
   <section :class="$style.wrap">
     <div :class="$style.inner">
-      <!-- ===== Title ===== -->
+      <!-- ===== Header box (на мобилке отдельный белый блок) ===== -->
       <header :class="$style.head">
-        <h2 :class="$style.title">
-          <span :class="$style.tline">Ещё больше интерактивных</span>
-          заданий <span :class="$style.hl">и полезных фишек</span>
+        <!-- Desktop title (2 строки) -->
+        <h2 :class="[$style.title, $style.titleDesk]">
+          <span :class="$style.tline">Еще больше интерактивных </span>
+          <span :class="$style.tline">
+            заданий <span :class="$style.eq">и полезных фишек</span>
+          </span>
         </h2>
 
-        <p :class="$style.note">
-          *Задания можно использовать для подготовки
-          <br />
-          к устной части ЕГЭ и ОГЭ по английскому языку
+        <!-- Mobile title (3 строки) -->
+        <h2 :class="[$style.title, $style.titleMob]" aria-hidden="false">
+          <span :class="$style.mline">Еще больше </span>
+          <span :class="$style.mline">интерактивных</span>
+          <span :class="$style.mline">заданий</span>
+          <span :class="[$style.mline, $style.mEq]">и полезных фишек</span>
+        </h2>
+
+        <!-- Desktop note -->
+        <p :class="[$style.note, $style.noteDesk]">
+          *Задания можно использовать для подготовки к устной части ЕГЭ и ОГЭ по английскому языку
         </p>
 
-        <!-- floating badges: left (1–4) — только десктоп -->
+        <!-- Mobile note (3 строки) -->
+        <p :class="[$style.note, $style.noteMob]">
+          *Задания можно использовать<br />
+          для подготовки к устной части ЕГЭ<br />
+          и ОГЭ по английскому языку
+        </p>
+
+        <!-- CTA -->
+        <!-- <a href="#demo" :class="$style.cta">
+          <span :class="$style.ctaText">Бесплатный демоурок без регистрации</span>
+          <i aria-hidden="true">
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="none">
+              <path d="M1 10L11 1M11 1H4.5M11 1V7.5"
+                    stroke="#3232E9" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </i>
+        </a> -->
+
+        <!-- Desktop badges -->
         <div :class="$style.leftBadges">
           <span :class="[$style.badge, $style.b1]">
             <img :src="icoMonolog" :class="$style.badgeIcon" alt="" />
@@ -34,7 +63,6 @@
           </span>
         </div>
 
-        <!-- floating badges: right (5–7) — только десктоп -->
         <div :class="$style.rightBadges">
           <span :class="[$style.badge, $style.b5]">
             <img :src="icoPhoto" :class="$style.badgeIcon" alt="" />
@@ -50,35 +78,28 @@
           </span>
         </div>
 
-        <!-- Мобильные табы -->
+        <!-- Mobile badges (теперь абсолюты с координатами --x / --y) -->
         <div :class="$style.mobBadges">
-          <span :class="[$style.mbadge, $style.m1]">
-            <img :src="icoDialog" :class="$style.micon" alt="" />
-            <b>Диалог-расспрос*</b>
+          <span :class="[$style.mbadge, $style.m1]" style="--x: 81px;  --y:  71px;">
+            <img :src="icoDialog" :class="$style.micon" alt="" /><b>Диалог-расспрос*</b>
           </span>
-          <span :class="[$style.mbadge, $style.m2]">
-            <img :src="icoAnswer" :class="$style.micon" alt="" />
-            <b>Ответы на вопросы</b>
+          <span :class="[$style.mbadge, $style.m2]" style="--x: -19px; --y:  93px;">
+            <img :src="icoAnswer" :class="$style.micon" alt="" /><b>Ответы на вопросы</b>
           </span>
-          <span :class="[$style.mbadge, $style.m3]">
-            <img :src="icoCompare" :class="$style.micon" alt="" />
-            <b>Сравнение двух фото*</b>
+          <span :class="[$style.mbadge, $style.m3]" style="--x: 159px; --y: 112px;">
+            <img :src="icoCompare" :class="$style.micon" alt="" /><b>Сравнение двух фото*</b>
           </span>
-          <span :class="[$style.mbadge, $style.m4]">
-            <img :src="icoQ" :class="$style.micon" alt="" />
-            <b>Вопросы по ключевым словам*</b>
+          <span :class="[$style.mbadge, $style.m4]" style="--x: 11px;  --y: 165px;">
+            <img :src="icoQ" :class="$style.micon" alt="" /><b>Вопросы по ключевым словам*</b>
           </span>
-          <span :class="[$style.mbadge, $style.m5]">
-            <img :src="icoMonolog" :class="$style.micon" alt="" />
-            <b>Тематические монологи*</b>
+          <span :class="[$style.mbadge, $style.m5]" style="--x: 2px;  --y: 224px;">
+            <img :src="icoMonolog" :class="$style.micon" alt="" /><b>Тематические монологи*</b>
           </span>
-          <span :class="[$style.mbadge, $style.m6]">
-            <img :src="icoPhoto" :class="$style.micon" alt="" />
-            <b>Описание фото</b>
+          <span :class="[$style.mbadge, $style.m6]" style="--x: 206px; --y: 181px;">
+            <img :src="icoPhoto" :class="$style.micon" alt="" /><b>Описание фото</b>
           </span>
-          <span :class="[$style.mbadge, $style.m7]">
-            <img :src="icoTalks" :class="$style.micon" alt="" />
-            <b>Короткие беседы (Small Talks)</b>
+          <span :class="[$style.mbadge, $style.m7]" style="--x: 66px;  --y: 266px;">
+            <img :src="icoTalks" :class="$style.micon" alt="" /><b>Короткие беседы (Small Talks)</b>
           </span>
         </div>
       </header>
@@ -88,56 +109,28 @@
         <div :class="$style.card">
           <span :class="$style.plus">＋</span>
           <div :class="$style.cardText">
-            <h3 :class="$style.cardTitle">
-              Аудио словарь с функцией
-              <br />переключения языков
-            </h3>
+            <h3 :class="$style.cardTitle">Аудио словарь с функцией<br/>переключения языков</h3>
           </div>
-          <!-- @2x файл, но показываем в размере макета -->
-          <img
-            :src="imgPhone2x"
-            :class="$style.cardImg"
-            alt=""
-            :style="{ width: imgSize.phone.w + 'px', height: imgSize.phone.h + 'px' }"
-            decoding="async"
-            fetchpriority="low"
-          >
+          <img :src="imgPhone2x" :class="$style.cardImg" alt=""
+               :style="{ width: imgSize.phone.w + 'px', height: imgSize.phone.h + 'px' }">
         </div>
 
         <div :class="$style.card">
           <span :class="$style.plus">＋</span>
           <div :class="$style.cardText">
-            <h3 :class="$style.cardTitle">
-              Встроенный
-              <br />онлайн переводчик
-            </h3>
+            <h3 :class="$style.cardTitle">Встроенный<br/>онлайн переводчик</h3>
           </div>
-          <img
-            :src="imgTranslate2x"
-            :class="$style.cardImg"
-            alt=""
-            :style="{ width: imgSize.translate.w + 'px', height: imgSize.translate.h + 'px' }"
-            decoding="async"
-            fetchpriority="low"
-          >
+          <img :src="imgTranslate2x" :class="$style.cardImg" alt=""
+               :style="{ width: imgSize.translate.w + 'px', height: imgSize.translate.h + 'px' }">
         </div>
 
         <div :class="$style.card">
           <span :class="$style.plus">＋</span>
           <div :class="$style.cardText">
-            <h3 :class="$style.cardTitle">
-              Грамматические
-              <br />таблицы по английскому
-            </h3>
+            <h3 :class="$style.cardTitle">Грамматические<br/>таблицы по английскому</h3>
           </div>
-          <img
-            :src="imgTables2x"
-            :class="$style.cardImg"
-            alt=""
-            :style="{ width: imgSize.tables.w + 'px', height: imgSize.tables.h + 'px' }"
-            decoding="async"
-            fetchpriority="low"
-          >
+          <img :src="imgTables2x" :class="$style.cardImg" alt=""
+               :style="{ width: imgSize.tables.w + 'px', height: imgSize.tables.h + 'px' }">
         </div>
       </div>
     </div>
@@ -145,12 +138,10 @@
 </template>
 
 <script setup lang="ts">
-/* можно оставлять только @2x файлы */
 import imgPhone2x     from '@/assets/img/extras-phone.png'
 import imgTranslate2x from '@/assets/img/extras-translate.png'
 import imgTables2x    from '@/assets/img/extras-tables.png'
 
-/* SVG-иконки для верхних плашек */
 import icoMonolog from '@/assets/img/extras-ico-monolog.svg'
 import icoCompare from '@/assets/img/extras-ico-compare.svg'
 import icoQ       from '@/assets/img/extras-ico-q.svg'
@@ -159,191 +150,219 @@ import icoPhoto   from '@/assets/img/extras-ico-photo.svg'
 import icoAnswer  from '@/assets/img/extras-ico-answer.svg'
 import icoTalks   from '@/assets/img/extras-ico-talks.svg'
 
-/* Размеры ИМЕННО из макета (CSS px) */
 const imgSize = {
-  phone:     { w: 115, h: 142 },  // подставь свои точные
+  phone:     { w: 115, h: 142 },
   translate: { w: 178, h: 142 },
   tables:    { w: 128, h: 153 },
 }
 </script>
 
+<!-- components/teachers/PlatformPlusIdeas.vue -->
 <style module>
-/* ===== Белый фон блока ===== */
+/* ========= DESKTOP (единый белый блок) ========= */
 .wrap{
-  background:#FFFFFF;
+  background:#FFF;                /* общий белый фон на ПК */
   border-radius:24px;
   overflow:hidden;
   margin-top:140px;
 }
-
-/* ВНУТРЕННИЙ контейнер — ПК макс 1390, по центру */
 .inner{
-  padding:158px 28px 28px;
   max-width:1390px;
   margin:0 auto;
+  padding:150px 30px 30px;
 }
 
-/* ===== Заголовок и сноска ===== */
-.head{ position:relative; text-align:center; }
+/* Заголовок (без собственного белого фона на ПК) */
+.head{ position:relative; text-align:center; background:transparent; padding:0; }
 
 .title{
-  position: relative;
-  z-index: 0;
   margin:0;
-  font-family: Inter, system-ui, sans-serif;
-  font-weight:500;
-  font-size:55px;
-  line-height:.95;
-  letter-spacing:-0.05em;
-  color:#2C2C2C;
-  text-align:center;
+  font-family:Inter, system-ui, sans-serif;
+  font-weight:500; font-size:55px; line-height:.95; letter-spacing:-.05em; color:#2C2C2C;
 }
-
-.hl{
-  position:relative;
-  display:inline-block;
-}
-.hl::before{
-  content:"";
-  position:absolute;
-  left:50%; top:50%;
-  width:497px; height:72px;
-  background:#FFD24A;
-  border-radius:12px;
-  transform: translate(-50%,-50%) rotate(1.2deg);
-  z-index:-1;
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
-  pointer-events: none;
-}
-
 .tline{ display:block; }
+.titleDesk{ display:block; }
+.titleMob{ display:none; }
 
+/* Жёлтая плашка под “= Успех” */
+.eq{ position:relative; display:inline-block; isolation:isolate; }
+.eq::before{
+  content:""; position:absolute; left:-.08em; right:-.38em; top:50%;
+  transform:translateY(-50%) rotate(1.2deg);
+  height:1.05em; background:#FFD24A; border-radius:12px;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.06); z-index:-1;
+}
+
+/* Сноска */
 .note{
-  margin-top:50px;
-  color:#2C2C2C;
-  font-family: Inter, system-ui, sans-serif;
-  font-weight:500;
-  font-size:18px;
-  line-height:1.3;
-  letter-spacing:-0.03em;
-  text-align:center;
+  color:#2C2C2C; font:500 18px/1.3 Inter, system-ui, sans-serif; letter-spacing:-.03em; text-align:center;
+}
+.noteDesk{
+  margin:26px auto; max-width:680px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.noteMob{ display:none; margin:18px 0; }
+
+/* CTA */
+.cta{
+  display:inline-flex; align-items:center; justify-content:space-between; gap:12px;
+  height:50px; padding:0 16px 0 20px;
+  background:#3232E9; color:#fff; text-decoration:none; border-radius:14px;
+  font:600 16px/1.25 Inter, system-ui, sans-serif;
+  box-shadow:0 10px 24px rgba(50,50,233,.28);
+}
+.ctaText{ white-space:nowrap; }
+.cta i{
+  width:36px; height:36px; border-radius:10px; background:#fff;
+  display:grid; place-items:center;
 }
 
-/* ===== Десктопные «летающие» бейджи ===== */
-.leftBadges, .rightBadges{
-  position:absolute; top:0; width:360px; pointer-events:none;
-}
+/* Desktop badges */
+.leftBadges, .rightBadges{ position:absolute; top:0; width:360px; pointer-events:none; }
 .leftBadges{ left:0; }
 .rightBadges{ right:0; text-align:right; }
-
 .badge{
-  display:inline-flex; align-items:center; gap:8px;
-  height:44px; padding:0 14px; border-radius:14px;
+  display:inline-flex; align-items:center; gap:8px; height:44px; padding:0 14px; border-radius:14px;
   margin:10px 12px; box-shadow:0 6px 18px rgba(16,24,40,.12);
 }
 .badgeIcon{ width:20px; height:20px; display:block; }
-.badgeText{
-  color:#1f2937; font-family: Inter, system-ui, sans-serif;
-  font-weight:600; font-size:14px; line-height:1; letter-spacing:-.02em;
-}
+.badgeText{ color:#1F2937; font:600 14px/1 Inter, system-ui, sans-serif; letter-spacing:-.02em; }
 .b1{ background:#C8BDFF; transform:rotate(7.3deg); }
-.b2{ background:#FF9B76; transform:none; }
+.b2{ background:#FF9B76; }
 .b3{ background:#FFD551; transform:rotate(-5.47deg); }
 .b4{ background:#77D1FD; transform:rotate(-13.2deg); }
 .b5{ background:#77D1FD; transform:rotate(-7.7deg); }
-.b6{ background:#C8BDFF; transform:rotate(-0.9deg); }
+.b6{ background:#C8BDFF; transform:rotate(-.9deg); }
 .b7{ background:#FF9B76; transform:rotate(4.5deg); }
 
-/* ===== Сетка карточек ===== */
-.grid{
-  margin-top:100px;
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap:39px;
-}
+/* по умолчанию (ПК/планшет) мобильные бейджи скрыты */
+.mobBadges{ display:none;}
 
-.card{
-  position:relative;
-  background:#F7F9FE;
-  border:2px solid #E6ECF6;
-  border-radius:20px;
-  height:210px;
-  overflow:hidden;
-}
-
-.plus{
-  position:absolute; left:30px; top:30px;
-  width:28px; height:28px; border-radius:999px;
-  display:grid; place-items:center;
-  background:#B87EFF; color:#fff; font-weight:700; line-height:1;
-  box-shadow:0 6px 14px rgba(184,126,255,.35);
-  user-select:none;
-}
-
-.cardText{ position:absolute; left:30px; right:200px; bottom:30px; max-width:58%; }
-.cardTitle{
-  margin:0; color:#1F2937; font-family: Inter, system-ui, sans-serif;
-  font-weight:600; font-size:18px; line-height:1.3; letter-spacing:-0.03em; text-align:left;
-}
-
-/* === Картинка карточки: прижата вправо-вниз, БЕЗ width/height в CSS === */
-.cardImg{
-  position:absolute;
-  right:0; bottom:0;     /* как просили */
-  display:block;
-  object-fit:contain;
-  pointer-events:none;
-}
-
-/* ===== МОБИЛЬНЫЕ бэйджи ===== */
-.mobBadges{ display:none; margin-top:24px; }
+/* сам бейдж можно оставить оформленным – он будет виден,
+   только когда контейнер .mobBadges включится на мобилке */
 .mbadge{
-  display:inline-flex; align-items:center; gap:8px;
+  display:flex; align-items:center; gap:8px;
   height:36px; padding:0 12px; border-radius:12px;
   box-shadow:0 6px 18px rgba(16,24,40,.12);
-  font-family:Inter, system-ui, sans-serif; font-weight:600; font-size:14px; letter-spacing:-.02em;
-  margin:10px 0;
+  font:600 14px/1 Inter, system-ui, sans-serif; letter-spacing:-.02em;
+  white-space:nowrap; max-width:320px; overflow:hidden; text-overflow:ellipsis;
 }
-.micon{ width:18px; height:18px; }
+/* по умолчанию (ПК/планшет) мобильные бейджи скрыты */
+.mobBadges{ display:none; }
 
-/* индивидуальные цвета/наклоны/сдвиги как на макете */
-.m1{ background:#77D1FD; transform:rotate(4deg);    display:block; width:max-content; margin-left:auto; margin-right:auto; }
-.m2{ background:#C8BDFF; transform:rotate(-12deg);  display:block; width:max-content; margin-left:14px; }
-.m3{ background:#FF9B76; transform:rotate(-6deg);   display:block; width:max-content; margin-left:auto; margin-right:18px; }
-.m4{ background:#FFD551; transform:rotate(-7deg);   display:block; width:max-content; margin-left:12px; }
-.m5{ background:#C8BDFF; transform:rotate(7deg);    display:block; width:max-content; margin-left:6px; }
-.m6{ background:#77D1FD; transform:rotate(-6deg);   display:block; width:max-content; margin-left:auto; margin-right:12px; }
-.m7{ background:#FF9B76; transform:rotate(3deg);    display:block; width:max-content; margin-left:22px; }
+/* сам бейдж можно оставить оформленным – он будет виден,
+   только когда контейнер .mobBadges включится на мобилке */
+.mbadge{
+  display:flex; align-items:center; gap:8px;
+  height:36px; padding:0 12px; border-radius:12px;
+  box-shadow:0 6px 18px rgba(16,24,40,.12);
+  font:600 14px/1 Inter, system-ui, sans-serif; letter-spacing:-.02em;
+  white-space:nowrap; max-width:320px; overflow:hidden; text-overflow:ellipsis;
+}
 
-/* ===== Адаптив ===== */
-@media (max-width: 1200px){
-  .leftBadges, .rightBadges{ display:none; }
+
+/* Сетка карточек */
+.grid{
+  margin-top:100px; display:grid; grid-template-columns: repeat(3, 1fr); column-gap:39px;
+}
+.card{
+  position:relative; background:#FFF; border:2px solid #E6ECF6; border-radius:20px; height:210px; overflow:hidden;
+}
+.plus{
+  position:absolute; left:30px; top:30px; width:28px; height:28px; border-radius:999px;
+  display:grid; place-items:center; background:#B87EFF; color:#fff; font-weight:700; line-height:1;
+  box-shadow:0 6px 14px rgba(184,126,255,.35); user-select:none;
+}
+.cardText{ position:absolute; left:30px; bottom:30px; max-width:58%; }
+.cardTitle{
+  margin:0; color:#1F2937; font:600 18px/1.3 Inter, system-ui, sans-serif; letter-spacing:-.03em; text-align:left;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.cardImg{ position:absolute; right:0; bottom:0; display:block; object-fit:contain; pointer-events:none; }
+
+/* ========= TABLET ========= */
+@media (max-width:1200px){
   .grid{ grid-template-columns:1fr; row-gap:28px; }
+  .leftBadges, .rightBadges{ display:none; }
   .card{ height:220px; }
   .cardText{ right:24px; max-width:68%; }
+
+  /* по умолчанию (ПК/планшет) мобильные бейджи скрыты */
+.mobBadges{ display:none; }
+
+/* сам бейдж можно оставить оформленным – он будет виден,
+   только когда контейнер .mobBadges включится на мобилке */
+.mbadge{
+  display:flex; align-items:center; gap:8px;
+  height:36px; padding:0 12px; border-radius:12px;
+  box-shadow:0 6px 18px rgba(16,24,40,.12);
+  font:600 14px/1 Inter, system-ui, sans-serif; letter-spacing:-.02em;
+  white-space:nowrap; max-width:320px; overflow:hidden; text-overflow:ellipsis;
 }
 
-@media (max-width: 640px){
-  .wrap{ margin-top:120px; }
-  .inner{ padding:120px 15px 20px; }
+}
 
-  .title{
-    font-size:33px; line-height:1.02; letter-spacing:-0.04em;
+/* ========= MOBILE (отдельные белые блоки, ширина 390) ========= */
+@media (max-width:640px){
+  /* фон страницы снова голубой; белый «общий» блок убираем */
+  .wrap{
+    background:#E9EFF7;
+    border-radius:0;
+    overflow:visible;
+    margin-top:120px;
   }
-  .note{ margin-top:20px; font-size:16px; line-height:1.3; }
+  .inner{ width:390px; max-width:390px; margin:0 auto; padding:0px 0 20px; }
 
-  .hl::before{
-    width: calc(100% - 12px);
-    height: 48px;
-    transform: translate(-50%,-50%) rotate(1.2deg);
+  /* хедер становится самостоятельной белой карточкой */
+  .head{
+    width:390px; margin:0 auto; padding:20px 16px 18px;
+    background:#fff; border-radius:20px; box-shadow:0 8px 22px rgba(16,24,40,.06);
   }
 
-  .mobBadges{ display:block; }
+  .titleDesk{ display:none; }
+  .titleMob{ display:block; font-size:33px; line-height:1.02; letter-spacing:-.04em; color:#2C2C2C; margin:0; }
+  .mline{ display:block; }
+  .mEq{ position:relative; display:inline-block; isolation:isolate; }
+  .mEq::before{
+    content:""; position:absolute; left:-.38em; right:-.38em; top:50%;
+    transform:translateY(-50%) rotate(1.2deg); height:1.05em; background:#FFD24A; border-radius:12px;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.06); z-index:-1;
+  }
 
+  .noteDesk{ display:none; }
+  .noteMob{ display:block; font-size:16px; line-height:1.3; letter-spacing:-.03em; margin:14px 0 16px; }
+
+  .cta{ width:340px; height:48px; margin:0 auto 10px; border-radius:12px; }
+  .ctaText{ font:600 14px/1.3 Inter, system-ui, sans-serif; letter-spacing:-.03em; white-space:nowrap; }
+  .cta i{ width:36px; height:36px; }
+
+  /* контейнер для абсолютных табов */
+  .mobBadges{
+    display:block; position:relative; width:100%; height:310px;
+    margin-top:6px;
+  }
+  /* иконка слева, текст справа, ровная строка */
+  .mbadge{
+    position:absolute;
+    left:var(--x,0); top:var(--y,0);
+    display:flex; align-items:center; gap:8px;
+    height:36px; padding:0 12px; border-radius:12px;
+    box-shadow:0 6px 18px rgba(16,24,40,.12);
+    font:500 14px Inter, system-ui, sans-serif; letter-spacing:-.02em;
+    white-space:nowrap; max-width:320px; overflow:hidden; text-overflow:ellipsis;
+  }
+  .micon{ width:18px; height:18px; flex:0 0 18px; }
+  .m1{ background:#77D1FD; transform:rotate(5deg); }
+  .m2{ background:#C8BDFF; transform:rotate(25deg); }
+  .m3{ background:#FF9B76; transform:rotate(-6deg); }
+  .m4{ background:#FFD551; transform:rotate(-8deg); }
+  .m5{ background:#C8BDFF; transform:rotate(3deg); }
+  .m6{ background:#77D1FD; transform:rotate(-11deg); }
+  .m7{ background:#FF9B76; transform:rotate(0deg); }
+
+  /* карточки — отдельные белые блоки */
   .grid{
-    margin-top:36px;
-    grid-template-columns:1fr;
-    column-gap:0; row-gap:16px;
+    width:390px; margin:16px auto 0; grid-template-columns:1fr; row-gap:16px;
   }
   .card{ height:215px; border-radius:16px; }
   .plus{ left:20px; top:20px; width:26px; height:26px; }

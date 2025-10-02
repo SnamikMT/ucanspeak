@@ -50,7 +50,7 @@
 <script setup lang="ts">
 import Header  from '@/components/Header.vue'
 import waveDesk from '@/assets/img/teachers/teachers-hero-wave.svg'
-import waveMob  from '@/assets/img/hero-wave-mobile.svg'
+import waveMob  from '@/assets/img/teachers/teachers-hero-wave-mobile.svg'
 </script>
 
 <style module>
@@ -139,7 +139,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   display:flex; align-items:center; justify-content:space-between;
   width:364px; height:64px; padding:0 10px 0 18px;
   background:#3232E9; color:#fff; text-decoration:none; border-radius:14px;
-  font:600 16px/1 Inter,sans-serif; box-shadow:0 12px 30px rgba(184,126,255,.35); z-index:2;
+  font:600 16px/1 Inter,sans-serif; z-index:2;
 }
 .cta i{ width:50px; height:50px; border-radius:10px; background:#fff; display:grid; place-items:center; }
 .cta i img{ width:22px; height:16px; }
@@ -157,7 +157,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   .menuBtn{ display:flex; }
 }
 @media (max-width:640px){
-  .panel{ height:660px; min-height:660px; }
+  .panel{ height:824px; min-height:824px; }
   .left{ padding-left:25px; padding-right:25px; }
 
   .title{
@@ -179,7 +179,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 
   .mediaBox{
     width:162px; height:162px; border-radius:50%;
-    right:15px; top:300px; left:auto; bottom:auto;
+    right:15px; top:447px; left:auto; bottom:auto;
     border:3px solid #EAEEF7; overflow:hidden; background:#fff;
     box-shadow:0 14px 26px rgba(0,0,0,.10); z-index:3;
   }
@@ -194,5 +194,14 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
     width:auto; height:56px; margin:0;
   }
   .cta i{ width:36px; height:36px; }
+
+  .badgeBase{
+  position:absolute; background:#EAEEF7; border-radius:10px; padding:14px 14px;
+  font:500 14px/1.3 Inter,sans-serif; letter-spacing:-.03em;
+  box-shadow:0 10px 24px rgba(17,24,39,.10); z-index:3;
+}
+.badge1{ composes: badgeBase; width:250px; height:78px;  transform:rotate(5deg);  top:464px; left:12px; z-index: 2; }
+.badge2{ composes: badgeBase; width:238px; height:60px;  transform:rotate(-5deg); top:570px; left:12px; z-index: 2; }
+.badge3{ composes: badgeBase; width:207px; height:42px;  transform:rotate(5deg);  top:650px; left:168px; }
 }
 </style>

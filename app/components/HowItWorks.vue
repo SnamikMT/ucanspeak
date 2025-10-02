@@ -1,6 +1,6 @@
 <template>
   <section :class="$style.wrap">
-    <div class="container">
+    <div class="container" :class="$style.container">
       <header :class="$style.head">
         <h2 :class="$style.title">
           Разбейте языковой<br>барьер
@@ -15,9 +15,7 @@
       <div :class="$style.grid">
         <!-- 1) Герой-карточка -->
         <article :class="$style.hero">
-          <!-- волна (была background-image) -->
           <img :src="wave" :class="$style.wave" alt="" aria-hidden="true" />
-          <!-- PNG-фон под текст "Как это работает" -->
           <img :src="heroBg" :class="$style.heroBg" alt="" aria-hidden="true" />
 
           <h3 :class="$style.heroTitle">
@@ -25,11 +23,10 @@
             <span :class="$style.bubble">работает?</span>
           </h3>
 
-          <!-- попугай -->
           <img :class="$style.parrot" :src="parrot" alt="" aria-hidden="true" />
         </article>
 
-        <!-- 2–5) Шаги -->
+        <!-- Шаги -->
         <StepCard num="01" :class="$style.stepCard">
           Вы слушаете, читаете и повторяете фразы, копируя произношение
           и интонации носителей языка.
@@ -50,7 +47,7 @@
           совмещая занятия английским с повседневными делами.
         </StepCard>
 
-        <!-- 6) Карточка с текстом и большой кнопкой -->
+        <!-- CTA -->
         <article :class="[$style.ctaCard, $style.stepCard]">
           <div :class="$style.rowText">
             <img :src="star" alt="" :class="$style.starIcon" />
@@ -79,22 +76,20 @@ import StepCard from './StepCard.vue'
 import parrot from '@/assets/img/feat-parrot2.png'
 import wave from '@/assets/img/how-wave.svg'
 import star from '@/assets/img/star.png'
-/* PNG-фон для героя */
 import heroBg from '@/assets/img/how-hero-bg.png'
 </script>
 
 <style module>
-/* фон секции */
 .wrap{
   background:#E9EFF7;
-  padding-top:140px;  /* ПК отступ */
+  padding-top:140px;
 }
 
-/* Заголовок и описание */
+/* Заголовок */
 .head{ text-align:center; margin-bottom:70px; }
 .title{
   margin:0 0 30px;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: Inter, sans-serif;
   font-weight:500; font-size:55px; line-height:.95; letter-spacing:-.05em; color:#2C2C2C;
 }
 .hl{
@@ -103,148 +98,87 @@ import heroBg from '@/assets/img/how-hero-bg.png'
 }
 .lead{
   margin:0 auto;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight:500; font-size:18px; line-height:1.3; letter-spacing:-.03em; color:#2C2C2C;
+  font:500 18px/1.3 Inter, sans-serif;
+  letter-spacing:-.03em; color:#2C2C2C;
   max-width:620px;
 }
 
-/* ===== Сетка (ПК фикс 1390) ===== */
+/* Сетка (desktop) */
 .grid{
   display:grid;
   grid-template-columns: repeat(3, 450px);
   grid-auto-rows: 200px;
   gap:24px;
   justify-content:space-between;
-
-  max-width:1390px;   /* ← фикс ширины на ПК */
-  margin:0 auto;      /* центрируем внутри контейнера */
+  max-width:1390px;
+  margin:0 auto;
 }
 .grid > *{ width:450px; height:200px; border-radius:20px; }
 
-/* ===== Герой-карточка ===== */
+/* Герой */
 .hero{
   position:relative; overflow:hidden;
   background:#41BCF8; box-shadow:0 8px 22px rgba(16,24,40,.06);
   border-radius:20px;
 }
-
-/* волна как <img> */
-.wave{
-  position:absolute;
-  inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  pointer-events:none;
-  z-index:0;
-}
-
-/* PNG-фон под текст "Как это работает" */
-.heroBg{
-  position:absolute;
-  left:26px; bottom:26px;    /* подгоните под макет */
-  width:auto; height:88px;   /* высота по дизайну */
-  pointer-events:none;
-  z-index:1;                 /* над волной, под текстом */
-}
-
+.wave{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.heroBg{ position:absolute; left:26px; bottom:26px; height:88px; z-index:1; }
 .heroTitle{
-  position:absolute; left:30px; right:30px; bottom:40px;
-  margin:0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight:500; font-size:40px; line-height:1.15; letter-spacing:-.05em; color:#fff;
-  z-index:2; /* поверх фоновых слоёв */
-}
-
-.bubble{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:214px; height:50px;
-  background:#fff; color:#2C2C2C;
-  border-radius:10px;
-  transform:rotate(1.51deg);
-  margin-left:.25rem;
-  box-shadow:0 6px 16px rgba(0,0,0,.12);
-}
-
-.parrot{
-  position:absolute;
-  right:5px; bottom:0;       /* как просили */
-  width:200px; max-width:42%;
-  height:auto; object-fit:contain;
-  pointer-events:none;
+  position:absolute; left:30px; right:30px; bottom:40px; margin:0;
+  font:500 40px/1.15 Inter, sans-serif; letter-spacing:-.05em; color:#fff;
   z-index:2;
 }
+.bubble{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:214px; height:50px; background:#fff; color:#2C2C2C;
+  border-radius:10px; transform:rotate(1.51deg); margin-left:.25rem;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+}
+.parrot{ position:absolute; right:5px; bottom:0; width:200px; max-width:42%; }
 
-/* ===== Общий текст шагов ===== */
-.stepCard p,
-.stepText{
-  margin:0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight:500; font-size:16px; line-height:1.3; letter-spacing:-.03em; color:#2C2C2C;
-  max-width:85%;
+/* Шаги */
+.stepCard p, .stepText{
+  margin:0; font:500 16px/1.3 Inter, sans-serif; letter-spacing:-.03em; color:#2C2C2C; max-width:85%;
 }
 
-/* ===== CTA-карточка ===== */
+/* CTA */
 .ctaCard{
-  position:relative; background:#fff; box-shadow:0 8px 22px rgba(16,24,40,.06);
-  padding:30px; display:flex; flex-direction:column; justify-content:flex-end; gap:18px; overflow:hidden;
+  background:#fff; box-shadow:0 8px 22px rgba(16,24,40,.06);
+  padding:30px; display:flex; flex-direction:column; gap:18px;
 }
-.rowText{ display:flex; align-items:flex-start; gap:12px; }
+.rowText{ display:flex; gap:12px; }
 .starIcon{ width:24px; height:25px; flex:0 0 24px; }
-
 .ctaBtn{
-  display:flex; align-items:center; justify-content:space-between;
-  width:100%; height:56px; padding:0 12px 0 18px; border-radius:16px;
-  background:#41BCF8; color:#fff; text-decoration:none; font-weight:700;
-  box-shadow:0 6px 16px rgba(65,188,248,.35);
-  gap:12px;
+  display:flex; justify-content:space-between; align-items:center;
+  height:56px; padding:0 12px 0 18px; border-radius:16px;
+  background:#41BCF8; color:#fff; font-weight:700;
+  box-shadow:0 6px 16px rgba(65,188,248,.35); gap:12px;
 }
-.ctaBtn i{
-  display:inline-grid; place-items:center; width:40px; height:40px; border-radius:12px;
-  background:#fff;
-  flex:0 0 40px; /* иконка не сжимается */
-}
-.ctaBtn span{
-  flex:1;
-  white-space: nowrap;        /* одна строка */
-  overflow: hidden;           /* обрезаем лишнее */
-  text-overflow: ellipsis;    /* троеточие при нехватке ширины */
-  font-size: 15px;
-}
+.ctaBtn i{ display:inline-grid; place-items:center; width:40px; height:40px; border-radius:12px; background:#fff; }
 
 /* ===== Адаптив ===== */
-
-/* Планшет: одна колонка, снимаем фикс ширины */
 @media (max-width:1200px){
-  .grid{
-    grid-template-columns:1fr;
-    gap:20px;
-    justify-content:initial;
-    max-width:none;           /* ← снимаем 1390 на меньших экранах */
-  }
+  .grid{ grid-template-columns:1fr; gap:20px; max-width:none; }
   .grid > *{ width:100%; height:auto; }
   .hero{ height:220px; }
-  .stepCard p, .stepText{ max-width:100%; }
-
   .heroBg{ left:20px; bottom:22px; height:72px; }
 }
-
-/* Мобилка: стандартные правила */
 @media (max-width:640px){
   .wrap{ padding-top:120px; }
 
-  .head{ margin-bottom:32px; }
-  .title{
-    font-size:33px;
-    line-height:1.02;
-    letter-spacing:-0.04em;
-    margin-bottom:14px;
+  /* фикс ширины контейнера */
+  .container{
+    width:390px;
+    max-width:390px;
+    margin-left:auto;
+    margin-right:auto;
   }
+
+  .head{ margin-bottom:32px; }
+  .title{ font-size:33px; line-height:1.02; letter-spacing:-.04em; margin-bottom:14px; }
   .lead{ font-size:16px; }
 
-  .grid{
-    grid-template-columns:1fr;
-    gap:20px;
-  }
+  .grid{ grid-template-columns:1fr; gap:20px; }
   .grid > *{ width:100%; height:auto; }
 
   .hero{ height:220px; }

@@ -1,22 +1,27 @@
 <template>
   <section :class="$style.wrap">
-    <div class="container">
-      <!-- Заголовок -->
+    <div class="container" :class="$style.container">
+      <!-- ===== Заголовок ===== -->
       <header :class="$style.head">
-        <!-- Десктопная версия заголовка (как было) -->
+        <!-- Desktop -->
         <h2 :class="[$style.title, $style.titleDesk]">
           <span :class="$style.brand">Ucanspeak</span>
-          — легкий способ<br>заговорить на английском
+          — легкий способ<br/>заговорить на английском
         </h2>
 
-        <!-- Мобильная версия в 3 строки -->
-        <h2 :class="[$style.title, $style.titleMob]" aria-label="Ucanspeak - лёгкий способ заговорить на английском">
-          <span :class="$style.mLine"><span :class="$style.brand">Ucanspeak</span> — лёгкий</span>
+        <!-- Mobile (ровно 3 строки) -->
+        <h2
+          :class="[$style.title, $style.titleMob]"
+          aria-label="Ucanspeak — лёгкий способ заговорить на английском"
+        >
+          <span :class="$style.mLine">
+            <span :class="$style.brand">Ucanspeak</span> — лёгкий
+          </span>
           <span :class="$style.mLine">способ заговорить</span>
           <span :class="$style.mLine">на английском</span>
         </h2>
 
-        <!-- Плашка (перекрывает белый блок) -->
+        <!-- Плашка со штифтом -->
         <div :class="$style.note">
           <p :class="$style.noteText">
             Полноценная система разговорной практики:
@@ -30,7 +35,7 @@
         </div>
       </header>
 
-      <!-- Панель 1390×540 -->
+      <!-- ===== Панель 1390×540 (ПК) ===== -->
       <div :class="$style.panel">
         <!-- Левая колонка -->
         <aside :class="$style.left">
@@ -77,18 +82,47 @@
             <span>Бесплатный демодоступ на 14 дней</span>
             <i aria-hidden="true">
               <svg width="16" height="11" viewBox="0 0 16 11" fill="none">
-                <path d="M1 10L11 1M11 1H4.5M11 1V7.5"
-                      stroke="#B87EFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                  d="M1 10L11 1M11 1H4.5M11 1V7.5"
+                  stroke="#B87EFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                />
               </svg>
             </i>
           </a>
         </aside>
 
-        <!-- Правый холст -->
+        <!-- Правая «стенка» с карточками -->
         <div :class="$style.canvas">
-          <img :src="talk"   alt="" :class="$style.cardImg" :style="{ left: '450px', top: '152px', zIndex: 1 }" />
-          <img :src="school" alt="" :class="$style.cardImg" :style="{ left: '735px', top: '27px',  zIndex: 2 }" />
-          <img :src="adult"  alt="" :class="$style.cardImg" :style="{ left: '980px', top: '198px', zIndex: 3 }" />
+          <!-- 1 -->
+          <img
+            :src="talk"
+            alt=""
+            :class="$style.cardImg"
+            :style="{
+              left: '450px', top: '152px', zIndex: 1,
+              '--mx': '-70px', '--mb': '65px', '--mrot': '-4deg', '--mwidth': '180px'
+            }"
+          />
+          <!-- 2 -->
+          <img
+            :src="school"
+            alt=""
+            :class="$style.cardImg"
+            :style="{
+              left: '735px', top: '27px', zIndex: 2,
+              '--mx': '70px', '--mb': '170px', '--mrot': '2deg', '--mwidth': '182px'
+            }"
+          />
+          <!-- 3 (вылазит ниже панели) -->
+          <img
+            :src="adult"
+            alt=""
+            :class="$style.cardImg"
+            :style="{
+              left: '980px', top: '198px', zIndex: 3,
+              '--mx': '80px', '--mb': '-39px', '--mrot': '0', '--mwidth': '178px'
+            }"
+          />
         </div>
       </div>
     </div>
@@ -108,11 +142,12 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 </script>
 
 <style module>
-/* Секция */
-.wrap{ padding:140px 0 0; }
+/* ===== Секция / контейнеры — разрешаем выходить за края ===== */
+.wrap{ padding:140px 0 0; overflow:visible; }
+.container{ overflow:visible; }
 
-/* Заголовок */
-.head{ position:relative; text-align:center; margin-bottom:0; }
+/* ===== Заголовок ===== */
+.head{ position:relative; text-align:center; margin-bottom:0; overflow:visible; }
 .title{
   margin:0 0 51px 0;
   font-family: Inter, sans-serif;
@@ -122,23 +157,23 @@ import decorSchool from '@/assets/img/decor-talk.svg'
   letter-spacing:-0.05em;
   color:#2C2C2C;
 }
-/* переключатели версий заголовка */
 .titleDesk{ display:block; }
 .titleMob{ display:none; }
+.mLine{ display:block; }
 
 .brand{
-  display:inline-block;
+  position:relative; display:inline-block;
   background:#FFD249;
   padding:.1em .3em;
   border-radius:10px;
   transform: rotate(1.51deg);
+  z-index:0;
 }
 
-/* Плашка под заголовком */
+/* Плашка под заголовком — адаптивная */
 .note{
   position:relative;
   display:inline-block;
-  width:555px; height:96px;
   background:#fff;
   border-radius:10px;
   box-shadow: 3px 4px 9px rgba(0,0,0,.25);
@@ -146,18 +181,28 @@ import decorSchool from '@/assets/img/decor-talk.svg'
   padding:16px 24px 14px 24px;
   text-align:left;
   z-index:3;
+
+  /* десктоп размеры */
+  width:555px;
+  height:auto;
+  overflow:visible;
+  box-sizing:border-box;
 }
 .noteText{
-  margin:0; font-family: Inter, sans-serif; font-weight:500;
-  font-size:20px; line-height:1.3; letter-spacing:-0.03em; color:#2C2C2C;
+  margin:0;
+  font-family: Inter, sans-serif;
+  font-weight:500; font-size:20px; line-height:1.3; letter-spacing:-0.03em; color:#2C2C2C;
 }
+/* подчёркивание — привязка к низу текста, не «улетает» */
 .line2{ position:relative; display:inline-block; z-index:0; }
 .lineText{ position:relative; z-index:1; }
 .underline{
-  position:absolute; left:0; top:0;
-  transform: translateY(calc(-5% + var(--oy, 0px))) rotate(-6deg);
+  position:absolute; left:0; right:auto;
+  bottom:-2.22em;            /* ключ: отталкиваем от baseline */
+  transform: rotate(-6deg) translateY(2%);
   transform-origin:left center;
-  width:auto; height:auto; pointer-events:none; z-index:-1;
+  height:auto; width:100%;
+  pointer-events:none; z-index:-1;
 }
 
 /* pin */
@@ -168,7 +213,7 @@ import decorSchool from '@/assets/img/decor-talk.svg'
   pointer-events:none;
 }
 
-/* Панель 1390×540 */
+/* ===== Панель (ПК) ===== */
 .panel{
   width:1390px; height:540px;
   margin:0 auto;
@@ -182,14 +227,18 @@ import decorSchool from '@/assets/img/decor-talk.svg'
   column-gap:20px;
   align-items:start;
   z-index:1;
-  overflow:visible; /* важно: даём вылезти последней карточке на мобилке */
-}
 
-/* Левая колонка */
-.left{ width:340px; display:flex; flex-direction:column; gap:20px; }
+  /* важно для видимости 3-й карточки снизу */
+  overflow:visible;
+}
+.left{
+  width:340px; display:flex; flex-direction:column; gap:20px;
+  overflow:visible;
+}
 .item{
   width:340px; background:#F7F9FE; border:2px solid #EAEEF7;
   border-radius:12px; padding:16px 18px; box-sizing:border-box;
+  overflow:visible;
 }
 .itemTitle{
   display:block; color:#2C2C2C; font-family: Inter, sans-serif;
@@ -202,15 +251,16 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 .itemList{ margin:8px 0 0 0; padding:0; list-style:none; }
 .itemList li{ margin:.28em 0; line-height:1.35; }
 
-/* Овалы */
+/* Овалы в списке — подчёркивание под словом, привязано к низу текста */
 .liRow{ position:relative; }
 .tag{ position:relative; display:inline-block; z-index:0; }
 .tagText{ position:relative; z-index:1; }
 .tagUnderline{
-  position:absolute; left:0; top:64%;
-  transform: translate(calc(var(--dx, 0px)), calc(-50% + var(--oy, 0px)));
+  position:absolute; left:0;
+  bottom:-0.3em;                        /* фикс уезда подчёркивания */
+  transform: translate(var(--dx,0px), var(--oy,0px)) rotate(-4deg);
   transform-origin:left center;
-  width:auto; height:auto; pointer-events:none; z-index:-1;
+  width:100%; height:auto; pointer-events:none; z-index:-1;
 }
 
 /* Кнопка */
@@ -228,92 +278,132 @@ import decorSchool from '@/assets/img/decor-talk.svg'
   display:grid; place-items:center; flex:0 0 36px;
 }
 
-/* Холст картинок (ПК) */
-.canvas{ position:absolute; inset:0; z-index:1; }
+/* Правая «стенка» */
+.canvas{
+  position:absolute; inset:0; z-index:1;
+  overflow:visible;      /* обязательно */
+}
 .cardImg{
   position:absolute; display:block; width:325px; height:auto;
   filter: drop-shadow(0 20px 36px rgba(16,24,40,.12));
-  transform:none;
+  pointer-events:none;
 }
 
-/* ========= АДАПТИВ ========= */
-
-/* планшеты */
+/* ====== Планшеты ====== */
 @media (max-width: 1200px){
   .title{ font-size:48px; }
   .panel{
     width:100%; height:auto; max-width:1040px;
     padding:24px; grid-template-columns: 1fr; row-gap:16px; margin:0 24px;
+    overflow:visible;
   }
   .left{ width:100%; }
   .item, .demoBtn{ width:100%; }
-  /* картинки тут пока ещё оставим как абсолюты для ПК позиций */
+
   .note{
-    width:auto; height:auto; transform: translateY(22px) rotate(4deg);
+    transform: translateY(22px) rotate(4deg);
     padding:14px 18px;
+    width:auto; max-width:700px;
   }
   .pin{ right:-10px; top:-20px; width:84px; height:84px; }
 }
 
-/* мобильные */
+/* ====== Мобилка ====== */
 @media (max-width: 600px){
   .wrap{ padding:120px 0 0; }
+  .head{ overflow:visible; }
 
-  /* заголовки: прячем десктопную версию, показываем мобильную в 3 строки */
+  /* показываем мобильный заголовок */
   .titleDesk{ display:none; }
   .titleMob{ display:block; }
-  .titleMob{ 
+  .titleMob{
     margin:0 0 24px 0;
     font-size:33px; line-height:1.02; letter-spacing:-0.04em; color:#2C2C2C;
   }
-  .mLine{ display:block; } /* жёстко 3 строки */
-
+  .mLine{ display:block; }
   .brand{ border-radius:8px; }
 
-  .head{ padding:0 16px; }
+  /* фикс ширины 390 для головы и панели */
+  .head,
+  .panel{
+    width:390px;
+    max-width:390px;
+    margin-left:auto;
+    margin-right:auto;
+    box-sizing:border-box;
+    overflow:visible;          /* важно */
+  }
+
+  /* плашка — не вылезает, до 290px, центрируем */
   .note{
-    max-width:calc(100% - 32px);
-    transform: translateY(12px) rotate(1.8deg);
+    display:block;
+    width: 381px;
+    height:auto;
     padding:12px 14px;
+    transform: translateY(50px) rotate(2.2deg);
+    margin-left:auto; margin-right:auto;
     box-shadow: 0 4px 10px rgba(0,0,0,.18);
   }
   .noteText{ font-size:16px; line-height:1.28; }
-  .underline{ bottom:-12px; max-width:100%; height:auto; }
+  .underline{ bottom:-2.22em; transform: rotate(-6deg) translateY(2%); }
   .pin{ width:72px; height:72px; top:-14px; right:-12px; }
 
+  /* панель */
   .panel{
-    width:100%;
-    margin:0; padding:16px; border-radius:16px;
+    padding:16px;
+    border-radius:16px;
     box-shadow:0 8px 22px rgba(16,24,40,.06);
-    height:auto;               /* высоту берём по контенту */
-    overflow:visible;          /* даём вылезти последней карточке */
+    height:auto;
   }
-  .left{ width:100%; gap:12px; }
-  .item{ width:100%; padding:12px; border-radius:10px; }
+
+  /* левая колонка (чтобы не вылазила) */
+  .left{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    box-sizing:border-box;
+    overflow:visible;
+    margin-top: 80px;
+  }
+  .item,
+  .demoBtn{
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
+  }
+  .item{ padding:12px; border-radius:10px; }
   .itemTitle{ font-size:16px; margin-bottom:2px; }
   .itemText,.itemList{ font-size:14px; }
   .itemList li{ margin:.2em 0; }
-  .demoBtn{ width:100%; height:44px; border-radius:10px; }
+  .demoBtn{ height:44px; border-radius:10px; }
   .demoBtn i{ width:32px; height:32px; border-radius:8px; }
 
-   .canvas{
+  /* подчёркивания в списке — фиксируем по baseline */
+  .tagUnderline{
+    bottom:-0.3em;
+    transform: translate(var(--dx,0px), var(--oy,0px)) rotate(-4deg);
+    width:100%;
+  }
+
+  /* «стопка» карточек: хаотично снизу, третья вылезает за контейнер */
+  .canvas{
     position:relative;
-    height:360px;       /* рабочая зона */
+    width:100%;
+    height:360px;
     margin-top:8px;
+    overflow:visible; /* даём выйти вниз */
   }
-
-  /* фикс: карточки шириной 180 на мобилке */
   .canvas > img{
-    left:50% !important;
-    right:auto !important;
-    transform:translateX(-50%);
-    width:180px !important;   /* ← фикс ширины */
-    height:auto !important;
+    position:absolute;
+    left:50% !important; top:auto !important;
+    bottom:var(--mb,0px) !important;
+    transform:translateX(calc(-50% + var(--mx,0px))) rotate(var(--mrot,0deg));
+    width:var(--mwidth,180px) !important; height:auto !important;
   }
+  /* третья — вылезает сильнее (см. --mb в inline-style) */
 
-  /* вертикальный стек с лёгким наездом */
-  .canvas > img:nth-child(1){ bottom:140px; top:auto !important; z-index:1; }
-  .canvas > img:nth-child(2){ bottom:60px;  top:auto !important; z-index:2; }
-  .canvas > img:nth-child(3){ bottom:-92px; top:auto !important; z-index:3; } /* уходит на 92px ниже белого */
+  /* чтобы «вылазание» было видно и за пределами секции */
+  .wrap, .container { overflow: visible; }
 }
 </style>

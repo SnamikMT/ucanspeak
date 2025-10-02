@@ -229,7 +229,7 @@ const row2 = [
 .mobNoteBlue   .mobUnderline{ transform:rotate(0deg); }
 
 /* адаптивы */
-@media (max-width:1390px){ .inner{ margin:0 15px; } }
+@media (max-width:1390px){ .inner{ margin:0 17px; } }
 @media (max-width:1220px){
   .row{ grid-template-columns:repeat(3,253px); }
 }

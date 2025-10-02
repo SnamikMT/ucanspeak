@@ -175,7 +175,7 @@ const cards = [
   .tText{ font-size:15px; }
   .price{ font-size:28px; margin:14px 0; }
 
-  .cutWrap{ margin:0 -20px; }   /* растянуть до краёв карточки */
+  .cutWrap{ margin:0 -22px; }   /* растянуть до краёв карточки */
   .btn{ width:100%; max-width:360px; }
 }
 </style>

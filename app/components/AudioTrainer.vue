@@ -1,6 +1,6 @@
 <template>
   <section :class="$style.wrap">
-    <div class="container">
+    <div :class="$style.container">
       <!-- Верхний белый блок -->
       <div :class="$style.top">
         <!-- Заголовок + описание -->
@@ -27,21 +27,19 @@
               </svg>
             </button>
 
-            <!-- Наклейка 390×82, rotate +5.26° -->
+            <!-- Наклейка, rotate +5.26° -->
             <div :class="$style.sticky">
               <span :class="$style.stickyText">
                 <span :class="$style.tv">
                   Смотрите <b>видео</b>
-                  <!-- Обводка под словом «видео» (без поворота, ниже текста) -->
                   <img :src="underlineVideo" :class="$style.underTv" alt="" aria-hidden="true" />
-                </span>,
-                как<br>заниматься на аудиотренажере
+                </span>, как<br>заниматься на аудиотренажере
               </span>
               <img :class="$style.pin" :src="pin" alt="" aria-hidden="true" />
             </div>
           </div>
 
-          <!-- Право: две карточки (как было — 2 колонки на десктопе) -->
+          <!-- Право: две карточки -->
           <div :class="$style.right">
             <article :class="$style.info">
               <h3>Это удобно</h3>
@@ -60,7 +58,7 @@
           </div>
         </div>
 
-        <!-- CTA внутри белого блока -->
+        <!-- CTA -->
         <div :class="$style.ctaRow">
           <a href="#" :class="$style.cta">
             <span>Бесплатный демоурок без регистрации</span>
@@ -110,6 +108,12 @@ import iconTime       from '@/assets/img/feature-time.svg'
 /* Секция */
 .wrap{ padding:140px 0 0; }
 
+/* Локальный контейнер */
+.container{
+  max-width:1390px;
+  margin:0 auto;
+}
+
 /* Верхний белый блок */
 .top{
   background:#fff;
@@ -120,83 +124,62 @@ import iconTime       from '@/assets/img/feature-time.svg'
 }
 
 /* Заголовок */
-.head{
-  text-align:center;
-  padding-top:58px;
-}
+.head{ text-align:center; padding-top:58px; }
 .title{
   margin:0;
   font-family: Inter, sans-serif;
-  font-weight:500;
-  font-size:55px;
-  line-height:.95;
-  letter-spacing:-0.05em;
-  color:#2C2C2C;
+  font-weight:500; font-size:55px; line-height:.95; letter-spacing:-0.05em; color:#2C2C2C;
 }
 .hl{
   display:inline-block; background:#FFD249; padding:.06em .28em; border-radius:10px;
   transform: rotate(1.51deg);
 }
 .kicker{
-  margin-top:35px;
-  margin-bottom:0;
+  margin-top:35px; margin-bottom:0;
   font-family:Inter, sans-serif; font-weight:500;
   font-size:16px; line-height:1.3; letter-spacing:-0.01em; color:#2C2C2C;
 }
 .kStart{ display:inline; }
 .kRest{ display:inline; }
 
-/* Сетка блока */
-/* Мягкая колонка слева: не выпирает за контейнер */
-/* Сетка блока */
-.grid {
-  margin-top: 50px;
-  display: grid;
-  grid-template-columns: 654px 318px 318px; /* фикс как в макете */
-  gap: 20px;
-  justify-content: center; /* чтобы общая ширина центрировалась */
+/* Сетка блока (desktop) */
+.grid{
+  margin-top:50px;
+  display:grid;
+  grid-template-columns: 654px 318px 318px; /* фикс из макета */
+  gap:20px;
+  justify-content:center;
 }
 
 /* Лево: видео */
-.video {
-  position: relative;
-  width: 654px;
-  height: 330px;
-}
-.poster {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 20px;            /* радиус совпадает с контейнером */
+.video{ position:relative; width:654px; height:330px; }
+.poster{
+  width:100%; height:100%;
+  object-fit:cover; display:block; border-radius:20px;
 }
 
 /* Правые карточки */
-.right {
-  display: grid;
-  grid-template-columns: 318px 318px; /* фикс ширина */
-  gap: 20px;
+.right{
+  display:grid;
+  grid-template-columns: 318px 318px;
+  gap:20px;
 }
-.info {
-  width: 318px;
-  height: 330px;
-  background: #E8F0FF;
-  border-radius: 20px;
-  padding: 30px 24px 24px 30px;
-  color: #2C2C2C;
-  display: flex;
-  flex-direction: column;
+.info{
+  width:318px; height:330px;
+  background:#E8F0FF; border-radius:20px;
+  padding:30px 24px 24px 30px; color:#2C2C2C;
+  display:flex; flex-direction:column;
 }
-/* Play 94×50, треугольник белый 26×26 */
+
+/* Play */
 .play{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   width:94px; height:50px; border:0; border-radius:14px; cursor:pointer;
   background:#FF8D6B; display:grid; place-items:center;
   box-shadow:0 10px 28px rgba(255,141,107,.35);
 }
-.play svg{ display:block; }
 
-/* Наклейка 390×82 (наклон вправо 5.26°) */
+/* Наклейка */
 .sticky{
   position:absolute; left:70px; top:-12px;
   width:390px; height:82px; background:#fff; border-radius:12px;
@@ -208,53 +191,33 @@ import iconTime       from '@/assets/img/feature-time.svg'
   font-family:Inter, sans-serif; font-weight:500;
   font-size:16px; line-height:1.3; letter-spacing:-0.02em; color:#2C2C2C;
 }
-
-/* Контейнер слова с подчёркиванием (ниже текста) */
 .tv{ position:relative; z-index:0; display:inline-block; }
 .underTv{
   position:absolute; left:0; right:0; bottom:-10px;
-  width:auto; height:auto; pointer-events:none;
-  z-index:-1;
+  pointer-events:none; z-index:-1;
 }
 
-/* Пин — «родной» размер */
-.pin{
-  position:absolute; right:-18px; top:-58px;
-  pointer-events:none;
-}
+/* Пин */
+.pin{ position:absolute; right:-18px; top:-58px; pointer-events:none; }
 
-/* Подзаголовки по ТЗ: Inter 500 / 30px / 95% */
+/* Текст карточек */
 .info h3{
-  margin:0;
-  font-family:Inter, sans-serif;
-  font-weight:500;
-  font-size:30px;
-  line-height:.95;
+  margin:0; font-family:Inter, sans-serif; font-weight:500; font-size:30px; line-height:.95;
 }
-
-/* Описание в карточке */
 .info p{
-  margin-top:20px;
-  font-family:Inter, sans-serif; font-weight:500;
-  font-size:16px; line-height:1.3; letter-spacing:-0.03em;
+  margin-top:20px; font-family:Inter, sans-serif; font-weight:500; font-size:16px; line-height:1.3; letter-spacing:-0.03em;
 }
 
-/* CTA внутри белого блока */
-.ctaRow{
-  display:flex; justify-content:center;
-  padding:40px 0;
-}
+/* CTA */
+.ctaRow{ display:flex; justify-content:center; padding:40px 0; }
 .cta{
-  width:370px; height:46px;
-  background:#FFD249; color:#2C2C2C; text-decoration:none;
-  border-radius:12px;
-  display:flex; align-items:center; justify-content:space-between;
+  width:370px; height:46px; background:#FFD249; color:#2C2C2C; text-decoration:none;
+  border-radius:12px; display:flex; align-items:center; justify-content:space-between;
   padding:0 5px 0 16px; box-shadow:0 8px 22px rgba(255,210,73,.25);
   font-family:Inter, sans-serif; font-weight:600; font-size:16px; line-height:1.3; letter-spacing:-0.03em;
 }
 .cta i{
-  width:36px; height:36px; border-radius:10px; background:#fff;
-  display:grid; place-items:center; flex:0 0 36px;
+  width:36px; height:36px; border-radius:10px; background:#fff; display:grid; place-items:center; flex:0 0 36px;
 }
 .cta i img{ width:22px; height:16px; display:block; }
 
@@ -270,52 +233,97 @@ import iconTime       from '@/assets/img/feature-time.svg'
 }
 .ficon{ display:block; width:auto; height:auto; }
 .feature h4{
-  margin:0;
-  font-family:Inter, sans-serif; font-weight:600;
-  font-size:18px; line-height:1.3; letter-spacing:-0.03em;
+  margin:0; font-family:Inter, sans-serif; font-weight:600; font-size:18px; line-height:1.3; letter-spacing:-0.03em;
 }
 .feature p{
-  margin:0;
-  font-family:Inter, sans-serif; font-weight:500;
-  font-size:16px; line-height:1.3; letter-spacing:-0.03em;
+  margin:0; font-family:Inter, sans-serif; font-weight:500; font-size:16px; line-height:1.3; letter-spacing:-0.03em;
 }
 
 /* ===== Адаптив ===== */
+
+/* Схлопываем сетку пораньше, чтобы не было горизонтального скролла */
 @media (max-width: 1024px){
-  .grid{ grid-template-columns:1fr; } /* пораньше сворачиваем, чтобы не было горизонтального скролла */
-  .right{ grid-template-columns:1fr; } /* на планшете в столбик */
+  .grid{ grid-template-columns:1fr; }
+  .right{ grid-template-columns:1fr; }
+  .video{ width:100%; height:auto; }
+  .poster{ height:auto; }
 }
 
+/* Мобилка: фикс контейнера 390px */
 @media (max-width: 640px){
-  .wrap{ padding:120px 15px 0; }
+  .wrap{ padding:120px 0 0; }
 
-  /* Заголовок 33px */
-  .title{ font-size:33px; }
+  .container{
+    width:390px;
+    max-width:390px;
+    margin:0 auto;
+    padding:0 0;  /* без боковых отступов, ровно 390 */
+    box-sizing:border-box;
+  }
 
-  /* Kicker: 16px и две строки */
+  .top{
+    border-radius:16px;
+    padding:0 16px 0;
+  }
+
+  .title{ font-size:33px; line-height:1.02; letter-spacing:-0.04em; }
   .kicker{ font-size:16px; }
   .kStart{ display:inline; }
-  .kRest{ display:block; }
+  .kRest{ display:block; } /* перенос на вторую строку */
 
-  /* Постер компактнее, и всё внутри не вылезает */
-  .poster{ height:260px; }
+  /* Сетка в одну колонку */
+  .grid{
+    grid-template-columns:1fr;
+    gap:16px;
+    margin-top:24px;
+  }
 
-  /* Плашку и пин прячем внутрь */
+  /* Видео: ширина по контейнеру, фикс высота */
+  .video{ width:100%; height:auto; }
+  .poster{
+    width:100%;
+    height:260px;
+    border-radius:14px;
+  }
+
+  /* Стикер и пин — внутри и не выходят за края */
   .sticky{
     left:16px; top:-6px;
-    width:300px; height:82px; transform: rotate(5.26deg);
+    width:300px; height:auto;
+    padding:10px 12px;
+    transform: rotate(5.26deg);
   }
-  .pin{
-    right:-6px; top:-36px;
-    transform: scale(.72);
-  }
+  .stickyText{ font-size:14px; line-height:1.3; letter-spacing:-.02em; }
+  .underTv{ bottom:-8px; }
+  .pin{ right:-6px; top:-36px; transform:scale(.72); transform-origin:top right; }
 
-  /* Карточки справа — только высота 157, остальное без изменений по сетке */
-  .info{ height:157px; padding:18px 16px 16px 18px; }
+  /* Правые карточки — в столбик и компактнее */
+  .info{
+    width:100%; height:157px;
+    border-radius:14px;
+    padding:18px 16px 16px 18px;
+  }
   .info h3{ font-size:22px; line-height:1; }
   .info p{ font-size:14px; }
 
-  /* Фичи в столбик */
-  .features{ grid-template-columns:1fr; }
+  /* CTA — центр и ширина по контейнеру-минус-отступы */
+  .ctaRow{ padding:28px 0; }
+  .cta{
+    width:100%;
+    max-width:358px; /* 390 - 16 - 16 */
+    height:46px; border-radius:12px;
+  }
+
+  /* Нижние карточки в столбик, ширина 390 */
+  .features{
+    grid-template-columns:1fr;
+    gap:12px;
+    margin-top:16px;
+  }
+  .feature{
+    border-radius:14px;
+    padding:18px;
+    height:auto;
+  }
 }
 </style>

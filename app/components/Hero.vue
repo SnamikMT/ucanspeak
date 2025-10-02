@@ -1,3 +1,9 @@
+Теперь только тут осталось поправить для мобилки код 
+
+Чтобы текст кнопки весь умещался в кнопку и он стрелки справа был 36 на 36 почти прибит к краю кнопки с отступом 5 справа 
+
+Слово Ucanspeak на мобилке должно бы в третьей строке 
+
 <template>
   <section :class="$style.wrap">
     <div :class="$style.panel">
@@ -8,9 +14,9 @@
       <div :class="$style.left">
         <h1 :class="$style.title">
           <span :class="$style.line1">
-            Заговорите <span :class="$style.hl">на&nbsp;английском</span>
+            Заговорите <span :class="$style.hl">на&nbsp;английском уже</span>
           </span>
-          <span :class="$style.line2">уже сегодня с&nbsp;Ucanspeak</span>
+          <span :class="$style.line2">сегодня с Ucanspeak</span>
         </h1>
 
         <p :class="$style.lead">
@@ -36,7 +42,7 @@
       </a>
 
       <!-- ===== Бэйджи ===== -->
-      <aside :class="$style.badge1">Для тех, кто готов заниматься самостоятельно</aside>
+      <aside :class="$style.badge1">Для тех, кто готов<br/> заниматься самостоятельно</aside>
       <aside :class="$style.badge2">Для взрослых и детей<br/>с любым уровнем языка</aside>
 
       <!-- ===== Фоновые волны ===== -->
@@ -186,24 +192,24 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 }
 
 @media (max-width:640px){
-  .panel{ height:660px; min-height:660px; }
+  .panel{ height:680px; min-height:680px; }
   .bar{ padding:16px 18px; }  /* компактнее шапка */
   .left{ padding-left:25px; padding-right:25px; }
 
   .title{
     font-size:33px; line-height:.95; letter-spacing:-.05em;
-    text-align:left; margin-bottom:12px;
+    text-align:left; margin-bottom:20px;
   }
   .hl{ border-radius:10px; transform: rotate(1.2deg); }
 
-  .lead{ font-size:14px; margin-top:10px; max-width:none; text-align:left; }
+  .lead{ font-size:14px; max-width:none; text-align:left; }
 
   .bgDesk{ display:none; }
   .bgMob{ display:block; position:absolute; left:0; right:0; bottom:40px; width:100%; height:auto; z-index:1; }
 
   .mediaBox{
     width:162px; height:162px; border-radius:50%;
-    right:15px; top:300px; left:auto; bottom:auto;
+    right:15px; top:345px; left:auto; bottom:auto;
     border:3px solid #EAEEF7; overflow:hidden; background:#fff;
     box-shadow:0 14px 26px rgba(0,0,0,.10); z-index:3;
   }
@@ -217,9 +223,10 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
     left:25px; right:auto; width:254px; height:auto; padding:12px 14px;
     background:#EAEEF7; box-shadow:0 8px 18px rgba(17,24,39,.10);
     z-index: 2;
+    font-size: 14px;
   }
-  .badge1{ top:41%; transform:rotate(5deg); }
-  .badge2{ top:63%; transform:rotate(-5deg); }
+  .badge1{ top:53%; transform:rotate(5deg); }
+  .badge2{ top:65%; transform:rotate(-5deg); }
 
   .cta{
     position:absolute; left:25px; right:25px; bottom:25px;

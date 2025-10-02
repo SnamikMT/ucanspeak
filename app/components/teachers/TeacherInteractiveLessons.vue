@@ -3,12 +3,21 @@
     <div :class="$style.inner">
       <!-- Заголовок -->
       <header :class="$style.head">
-        <h2 :class="$style.title">
+        <!-- Desktop title (как было) -->
+        <h2 :class="[$style.title, $style.titleDesk]">
           <span class="line">
             UCANSPEAK&nbsp;–&nbsp;<span :class="$style.hl">легкий&nbsp;способ</span>
           </span><br />
           <span class="line">заговорить&nbsp;на&nbsp;английском</span>
         </h2>
+
+        <!-- Mobile title (3 строки, подсвечено «на английском») -->
+        <h2 :class="[$style.title, $style.titleMob]">
+          <span class="line">UCANSPEAK&nbsp;–&nbsp;легкий</span><br />
+          <span class="line">способ&nbsp;заговорить</span><br />
+          <span class="line"><span :class="$style.hl">на&nbsp;английском</span></span>
+        </h2>
+
         <p :class="$style.lead">
           Эффективные задания для аудирования и развития навыков устной речи
         </p>
@@ -191,6 +200,9 @@ const feats: Feat[] = [
   color:#4B5563;
 }
 
+/* по умолчанию показываем десктопную версию заголовка */
+.titleDesk{ display:block; }
+.titleMob{ display:none; }
 /* ===== Адаптив ===== */
 
 /* Чуть уже десктопа — возвращаем мягкие поля и делаем флюидную сетку */
@@ -213,6 +225,20 @@ const feats: Feat[] = [
   .wrap{ padding:120px 0 0; }
   .title{ font-size:33px; letter-spacing:-.04em; }
   .lead{ font-size:16px; }
+
+  .titleDesk{ display:none; }
+  .titleMob{ display:block; }
+  .titleMob{
+    font-size:33px;          /* у вас уже стоит, дублирую для явности */
+    line-height:1.02;
+    letter-spacing:-.04em;
+  }
+  /* чтобы плашка красиво легла на короткую строку */
+  .hl::before{
+    inset: -0.001em -.32em;
+    border-radius: 8px;
+    transform: translateY(0%) rotate(1.2deg);
+  }
 
   .inner{ max-width:390px; padding:0; }   /* фиксируем 390 */
 

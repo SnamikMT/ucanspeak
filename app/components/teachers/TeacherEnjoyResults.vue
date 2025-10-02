@@ -213,17 +213,92 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
 }
 @media (max-width:640px){
   .wrap{ padding-top:120px; }
-  .title{ font-size:33px; line-height:1.02; letter-spacing:-.04em; }
-  .stack{ margin-top:110px; }
-  .noteText{ font-size:16px; }
-  .board{ padding:60px 12px; min-height:520px; }
-  .sub{ font-size:22px; transform:translate(-50%,-14%); }
+  .inner{ width:390px; max-width:390px; margin:0 auto; }
 
-  .badge{ height:38px; font-size:14px; border-radius:10px; }
-  .bGreen { left:16px; right:16px; top:20px; transform:none; }
-  .bPurple{ left:16px; right:16px; top:auto; bottom:220px; transform:none; }
-  .bBlue  { left:16px; right:16px; top:110px; transform:none; }
-  .bPink  { left:16px; right:16px; bottom:168px; transform:none; }
-  .bYellow{ left:16px; right:16px; bottom:22px; transform:none; }
+  .title{ font-size:33px; line-height:1.02; letter-spacing:-.04em; }
+
+  /* расстояние от заголовка до доски */
+  .stack{ margin-top:100px; }
+
+  /* ─── ПЛАШКА С ПИНОМ ───────────────────────────────────────── */
+  .note{
+    width:290px;                         /* фиксированная ширина плашки */
+    left:50%; top:0;
+    transform: translate(-50%, -50%) rotate(5.26deg);
+  }
+  .noteText{
+    width:290px;                         /* чтобы гарантировать 3 строки */
+    padding:14px 16px 12px;
+    border-radius:12px;
+    background:#fff; color:#2C2C2C;
+    font-family: Inter, system-ui, sans-serif;
+    font-weight:500;                     /* Medium */
+    font-size:14px;                      /* как в ТЗ */
+    line-height:1.3;                     /* 130% */
+    letter-spacing:-.03em;               /* -3% */
+    white-space:normal;                  /* переносы разрешены */
+    word-break:normal;
+  }
+  /* пин — справа от текста, по центру плашки */
+  .pin{
+    position:absolute;
+    right:-14px;                         /* чуть выходит за край */
+    top:50%;
+    transform: translateY(-50%) rotate(6deg);
+    width:84px; height:auto;
+  }
+
+  /* ─── БЕЛАЯ ДОСКА ──────────────────────────────────────────── */
+  .board{
+    min-height:528px;                    /* высота по ТЗ */
+    padding:60px 12px 24px;
+    border-radius:20px;
+    box-shadow:0 10px 26px rgba(16,24,40,.06);
+
+    display:flex;                        /* делаем колонку */
+    flex-direction:column;
+    align-items:center;
+    gap:20px;                            /* расстояние между пунктами */
+  }
+
+  /* подзаголовок ДОЛЖЕН БЫТЬ НАД карточками */
+  .sub{
+    order:0;                             /* выше бейджей */
+    position:static;
+    transform:none;
+    margin:0 0 2px;
+    text-align:center;
+    font-family:Inter, system-ui, sans-serif;
+    font-weight:700;
+    font-size:22px;
+    line-height:1.18;
+    letter-spacing:-.03em;
+    color:#2C2C2C;
+  }
+
+  /* пункты: 339×56, иконка слева, текст справа */
+  .badge{
+    order:1;
+    position:static;
+    width:339px;
+    height:56px;
+    padding:0 14px;
+    border-radius:12px;
+    display:flex; align-items:center; gap:10px;
+    font:500 14px/1 Inter, system-ui, sans-serif;
+    letter-spacing:-.02em;
+    box-shadow:0 6px 18px rgba(16,24,40,.12);
+    margin:0;                            /* расстояние задаёт gap у .board */
+  }
+  .badge img{ width:24px; height:24px; flex:0 0 24px; }
+
+  /* цвета — без позиционирования */
+  .bGreen { background:#CFF3C9; }
+  .bPurple{ background:#D7CCFF; }
+  .bBlue  { background:#CFE6FF; }
+  .bPink  { background:#FFD3EA; }
+  .bYellow{ background:#FFD86A; }
 }
+
+
 </style>

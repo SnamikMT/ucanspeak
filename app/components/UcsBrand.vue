@@ -3,9 +3,18 @@
     <div :class="$style.stage">
       <!-- Заголовок -->
       <header :class="$style.head">
-        <h2 :class="$style.title">
+        <!-- ПК: одна строка + подсветка фразы -->
+        <h2 :class="[$style.title, $style.titleDesk]">
           UCANSPEAK — это проверенный бренд,
           <span :class="$style.hl">созданный профессионалами</span>
+        </h2>
+
+        <!-- Мобилка: 4 строки, подсветка только слова «профессионалами» -->
+        <h2 :class="[$style.title, $style.titleMob]">
+          <span class="mline">UCANSPEAK&nbsp;–</span>
+          <span class="mline">это&nbsp;проверенный</span>
+          <span class="mline">бренд, созданный</span>
+          <span class="mline" :class="$style.hlMob">профессионалами</span>
         </h2>
       </header>
 
@@ -120,6 +129,8 @@ import cert2   from '@/assets/img/cert-2.png'
 .stage{ width:1390px; margin:0 auto; }
 .head{ text-align:center; margin-bottom:70px; }
 .title{ margin:0; font-family:Inter,sans-serif; font-weight:500; font-size:55px; line-height:0.95; letter-spacing:-0.05em; color:#2C2C2C; }
+.titleDesk{ display:block; }
+.titleMob{ display:none; }
 .hl{ display:inline-block; background:#FFD249; padding:.08em .3em; border-radius:10px; transform:rotate(1.3deg); }
 
 .row{ display:flex; gap:20px; }
@@ -188,9 +199,33 @@ import cert2   from '@/assets/img/cert-2.png'
 
 /* мобильные */
 @media (max-width: 600px){
-  .wrap{ padding-top:60px; }
-  .stage{ padding:0 12px; }
+  .wrap{ padding-top:120px; }
   .head{ margin-bottom:28px; }
+   .titleDesk{ display:none; }
+  .titleMob{
+    display:block;
+    font-family:Inter, system-ui, sans-serif;
+    font-weight:500;
+    font-size:33px;
+    line-height:1.10;                         /* 110% */
+    letter-spacing:-0.05em;                   /* -5% */
+    color:#2C2C2C;
+    margin:0;
+  }
+  .hlMob{
+    position:relative; display:inline-block; isolation:isolate;
+  }
+  .hlMob::before{
+    content:"";
+    position:absolute;
+    left:1.68em; right:-.32em;
+    top:50%; transform:translateY(-50%) rotate(1.2deg);
+    height:1.05em; background:#FFD249; border-radius:10px;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
+    z-index:-1;
+    width: 291px;
+  }
+  .head :global(.mline){ display:block; }
   .title{ font-size:28px; line-height:1.08; letter-spacing:-0.03em; }
   .hl{ border-radius:8px; }
 
