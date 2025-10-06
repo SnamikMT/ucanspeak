@@ -1,12 +1,12 @@
 <template>
   <article :class="$style.card">
-    <!-- Кружок 32x32 -->
+    <!-- бейдж с цифрой -->
     <span :class="$style.num"><b>{{ num }}</b></span>
 
-    <!-- Текст строго под кружком и левым краем -->
+    <!-- заголовок: прибит к нижней кромке плашки -->
     <h3 :class="$style.title" v-html="title"></h3>
 
-    <!-- Иллюстрация: размер только из пропсов, позиция от правого/нижнего края -->
+    <!-- иллюстрация -->
     <img
       :class="$style.art"
       :src="img"
@@ -20,7 +20,7 @@
       }"
     />
 
-    <!-- Плашка на третьей карточке -->
+    <!-- доп. плашка (если нужна) -->
     <span
       v-if="pill"
       :class="$style.pill"
@@ -38,10 +38,8 @@ defineProps<{
   title: string
   img: string
   pill?: string
-  /* размеры арта по макету (CSS-пиксели). Можно задать один или оба */
   artWidth?: number
   artHeight?: number
-  /* смещения от правого/нижнего края */
   artRight?: number
   artBottom?: number
   pillRight?: number
@@ -50,55 +48,53 @@ defineProps<{
 </script>
 
 <style module>
-/* ---- Карточка: 450x200 ровно на ПК ---- */
+/* Карточка: строгие отступы слева/сверху/снизу по 30px */
 .card{
+  --pad-l: 30px;
+  --pad-t: 30px;
+  --pad-b: 30px;
+
   position:relative;
-  width:450px; height:200px;            /* ключевое требование */
+  width:450px; height:200px;
   background:#fff;
   border-radius:20px;
-  padding:20px 24px;                    /* контентная зона */
-  overflow:hidden;                      /* аккуратная микро-обрезка арта */
+  padding: var(--pad-t) 24px var(--pad-b) var(--pad-l); /* right оставляем гибким из-за арта */
+  overflow:hidden;
   box-shadow:0 6px 18px rgba(16,24,40,.06);
   isolation:isolate;
 }
 
-/* ---- Бейдж с цифрой: 32x32, #B87EFF ---- */
+/* Бейдж-цифра: отступы по новой сетке (30/30) */
 .num{
-  position:absolute; top:16px; left:16px;
+  position:absolute; top:var(--pad-t); left:var(--pad-l);
   width:32px; height:32px; border-radius:999px;
   display:grid; place-items:center;
-  background:#B87EFF;
-  color:#fff;
+  background:#B87EFF; color:#fff;
   box-shadow:0 4px 10px rgba(184,126,255,.35);
 }
 .num b{
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
-  font-weight:600;                      /* Semi Bold */
-  font-size:14px;
-  line-height:1.3;                      /* 130% */
-  letter-spacing:-0.03em;               /* -3% */
-  font-variant-numeric: tabular-nums;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  font-weight:600; font-size:14px; line-height:1.3; letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
 }
 
-/* ---- Заголовок по Figma ---- */
+/* Заголовок: прибит к НИЗУ плашки с тем же левым отступом 30px */
 .title{
-  position:relative; z-index:1;
-  margin: 56px 0 0;                     /* строго под кружком */
-  max-width: 260px;                      /* чтобы не влезать под иллюстрацию */
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
-  font-weight:500;                       /* Medium */
-  font-size:20px;
-  line-height:1.2;                       /* 120% */
-  letter-spacing:-0.03em;                /* -3% */
+  position:absolute;
+  left:var(--pad-l);
+  bottom:var(--pad-b);
+  margin:0;
+  max-width:260px; /* чтобы не залезать под арт; при желании увеличь */
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  font-weight:500; font-size:20px; line-height:1.2; letter-spacing:-.03em;
   color:#0F172A;
-  text-align:left;                       /* по левому краю */
+  text-align:left;
 }
 
-/* ---- Иллюстрация справа ----
-   НЕТ width/height в CSS — размеры идут только из инлайна (пропсы) */
+/* Иллюстрация — только из пропсов управляем шириной/высотой */
 .art{
   position:absolute;
-  right:0; bottom:0;                     /* базовая привязка */
+  right:0; bottom:0;
   display:block;
   max-width:none !important;
   max-height:none !important;
@@ -106,7 +102,7 @@ defineProps<{
   pointer-events:none; user-select:none;
 }
 
-/* ---- Плашка на 3-й карточке ---- */
+/* Доп. плашка (третья карточка) */
 .pill{
   position:absolute; z-index:2;
   padding:8px 14px;
@@ -114,22 +110,27 @@ defineProps<{
   color:#7C5CFF;
   border:1px solid rgba(124,92,255,.35);
   border-radius:999px;
-  font-size:14px; font-weight:600;
-  letter-spacing:-0.01em;
+  font-size:14px; font-weight:600; letter-spacing:-.01em;
   backdrop-filter: blur(6px);
   white-space:nowrap;
   transform: rotate(-8deg);
   box-shadow:0 6px 14px rgba(124,92,255,.22);
 }
 
-/* ---- Адаптив ---- */
-@media (max-width: 1024px){
+/* Адаптив */
+@media (max-width:1024px){
   .card{ width:100%; height:180px; }
   .title{ max-width:60%; font-size:18px; }
 }
 @media (max-width:560px){
-  .card{ height:168px; padding:18px 16px; }
-  .num{ top:12px; left:12px; }
-  .title{ margin-top:48px; font-size:16px; }
+  .card{
+    --pad-l: 24px;
+    --pad-t: 24px;
+    --pad-b: 24px;
+    height:168px;
+    padding-right:16px; /* правый чуть меньше, чтобы арту было проще жить */
+  }
+  .num{ width:30px; height:30px; }
+  .title{ font-size:16px; }
 }
 </style>

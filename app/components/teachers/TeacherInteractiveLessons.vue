@@ -188,7 +188,7 @@ const feats: Feat[] = [
   margin:0 0 6px;
 }
 .label{
-  font:600 20px/1.2 Inter, system-ui, sans-serif;
+  font:500 20px/1.2 Inter, system-ui, sans-serif;
   letter-spacing:-.03em;
   color:#2C2C2C;
   margin:0 0 12px;

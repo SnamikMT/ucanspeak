@@ -22,10 +22,12 @@
             :class="$style.item"
             @click="toggle(i)"
             :aria-expanded="openIndex === i"
+            :aria-controls="`faq-panel-${i}`"
+            :id="`faq-button-${i}`"
           >
             <span :class="$style.text">{{ item.q }}</span>
 
-            <!-- Плюс: всегда две палочки; при открытии вращаем весь значок -->
+            <!-- Плюс -->
             <span :class="$style.plus" :data-open="openIndex === i" aria-hidden="true">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <rect x="6" y="1" width="2" height="12" rx="1" fill="white"/>
@@ -34,9 +36,25 @@
             </span>
           </button>
 
-          <transition name="faq">
-            <div v-if="openIndex === i" :class="$style.answer">
-              {{ item.a }}
+          <!-- Плавное раскрытие: анимируем высоту answerOuter; внутри контент с паддингами -->
+          <transition
+            name="faq"
+            @enter="onEnter"
+            @after-enter="onAfterEnter"
+            @leave="onLeave"
+            @before-leave="onBeforeLeave"
+          >
+            <div
+              v-show="openIndex === i"
+              :id="`faq-panel-${i}`"
+              role="region"
+              :aria-labelledby="`faq-button-${i}`"
+              :class="$style.answerOuter"
+              ref="answerRefs"
+            >
+              <div :class="$style.answerInner">
+                {{ item.a }}
+              </div>
             </div>
           </transition>
         </div>
@@ -62,20 +80,85 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, nextTick, onMounted } from 'vue'
 
 const openIndex = ref<number|null>(null)
 
 const faqs = [
-  { q: 'Как быстро я смогу освоить платформу обучения английскому?', a: 'У нас есть бесплатный пробный период, чтобы вы могли понять подходит ли вам обучение.' },
-  { q: 'Можно ли работать с интерактивной платформой офлайн?', a: 'В платформе вы получаете системный подход, гибкий график и доступ к интерактивным материалам.' },
-  { q: 'Что делать, если у ученика по английскому технические проблемы?', a: 'Мы рекомендуем 3-4 раза в неделю по 20-30 минут для стабильного прогресса.' },
-  { q: 'Как быть, если ученик потерял доступ к аккаунту?', a: 'Можно начинать с нуля — есть базовые курсы и поддержка.' },
-  { q: 'Как вести учет посещаемости уроков по английскому языку?', a: 'Да, у нас есть адаптированные материалы для детей и простая структура уроков.' }
+  { q: 'Не уверен, что мне подойдёт платформа. Как быть?', a: 'У нас есть бесплатный пробный период, чтобы вы могли понять, подходит ли вам обучение.' },
+  { q: 'UCANSPEAK лучше репетитора?', a: 'На платформе вы получаете системный подход, гибкий график и доступ к интерактивным материалам.' },
+  { q: 'Как часто нужно заниматься?', a: 'Рекомендуем 3–4 раза в неделю по 20–30 минут для стабильного прогресса.' },
+  { q: 'Какой минимальный уровень нужен для старта?', a: 'Можно начинать с нуля — есть базовые курсы и поддержка.' },
+  { q: 'Справится ли ребёнок с обучением английскому на платформе самостоятельно?', a: 'Да, есть адаптированные материалы для детей и простая структура уроков.' }
 ]
+
+// refs для панелей (v-show не размонтирует, так что хранить безопасно)
+const answerRefs = ref<HTMLDivElement[] | null>(null)
 
 function toggle(i: number) {
   openIndex.value = openIndex.value === i ? null : i
+}
+
+/* ===== Плавные хуки для height ===== */
+const EASING = 'cubic-bezier(.22,.61,.36,1)' // мягкая кривая
+
+function setTransition(el: HTMLElement) {
+  el.style.transition = `height .28s ${EASING}, opacity .28s ${EASING}, transform .28s ${EASING}`
+  el.style.willChange = 'height, opacity, transform'
+}
+
+function clearTransition(el: HTMLElement) {
+  el.style.transition = ''
+  el.style.willChange = ''
+}
+
+function onEnter(el: Element) {
+  const elh = el as HTMLElement
+  setTransition(elh)
+  // стартовые значения
+  elh.style.height = '0px'
+  elh.style.opacity = '0'
+  elh.style.transform = 'translateY(-4px)'
+  // след. кадр — до целевой высоты
+  requestAnimationFrame(() => {
+    const h = elh.scrollHeight
+    elh.style.height = h + 'px'
+    elh.style.opacity = '1'
+    elh.style.transform = 'translateY(0)'
+  })
+}
+
+function onAfterEnter(el: Element) {
+  const elh = el as HTMLElement
+  // фиксируем авто-высоту после анимации
+  elh.style.height = 'auto'
+  elh.style.opacity = '1'
+  elh.style.transform = 'translateY(0)'
+  clearTransition(elh)
+}
+
+function onBeforeLeave(el: Element) {
+  const elh = el as HTMLElement
+  // из auto → фиксированная высота, чтобы был плавный схлоп
+  elh.style.height = elh.scrollHeight + 'px'
+  elh.style.opacity = '1'
+  elh.style.transform = 'translateY(0)'
+  // синхронный reflow, затем включаем transition
+  // и сразу ставим целевые значения
+  requestAnimationFrame(() => {
+    setTransition(elh)
+    elh.style.height = '0px'
+    elh.style.opacity = '0'
+    elh.style.transform = 'translateY(-4px)'
+  })
+}
+
+function onLeave(el: Element) {
+  const elh = el as HTMLElement
+  // по завершении схлопа чистим стили (на всякий)
+  elh.addEventListener('transitionend', () => {
+    clearTransition(elh)
+  }, { once: true })
 }
 </script>
 
@@ -135,14 +218,14 @@ function toggle(i: number) {
 .text{
   flex:1 1 auto; min-width:0;
   font-family:Inter,sans-serif;
-  font-weight:500;            /* Medium */
+  font-weight:500;
   font-size:20px;
-  line-height:1.2;            /* 120% */
-  letter-spacing:-0.03em;     /* -3% */
+  line-height:1.2;
+  letter-spacing:-0.03em;
   color:#111827;
 }
 
-/* Иконка плюс */
+/* Плюс */
 .plus{
   flex:0 0 32px;
   width:32px; height:32px;
@@ -153,19 +236,27 @@ function toggle(i: number) {
 }
 .plus[data-open="true"]{
   background:#9A5DDB;
-  transform: rotate(45deg);   /* превращаем плюс в закрывашку (×) */
+  transform: rotate(45deg);
 }
 
-/* ответ */
-.answer{
-  padding:16px 20px; background:#fff; border-radius:16px;
+/* ===== Ответ: плавная высота без дёрганий ===== */
+.answerOuter{
+  overflow:hidden;
+  height:0;                 /* стартовое */
+  opacity:0;
+  transform:translateY(-4px);
+  will-change:height, opacity, transform;
+}
+.answerInner{
+  padding:16px 20px;
+  background:#fff;
+  border-radius:16px;
   box-shadow:0 4px 12px rgba(0,0,0,.06);
   font-family:Inter,sans-serif; font-size:16px; line-height:1.4; color:#374151;
 }
 
-/* анимация */
-.faq-enter-active, .faq-leave-active{ transition: all .25s ease; }
-.faq-enter-from, .faq-leave-to{ opacity:0; transform:translateY(-6px); }
+/* transition-класс на всякий, но основное — в хуках */
+.faq-enter-active, .faq-leave-active{}
 
 /* CTA */
 .cta{
@@ -194,7 +285,6 @@ function toggle(i: number) {
     font-size:33px; line-height:1.02; letter-spacing:-0.04em;
   }
 
-  /* Хайлайт только на мобилке */
   .hl{
     display:inline-block;
     background:#FFD249;
@@ -207,7 +297,8 @@ function toggle(i: number) {
   .text{ font-size:18px; line-height:1.25; }
   .item{ min-height:76px; padding:0 14px 0 16px; border-radius:16px; }
   .plus{ width:30px; height:30px; flex:0 0 30px; }
-  .answer{ font-size:16px; line-height:1.35; }
+
+  .answerInner{ font-size:16px; line-height:1.35; }
   .cta{ min-height:84px; }
   .ctaText{ font-size:18px; }
 }

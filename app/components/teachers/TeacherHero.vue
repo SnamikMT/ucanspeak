@@ -10,7 +10,8 @@
           <span :class="$style.line">Интерактивная платформа</span>
           <span :class="$style.line">разговорной практики английского</span>
           <span :class="$style.line">
-            языка<span :class="$style.highlight">для учителей и языковых школ</span>
+            языка
+            <span :class="$style.highlight">для учителей и языковых школ</span>
           </span>
         </h1>
 
@@ -23,7 +24,7 @@
       <div :class="$style.mediaBox">
         <img :class="$style.mediaImg" src="/hero-girl.jpg" alt="Ucanspeak" />
         <button type="button" :class="$style.playBtn" aria-label="Смотреть демо">
-          <svg width="13" height="16" viewBox="0 0 13 16" fill="none" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 13 16" fill="none" aria-hidden="true">
             <path d="M1 1v14l11-7L1 1z" fill="#fff"/>
           </svg>
         </button>
@@ -36,9 +37,15 @@
       </a>
 
       <!-- Бэйджи -->
-      <aside :class="$style.badge1">Интерактивные уроки <br/>по английской грамматике <br/>для взрослых и детей</aside>
-      <aside :class="$style.badge2">Видео и аудио материалы, <br/>озвученные носителями языка</aside>
-      <aside :class="$style.badge3">Аудиотренажер с тестами</aside>
+      <aside :class="$style.badge1">
+        Интерактивные уроки <br/>по английской грамматике <br/>для взрослых и детей
+      </aside>
+      <aside :class="$style.badge2">
+        Видео и аудио материалы, <br/>озвученные носителями языка
+      </aside>
+      <aside :class="$style.badge3">
+        Аудиотренажер с тестами
+      </aside>
 
       <!-- Фоны -->
       <img :class="$style.bgDesk" :src="waveDesk" alt="" aria-hidden="true" />
@@ -80,42 +87,55 @@ import waveMob  from '@/assets/img/teachers/teachers-hero-wave-mobile.svg'
   display:flex; flex-direction:column; z-index:2;
 }
 
-/* === ТИПОГРАФИКА ПО ФИГМЕ === */
+/* === ТИПОГРАФИКА === */
 .title{
   margin:10px 0 18px;
   font-family: Inter, sans-serif;
-  font-weight:500;                 /* Medium */
+  font-weight:500;
   font-size:50px;
-  line-height:.95;                 /* 95% */
-  letter-spacing:-0.06em;          /* -6% */
+  line-height:.95;
+  letter-spacing:-0.06em;
   color:#2C2C2C;
 }
 .line{ display:block; }
+
+/* ЖЁЛТАЯ ПЛАШКА: поворот -1.5° */
 .highlight{
   display:inline-block;
-  background:#FFD551;              /* плашка */
+  background:#FFD551;
   padding:.05em .35em;
   border-radius:10px;
-  transform: rotate(1deg);
+  transform: rotate(1.5deg); 
 }
 
 .lead{
   margin:0 0 24px;
   font-family: Inter, sans-serif;
-  font-weight:500;                 /* Medium */
+  font-weight:500;
   font-size:18px;
-  line-height:1.3;                 /* 130% */
-  letter-spacing:-0.03em;          /* -3% */
+  line-height:1.3;
+  letter-spacing:-0.03em;
   color:#2C2C2C;
   max-width:594px;
 }
 
-/* Бэйджи */
+/* ===== Бэйджи ===== */
+/* База: делаем flex-центр для полного центрирования текста */
 .badgeBase{
-  position:absolute; background:#EAEEF7; border-radius:10px; padding:16px 20px;
-  font:500 16px/1.3 Inter,sans-serif; letter-spacing:-.03em;
-  box-shadow:0 10px 24px rgba(17,24,39,.10); z-index:3;
+  position:absolute;
+  background:#EAEEF7;
+  border-radius:10px;
+  padding:16px 20px;
+  font:500 16px/1.25 Inter,sans-serif;  /* чуть ровнее вертикальный ритм */
+  letter-spacing:-.03em;
+  box-shadow:0 10px 24px rgba(17,24,39,.10);
+  z-index:3;
+
+  display:flex; align-items:center; justify-content:center; /* ← центрирование */
+  text-align:center;                                         /* ← по центру строки */
 }
+
+/* Десктопные размеры/позиции сохраняем */
 .badge1{ composes: badgeBase; width:260px; height:103px; transform:rotate(5deg);  top:439px; left:50px; }
 .badge2{ composes: badgeBase; width:283px; height:82px;  transform:rotate(-5deg); top:453px; left:375px; }
 .badge3{ composes: badgeBase; width:239px; height:61px;  transform:rotate(5deg);  top:430px; left:695px; }
@@ -148,14 +168,11 @@ import waveMob  from '@/assets/img/teachers/teachers-hero-wave-mobile.svg'
 .bgDesk{ position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; z-index:1; display:block; pointer-events:none; }
 .bgMob{ display:none; pointer-events:none; }
 
-/* Адаптив (сохранил как было) */
+/* ===== Адаптив ===== */
 @media (max-width:1390px){
   .panel{ margin:0 15px; }
 }
-@media (max-width:768px){
-  .nav, .primary{ display:none; }
-  .menuBtn{ display:flex; }
-}
+
 @media (max-width:640px){
   .panel{ height:824px; min-height:824px; }
   .left{ padding-left:25px; padding-right:25px; }
@@ -166,7 +183,8 @@ import waveMob  from '@/assets/img/teachers/teachers-hero-wave-mobile.svg'
     letter-spacing:-.05em;
     margin-bottom:12px;
   }
-  .highlight{ border-radius:6px; }
+  /* На мобилке тоже –1.5° и слегка скругляем */
+  .highlight{ border-radius:6px; transform: rotate(-1.5deg); }
 
   .lead{
     font-size:14px;
@@ -189,19 +207,20 @@ import waveMob  from '@/assets/img/teachers/teachers-hero-wave-mobile.svg'
     box-shadow:0 8px 18px rgba(184,126,255,.35);
   }
 
+  /* Мобильные бейджи: тоже центрирование + компактные размеры */
+  .badgeBase{
+    padding:14px 14px;
+    font:500 14px/1.25 Inter,sans-serif;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+  }
+  .badge1{ composes: badgeBase; width:250px; height:78px;  transform:rotate(5deg);  top:464px; left:12px; z-index:2; }
+  .badge2{ composes: badgeBase; width:238px; height:60px;  transform:rotate(-5deg); top:570px; left:12px; z-index:2; }
+  .badge3{ composes: badgeBase; width:207px; height:42px;  transform:rotate(5deg);  top:650px; left:168px; }
+
   .cta{
     position:absolute; left:25px; right:25px; bottom:25px;
     width:auto; height:56px; margin:0;
   }
   .cta i{ width:36px; height:36px; }
-
-  .badgeBase{
-  position:absolute; background:#EAEEF7; border-radius:10px; padding:14px 14px;
-  font:500 14px/1.3 Inter,sans-serif; letter-spacing:-.03em;
-  box-shadow:0 10px 24px rgba(17,24,39,.10); z-index:3;
-}
-.badge1{ composes: badgeBase; width:250px; height:78px;  transform:rotate(5deg);  top:464px; left:12px; z-index: 2; }
-.badge2{ composes: badgeBase; width:238px; height:60px;  transform:rotate(-5deg); top:570px; left:12px; z-index: 2; }
-.badge3{ composes: badgeBase; width:207px; height:42px;  transform:rotate(5deg);  top:650px; left:168px; }
 }
 </style>

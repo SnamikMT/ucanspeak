@@ -21,7 +21,7 @@
 
         <!-- Desktop note -->
         <p :class="[$style.note, $style.noteDesk]">
-          *Задания можно использовать для подготовки к устной части ЕГЭ и ОГЭ по английскому языку
+          *Задания можно использовать для подготовки<br></br> к устной части ЕГЭ и ОГЭ по английскому языку
         </p>
 
         <!-- Mobile note (3 строки) -->
@@ -138,8 +138,8 @@
 </template>
 
 <script setup lang="ts">
-import imgPhone2x     from '@/assets/img/extras-phone.png'
-import imgTranslate2x from '@/assets/img/extras-translate.png'
+import imgPhone2x     from '@/assets/img/teachers/teacher-extras-phone.png'
+import imgTranslate2x from '@/assets/img/teachers/teacher-extras-translate.png'
 import imgTables2x    from '@/assets/img/extras-tables.png'
 
 import icoMonolog from '@/assets/img/extras-ico-monolog.svg'
@@ -151,9 +151,9 @@ import icoAnswer  from '@/assets/img/extras-ico-answer.svg'
 import icoTalks   from '@/assets/img/extras-ico-talks.svg'
 
 const imgSize = {
-  phone:     { w: 115, h: 142 },
-  translate: { w: 178, h: 142 },
-  tables:    { w: 128, h: 153 },
+  phone:     { w: 169, h: 177 },
+  translate: { w: 224, h: 204 },
+  tables:    { w: 159, h: 211 },
 }
 </script>
 
@@ -218,12 +218,27 @@ const imgSize = {
 }
 
 /* Desktop badges */
-.leftBadges, .rightBadges{ position:absolute; top:0; width:360px; pointer-events:none; }
-.leftBadges{ left:0; }
-.rightBadges{ right:0; text-align:right; }
+.leftBadges, .rightBadges{ position: absolute;
+    top: -88px;
+    width: 360px;
+    pointer-events: none; }
+.leftBadges{ left:0;     
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;}
+.rightBadges{ right:0; display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 70px;}
 .badge{
-  display:inline-flex; align-items:center; gap:8px; height:44px; padding:0 14px; border-radius:14px;
-  margin:10px 12px; box-shadow:0 6px 18px rgba(16,24,40,.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 44px;
+  padding: 0 13px;
+  border-radius: 10px;
+  margin: 20px 50px 20px 0px;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, .12);
 }
 .badgeIcon{ width:20px; height:20px; display:block; }
 .badgeText{ color:#1F2937; font:600 14px/1 Inter, system-ui, sans-serif; letter-spacing:-.02em; }
@@ -266,7 +281,7 @@ const imgSize = {
   margin-top:60px; display:grid; grid-template-columns: repeat(3, 1fr); column-gap:39px;
 }
 .card{
-  position:relative; background:#FFF; border:2px solid #E6ECF6; border-radius:20px; height:210px; overflow:hidden;
+  position:relative; background:#F7F9FE; border:2px solid #EAEEF7; border-radius:20px; height:210px; overflow:hidden;
 }
 .plus{
   position:absolute; left:30px; top:30px; width:28px; height:28px; border-radius:999px;

@@ -29,7 +29,7 @@
         </h2>
 
         <NuxtLink to="/signup-teacher" :class="$style.cta">
-          <span>Бесплатный демоурок без регистрации</span>
+          <span>Бесплатный демодоступ на 14 дней</span>
           <i aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path d="M7 17L17 7M17 7H9M17 7V15"

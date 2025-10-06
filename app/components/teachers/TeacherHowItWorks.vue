@@ -2,12 +2,11 @@
 <template>
   <section :class="$style.wrap">
     <div :class="$style.inner">
-      <!-- Заголовок + лид (если нужно — оставляй) -->
+      <!-- Заголовок -->
       <header :class="$style.head">
         <h2 :class="$style.title">
           <span :class="$style.twrap">
-            <span>UCANSPEAK&nbsp;–</span><br />
-            <span>незаменимый&nbsp;помощник</span><br />
+            <span>UCANSPEAK&nbsp;– незаменимый&nbsp;помощник</span><br />
             <span :class="$style.hl">в&nbsp;обучении&nbsp;говорению</span>
           </span>
         </h2>
@@ -16,15 +15,14 @@
         </p>
       </header>
 
-      <!-- Обёртка сетки, чтобы стикер висел над всем блоком, а не над карточкой -->
+      <!-- Сетка карточек -->
       <div :class="$style.gridWrap">
-        <!-- Стикер It works! (НЕ привязан ни к одной карточке) -->
+        <!-- Стикер -->
         <div :class="$style.note" aria-hidden="true">
           <span :class="$style.txt">It works!</span>
           <img :src="pin" :class="$style.pin" alt="" />
         </div>
 
-        <!-- Сетка карточек -->
         <div :class="$style.grid">
           <TeacherStepCard num="01">
             Эффективная методика многократного повторения аудиошаблонов
@@ -61,125 +59,171 @@ import pin from '@/assets/img/pin2.svg'
 </script>
 
 <style module>
-/* Секция */
-.wrap{ background:#E9EFF7; padding-top:140px; }
-.inner{ max-width:1390px; margin:0 auto; }
+/* ===== Секция ===== */
+.wrap {
+  background:#E9EFF7;
+  padding-top:140px;
+}
+.inner {
+  max-width:1390px;
+  margin:0 auto;
+}
 
-/* Заголовок */
-.head{ text-align:center; margin-bottom:90px; } /* 90 вместо 115 */
-.title{
-  position:relative;            /* ← локальный стек */
+/* ===== Заголовок ===== */
+.head {
+  text-align:center;
+  margin-bottom:90px;
+}
+.title {
+  position:relative;
   z-index:1;
   margin:0 0 30px;
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  font-weight:500; font-size:55px; line-height:.95; letter-spacing:-.05em; color:#2C2C2C;
+  font-weight:500;
+  font-size:55px;
+  line-height:.95;
+  letter-spacing:-.05em;
+  color:#2C2C2C;
 }
-/* добавь это правило (его не было) */
-.twrap{
-  position:relative;            /* ← именно эта обёртка держит текст выше подложки */
+.twrap {
+  position:relative;
   z-index:3;
 }
-.hl{
-  position:relative; display:inline-block;
+.hl {
+  position:relative;
+  display:inline-block;
+  isolation:isolate;
 }
-/* жёлтая подложка под третьей строкой — под всем текстом */
-.hl::before{
+.hl::before {
   content:"";
   position:absolute;
-  left:-.38em; right:-.38em;
-  top:50%; transform:translateY(-50%) rotate(1.2deg);
+  left:-.38em;
+  right:-.38em;
+  top:50%;
+  transform:translateY(-50%) rotate(1.5deg); /* теперь наклон вправо! */
   height:1.05em;
   background:#FFD249;
   border-radius:10px;
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
-  z-index:-1;                   /* ← теперь видно */
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.06);
+  z-index:-1;
 }
-.lead{
-  margin:0 auto; max-width:620px;
+.lead {
+  margin:0 auto;
+  max-width:620px;
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  font-weight:500; font-size:18px; line-height:1.3; letter-spacing:-.03em; color:#2C2C2C;
+  font-weight:500;
+  font-size:18px;
+  line-height:1.3;
+  letter-spacing:-.03em;
+  color:#2C2C2C;
 }
 
-/* Обёртка сетки — якорь для стикера */
-.gridWrap{
+/* ===== Сетка стикера и карточек ===== */
+.gridWrap {
   position:relative;
   max-width:1390px;
   margin:0 auto;
 }
 
-/* Стикер — центрируем над блоком, не привязан к карточкам */
-.note{
-  position:absolute; left:50%; top:-34px;             /* немного выступает над блоком */
+/* Стикер */
+.note {
+  position:absolute;
+  left:50%;
+  top:-34px;
   transform:translateX(-50%) rotate(5.26deg);
-  width:288px; height:80px;
-  background:#fff; border-radius:12px;
-  display:flex; align-items:center; padding-left:33px;
+  width:288px;
+  height:80px;
+  background:#fff;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  padding-left:33px;
   box-shadow:3px 4px 9px rgba(0,0,0,.25);
-  z-index:5; pointer-events:none;
+  z-index:5;
+  pointer-events:none;
 }
-.txt{
+.txt {
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  font-weight:500; font-size:40px; line-height:1.15; letter-spacing:-0.05em; color:#111827;
+  font-weight:500;
+  font-size:40px;
+  line-height:1.15;
+  letter-spacing:-0.05em;
+  color:#111827;
   white-space:nowrap;
 }
-.pin{
-  position:absolute; right:-15px; top:-45px;
-  width:126px; height:126px;
+.pin {
+  position:absolute;
+  right:-15px;
+  top:-45px;
+  width:126px;
+  height:126px;
   transform:rotate(-9deg);
   filter:drop-shadow(0 6px 12px rgba(0,0,0,.18));
   pointer-events:none;
 }
 
-/* Сетка карточек на ПК: три колонки по 390, между — 24 */
-.grid{
+/* ===== Сетка карточек ===== */
+.grid {
   display:grid;
-  grid-template-columns: repeat(3, 450px);
-  grid-auto-rows: 200px;               /* высота на ПК */
+  grid-template-columns:repeat(3,450px);
+  grid-auto-rows:200px;
   gap:20px;
   justify-content:space-between;
 }
 
-/* ===== Адаптив ===== */
-@media (max-width:1390px){
-  .inner{ margin:0 15px; }
-  .gridWrap{ margin:0 15px; }
+/* ===== ТЕКСТ В ПЛАШКАХ ===== */
+.grid :deep(p),
+.grid :deep(.text),
+.grid :deep(.desc),
+.grid :deep(.body),
+.grid :deep(.content) {
+  font-size:20px !important;
+  line-height:1.3;
+  letter-spacing:-.02em;
+  color:#2C2C2C;
 }
-@media (max-width:1200px){
-  /* На планшете: две колонки по 390, центрируем; одинаковые отступы */
-  .grid{
-    grid-template-columns: repeat(2, 390px);
+
+/* ===== Адаптив ===== */
+@media (max-width:1390px) {
+  .inner { margin:0 15px; }
+  .gridWrap { margin:0 15px; }
+}
+
+@media (max-width:1200px) {
+  .grid {
+    grid-template-columns:repeat(2,390px);
     justify-content:center;
     gap:24px;
   }
 }
-@media (max-width:820px){
-  /* На узких планшетах/широких мобилках можно оставить 1 колонку по 390 */
-  .grid{
-    grid-template-columns: 390px;
+
+@media (max-width:820px) {
+  .grid {
+    grid-template-columns:390px;
     justify-content:center;
     gap:16px;
   }
 }
-@media (max-width:640px){
-  .wrap{ padding-top:120px; }
-  .title{ font-size:33px; line-height:1.02; letter-spacing:-0.04em; }
-  .head{ margin-bottom:64px; }
 
-  /* Мобилка: одна колонка, карточки 390×158, между — 16 */
-  .grid{
-    grid-template-columns: 390px;
-    grid-auto-rows: 158px;   /* фикс высота на мобилке */
+@media (max-width:640px) {
+  .wrap { padding-top:120px; }
+  .title { font-size:33px; line-height:1.02; letter-spacing:-0.04em; }
+  .head { margin-bottom:64px; }
+
+  .grid {
+    grid-template-columns:390px;
+    grid-auto-rows:158px;
     justify-content:center;
     gap:16px;
   }
 
-  /* Стикер компактнее, но всё ещё над блоком */
-  .note{
+  .note {
     top:-24px;
-    width:245px; height:72px;
+    width:245px;
+    height:72px;
     padding-left:18px;
   }
-  .txt{ font-size:28px; }
-  .pin{ width:44px; height:44px; right:-10px; top:-14px; }
+  .txt { font-size:28px; }
+  .pin { width:44px; height:44px; right:-10px; top:-14px; }
 }
 </style>

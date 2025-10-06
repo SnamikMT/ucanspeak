@@ -31,7 +31,7 @@
             <div :class="$style.sticky">
               <span :class="$style.stickyText">
                 <span :class="$style.tv">
-                  Смотрите <b>видео</b>
+                  Смотрите видео
                   <img :src="underlineVideo" :class="$style.underTv" alt="" aria-hidden="true" />
                 </span>, как<br>заниматься на аудиотренажере
               </span>
@@ -44,7 +44,7 @@
             <article :class="$style.info">
               <h3>Это удобно</h3>
               <p>
-                Говорите по-английски, занимаясь спортом, за рулём автомобиля
+                Говорите по-английски, занимаясь спортом, за рулем автомобиля
                 или прогуливаясь в парке.
               </p>
             </article>
@@ -52,7 +52,7 @@
               <h3>Это эффективно</h3>
               <p>
                 Просто повторяйте фразы за диктором — и сами не заметите,
-                как легко начнёте понимать английскую речь и уверенно говорить.
+                как легко начнете понимать английскую речь и уверенно говорить.
               </p>
             </article>
           </div>
@@ -195,6 +195,7 @@ import iconTime       from '@/assets/img/feature-time.svg'
 .underTv{
   position:absolute; left:0; right:0; bottom:-10px;
   pointer-events:none; z-index:-1;
+  transform: rotate(-3deg);
 }
 
 /* Пин */
@@ -221,24 +222,56 @@ import iconTime       from '@/assets/img/feature-time.svg'
 }
 .cta i img{ width:22px; height:16px; display:block; }
 
-/* Нижние 3 карточки */
-.features{
-  margin-top:20px;
-  display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;
-}
-.feature{
-  background:#fff; border-radius:12px; box-shadow:0 10px 26px rgba(16,24,40,.06);
-  padding:30px; color:#2C2C2C; display:flex; flex-direction:column; gap:12px; align-items:flex-start;
-  height:215px;
-}
-.ficon{ display:block; width:auto; height:auto; }
-.feature h4{
-  margin:0; font-family:Inter, sans-serif; font-weight:600; font-size:18px; line-height:1.3; letter-spacing:-0.03em;
-}
-.feature p{
-  margin:0; font-family:Inter, sans-serif; font-weight:500; font-size:16px; line-height:1.3; letter-spacing:-0.03em;
+/* ===== НИЖНИЕ 3 КАРТОЧКИ ===== */
+/* ===== НИЖНИЕ 3 КАРТОЧКИ ===== */
+.features {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
+/* Десктоп */
+.feature {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 26px rgba(16, 24, 40, 0.06);
+  color: #2C2C2C;
+
+  /* Отступы для иконки и текста */
+  padding: 30px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* <- текст прижат вниз */
+  height: 215px;
+}
+
+.ficon {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: auto;
+  height: auto;
+}
+
+.feature h4 {
+  margin: 0 0 8px;
+  font-family: Inter, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+}
+
+.feature p {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+}
 /* ===== Адаптив ===== */
 
 /* Схлопываем сетку пораньше, чтобы не было горизонтального скролла */
@@ -314,16 +347,32 @@ import iconTime       from '@/assets/img/feature-time.svg'
     height:46px; border-radius:12px;
   }
 
-  /* Нижние карточки в столбик, ширина 390 */
-  .features{
-    grid-template-columns:1fr;
-    gap:12px;
-    margin-top:16px;
+  .features {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 16px;
   }
-  .feature{
-    border-radius:14px;
-    padding:18px;
-    height:auto;
+
+  .feature {
+    border-radius: 14px;
+    padding: 30px 18px 30px 30px;
+    height: auto;
+    min-height: 180px;
   }
+
+  .ficon {
+    top: 30px;
+    left: 30px;
+    width: 38px;
+    height: auto;
+  }
+
+  .feature h4 {
+    font-size: 16px;
+  }
+
+  .feature p {
+    font-size: 14px;
+  } 
 }
 </style>

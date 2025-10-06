@@ -44,7 +44,7 @@ defineProps<{ num: string }>()
   color: #2C2C2C;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.2;       /* по ТЗ 120% */
   letter-spacing: -0.03em;
 

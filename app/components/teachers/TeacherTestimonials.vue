@@ -3,11 +3,17 @@
     <div class="container">
       <!-- Заголовок -->
       <header :class="$style.head">
-        <h2 :class="$style.title">
-        <span class="t1">
-            <span :class="$style.hl">Преподаватели английского</span>
-          </span>
-          <span class="t2">о своей работе на UCANSPEAK</span><br />
+        <!-- Desktop: 2 строки -->
+        <h2 :class="[$style.title, $style.titleDesk]" aria-label="Преподаватели английского о своей работе на UCANSPEAK">
+          <span class="l1"><span :class="$style.hl">Преподаватели&nbsp;английского</span></span><br />
+          <span class="l2">о своей работе на UCANSPEAK</span>
+        </h2>
+
+        <!-- Mobile: 3 строки (плашка только на «Преподаватели») -->
+        <h2 :class="[$style.title, $style.titleMob]" aria-label="Преподаватели английского о своей работе на UCANSPEAK">
+          <span class="m1"><span :class="$style.hl">Преподаватели</span></span>
+          <span class="m2">английского&nbsp;о&nbsp;своей</span><br />
+          <span class="m3">работе&nbsp;на&nbsp;UCANSPEAK</span>
         </h2>
 
         <!-- Навигация (мобилка) -->
@@ -126,7 +132,24 @@ const next = () => { active.value = (active.value + 1) % items.length }
   letter-spacing:-0.05em;
   color:#101012;
 }
-.hl{ display:inline-block; background:#FFD249; border-radius:12px; padding:.06em .28em; }
+
+/* Desktop title: 2 строки строго */
+.titleDesk{ display:block; }
+.titleDesk .l1,
+.titleDesk .l2{ display:block; }
+.titleDesk .l1{ white-space:nowrap; } /* вся первая строка в одну линию */
+
+/* Mobile title выключен по умолчанию */
+.titleMob{ display:none; }
+
+/* Жёлтая плашка: наклон строго -1.5° */
+.hl{
+  display:inline-block;
+  background:#FFD249;
+  border-radius:12px;
+  padding:.06em .28em;
+  transform:rotate(1.15deg);
+}
 
 /* Навигация (скрыта на ПК) */
 .nav{ display:none; }
@@ -191,28 +214,38 @@ const next = () => { active.value = (active.value + 1) % items.length }
   .card{ width:100%; }
 }
 
-/* Мобилка — карусель */
+/* Мобилка — карусель + заголовок в 3 строки */
 @media (max-width: 640px){
   .wrap{ padding:120px 15px 0; }
 
-  .title{
-    font-size:33px; line-height:1.02; letter-spacing:-0.04em;
+  /* Переключаем версии заголовка */
+  .titleDesk{ display:none; }
+  .titleMob{
+    display:block;
+    font-size:33px;
+    line-height:1.02;
+    letter-spacing:-0.04em;
   }
+  .titleMob .m1,
+  .titleMob .m2,
+  .titleMob .m3{ display:block; }
+  .titleMob .m1{ white-space:nowrap; } /* «Преподаватели» в одну строку */
+  .hl{ border-radius:8px; }            /* компактнее плашка на мобилке */
+
   .head{ margin-bottom:41px; }
-  .hl{ border-radius:8px; }
 
   .nav{
     margin:16px auto 0;
     display:flex; align-items:center; justify-content:center; gap:5px;
   }
   .prev{
-    width:34px; height:34px; border-radius:5px;   /* скругление 5px */
+    width:34px; height:34px; border-radius:5px;
     background:#fff; border:0; box-shadow:0 6px 16px rgba(16,24,40,.08);
     display:grid; place-items:center; cursor:pointer;
   }
   .next{
     display:inline-flex; align-items:center; gap:8px;
-    height:34px; padding:0 12px; border-radius:5px; /* скругление 5px */
+    height:34px; padding:0 12px; border-radius:5px;
     background:#fff; border:0; box-shadow:0 6px 16px rgba(16,24,40,.08);
     cursor:pointer;
     font-family:Inter, sans-serif; font-weight:500; font-size:14px;

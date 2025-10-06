@@ -4,13 +4,12 @@
       <!-- Левый текст -->
       <div :class="$style.text">
         <h2 :class="$style.title" aria-label="Английский — это не велосипед">
-          Английский —
-          <br />
+          Английский —<br />
           это <span :class="$style.hl">не велосипед</span>
         </h2>
 
         <p :class="$style.lead">
-          Получив однажды знания и навыки по иностранному языку, можно всё
+          Получив однажды знания и навыки по иностранному языку, можно все
           забыть и разучиться говорить, если не практиковаться.
         </p>
       </div>
@@ -18,7 +17,10 @@
       <!-- Бирка -->
       <aside :class="$style.note" aria-label="Карточка заметки Ucanspeak">
         <span :class="$style.pinDot" aria-hidden="true"></span>
-        <strong :class="$style.noteLogo">ucanspeak</strong>
+
+        <!-- SVG-логотип вместо текста -->
+        <img :src="logo" :class="$style.noteLogo" alt="UCANSPEAK" />
+
         <p :class="$style.noteText">
           UCANSPEAK — это простой и удобный способ поддерживать
           свой английский язык на уровне!
@@ -36,7 +38,8 @@
 
 <script setup lang="ts">
 import bikeWave from '@/assets/img/bike-wave.png'
-import bikeWaveMobile from '@/assets/img/bike-wave-mobile.png' // мобильная версия фона/волны/байка
+import bikeWaveMobile from '@/assets/img/bike-wave-mobile.png'
+import logo from '@/assets/img/logo.svg' // ← SVG логотип
 </script>
 
 <style module>
@@ -97,7 +100,7 @@ import bikeWaveMobile from '@/assets/img/bike-wave-mobile.png' // мобильн
 .note{
   position:absolute;
   top:80px;
-  right:116px;
+  right:105px;
   width:380px;
   height:200px;
   background:#F7F9FE;
@@ -111,19 +114,28 @@ import bikeWaveMobile from '@/assets/img/bike-wave-mobile.png' // мобильн
   flex-direction:column;
   justify-content:flex-end;
 }
+
+/* Логотип (SVG) вместо текста */
 .noteLogo{
   position:absolute; top:20px; left:20px;
-  width:170px; height:30px;
-  display:flex; align-items:center;
-  font-family: Inter, sans-serif;
-  font-weight:700; font-size:20px; letter-spacing:-0.01em; color:#1A44AA;
+  display:block;
+  width:170px;  /* подгоняется под макет */
+  height:30px; /* можно убрать и дать auto по высоте, если нужно */
+  object-fit:contain;
 }
+
+/* Текст с дополнительным правым отступом */
 .noteText{
   margin:0;
   font-family: Inter, sans-serif;
   font-weight:500; font-size:20px; line-height:1.3; letter-spacing:-0.03em; color:#1F2937;
-  padding-left:20px; padding-bottom:20px;
+
+  /* было только left/bottom — добавил right, чтобы не липло к краю */
+  padding-left:20px;
+  padding-right:26px;  /* ← увеличенный отступ справа */
+  padding-bottom:20px;
 }
+
 /* Пин-точка */
 .pinDot{
   position:absolute; top:10px; right:10px;
@@ -149,13 +161,12 @@ import bikeWaveMobile from '@/assets/img/bike-wave-mobile.png' // мобильн
 
 /* Мобильный */
 @media (max-width: 640px){
-  .wrap{ padding:120px 15px 0; margin-top: 0;}
+  .wrap{ padding:120px 15px 0; margin-top: 0; }
 
   .inner{
-    /* карточка 690 высотой по ТЗ */
     height:690px;
     max-width:390px;
-    padding:24px 16px;          /* без лишнего нижнего паддинга — фон по центру */
+    padding:24px 16px;
     border-radius:20px;
     display:block;
   }
@@ -177,7 +188,7 @@ import bikeWaveMobile from '@/assets/img/bike-wave-mobile.png' // мобильн
     margin:18px auto 0;
   }
 
-  /* Бирка снизу, повёрнута вправо на 10° */
+  /* Бирка снизу */
   .note{
     left:50px; right:auto;
     bottom:66px; top:auto;
@@ -186,21 +197,31 @@ import bikeWaveMobile from '@/assets/img/bike-wave-mobile.png' // мобильн
     padding:0;
     display:flex; justify-content:flex-end;
   }
-  .noteLogo{ top:14px; left:14px; font-size:18px; width:auto; height:auto; }
-  .noteText{ font-size:14px; line-height:1.3; padding-left:14px; padding-bottom:14px; }
+  .noteLogo{
+    top:14px; left:14px;
+    width:132px; height:24px;   /* компактнее на мобилке */
+  }
 
-  /* Кружок — белый с бордером 3px #EAEEF7 */
+  /* Текст с правым отступом тоже увеличен */
+  .noteText{
+    font-size:14px; line-height:1.3;
+    padding-left:14px;
+    padding-right:18px;  /* ← добавлен правый отступ на мобилке */
+    padding-bottom:14px;
+  }
+
+  /* Кружок — белый с бордером */
   .pinDot{
     top:8px; right:8px; width:18px; height:18px;
     background:#FFFFFF;
     border:3px solid #EAEEF7;
   }
 
-  /* Фон: по центру и на всю ширину (используется mobile-изображение) */
+  /* Фон: по центру и на всю ширину */
   .bg{
     top:50%;
     bottom:auto;
-    transform:translateY(-68%);  /* центр по вертикали */
+    transform:translateY(-68%);
     width:100%;
   }
 }

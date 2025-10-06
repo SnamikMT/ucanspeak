@@ -29,7 +29,7 @@
       <div :class="$style.mediaBox">
         <img :class="$style.mediaImg" src="/hero-girl.jpg" alt="Ucanspeak" />
         <button type="button" :class="$style.playBtn" aria-label="Смотреть демо">
-          <svg width="13" height="16" viewBox="0 0 13 16" fill="none" aria-hidden="true">
+          <svg width="21" height="21" viewBox="0 0 13 16" fill="none" aria-hidden="true">
             <path d="M1 1v14l11-7L1 1z" fill="#fff"/>
           </svg>
         </button>
@@ -150,7 +150,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   font:500 16px/1.3 Inter,sans-serif; letter-spacing:-.03em;
   box-shadow:0 10px 24px rgba(17,24,39,.10); z-index:3;
 }
-.badge1{ composes: badgeBase; width:260px; height:74px; transform:rotate(5deg);  top:389px; left:148px; }
+.badge1{ composes: badgeBase; width:260px; height:74px; transform:rotate(5deg);  top:400px; left:148px; }
 .badge2{ composes: badgeBase; width:241px; height:74px; transform:rotate(-5deg); top:403px; left:535px; }
 
 /* ===== Правый медиа-бокс ===== */

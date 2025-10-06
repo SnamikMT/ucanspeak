@@ -17,9 +17,9 @@
           <NuxtLink to="/pricing" :class="$style.cta">
             <span>Перейти к тарифам</span>
             <i aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="#193B93">
                 <path d="M7 17L17 7M17 7H9M17 7V15"
-                  stroke="#3232E9" stroke-width="2"
+                  stroke="#3232E9" stroke-width="1.8"
                   stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </i>
@@ -83,9 +83,9 @@ import pin  from '@/assets/img/pin3.svg'
 .leadBold{ font-weight:700; letter-spacing:-.03em; }
 .cta{
   display:inline-flex; align-items:center; gap:10px;
-  height:44px; padding:0 10px 0 16px;
+  height:44px;     padding: 0 5px 0 15px;
   background:#3232E9; color:#fff; text-decoration:none;
-  border-radius:12px; font:600 16px/1.3 Inter, system-ui, sans-serif; letter-spacing:-.03em;
+  border-radius:12px; font:600 16px Inter, system-ui, sans-serif; letter-spacing:-.03em;
 }
 .cta i{ width:36px; height:36px; border-radius:10px; background:#fff; display:grid; place-items:center; }
 

@@ -8,32 +8,30 @@
           num="01"
           title="Аудиотренажер<br>и интерактивные онлайн уроки"
           :img="phone"
-          :artWidth="142" 
+          :artWidth="142"
           :artRight="-8"
           :artBottom="-10"
         />
-        <!-- 02: попугай — выше и левее -->
+
         <FeatureCard
-        num="02"
-        title="Приоритет –<br>разговорная практика"
-        :img="parrot"
-        :artWidth="105" 
-        :artRight="50" 
-        :artBottom="11"  
+          num="02"
+          title="Приоритет –<br>разговорная практика"
+          :img="parrot"
+          :artWidth="105"
+          :artRight="50"
+          :artBottom="11"
         />
 
-        <!-- 03: микрофон — чуть левее -->
         <FeatureCard
-        num="03"
-        title="Озвучено<br>носителями языка"
-        :img="mic"
-        :artRight="30" 
-        :artWidth="168" 
-        :artBottom="0"
-        :pillRight="38"
-        :pillBottom="54"
+          num="03"
+          title="Озвучено<br>носителями языка"
+          :img="mic"
+          :artRight="30"
+          :artWidth="168"
+          :artBottom="0"
+          :pillRight="38"
+          :pillBottom="54"
         />
-
       </div>
     </div>
   </section>
@@ -41,9 +39,9 @@
 
 <script setup lang="ts">
 import FeatureCard from '@/components/FeatureCard.vue'
-import phone from '@/assets/img/feat-phone.png'
+import phone  from '@/assets/img/feat-phone.png'
 import parrot from '@/assets/img/feat-parrot.png'
-import mic   from '@/assets/img/feat-mic.png'
+import mic    from '@/assets/img/feat-mic.png'
 </script>
 
 <style module>
@@ -54,17 +52,16 @@ import mic   from '@/assets/img/feat-mic.png'
   overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
 }
 
-/* 3 колонки по 450px, строго как в макете */
+/* 3 колонки, ширина контейнера как в макете */
 .grid{
   display:grid;
   grid-template-columns: repeat(3, 1fr);
   gap:20px;
-  max-width:1390px;   /* ← фикс ширины на пк */
-  margin:0 auto;      /* центрируем */
+  max-width:1390px;
+  margin:0 auto;
 }
 
-
-@media (max-width: 1024px){
+@media (max-width:1024px){
   .grid{ grid-template-columns:1fr; }
 }
 

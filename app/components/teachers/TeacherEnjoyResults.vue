@@ -196,7 +196,7 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
   margin:0;
   text-align:center;
   font-family:Inter, system-ui, sans-serif;
-  font-weight:700;
+  font-weight:500;
   font-size:36px;
   line-height:1.12;
   letter-spacing:-.03em;
@@ -269,7 +269,7 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
     margin:0 0 2px;
     text-align:center;
     font-family:Inter, system-ui, sans-serif;
-    font-weight:700;
+    font-weight:500;
     font-size:22px;
     line-height:1.18;
     letter-spacing:-.03em;

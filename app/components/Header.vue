@@ -1,8 +1,10 @@
 <template>
   <!-- Top bar -->
   <div :class="[$style.bar, insideHero ? $style.inHero : '']">
-    <!-- Лого -->
-    <NuxtLink to="/" :class="$style.logo">ucanspeak</NuxtLink>
+    <!-- Лого (SVG) -->
+    <NuxtLink to="/" :class="$style.logo" aria-label="UCANSPEAK — на главную">
+      <img :src="logo" alt="" />
+    </NuxtLink>
 
     <!-- Навигация (desktop) -->
     <nav :class="$style.nav">
@@ -52,7 +54,9 @@
       aria-modal="true"
     >
       <header :class="$style.sheetHead">
-        <span :class="$style.sheetLogo">ucanspeak</span>
+        <span :class="$style.sheetLogo" aria-label="UCANSPEAK">
+          <img :src="logo" alt="" />
+        </span>
         <button type="button" :class="$style.closeBtn" @click="close()" aria-label="Закрыть меню">✕</button>
       </header>
 
@@ -85,6 +89,8 @@
 </template>
 
 <script setup lang="ts">
+import logo from '@/assets/img/logo.svg' // ← SVG логотип
+
 const props = defineProps<{ insideHero?: boolean }>()
 const route = useRoute()
 const isTeachers = computed(() => route.path.startsWith('/teachers'))
@@ -107,45 +113,60 @@ onMounted(() => {
   display:flex; align-items:center; justify-content:space-between;
   max-width:1390px; margin:0 auto;
   padding:14px 0;
+  -webkit-tap-highlight-color: transparent;
 }
 .inHero{
   padding:25px 50px 0 50px;
   margin-bottom:66px;
 }
+
+/* Лого (SVG) */
 .logo{
-  font-weight:800; font-size:22px; letter-spacing:.2px;
-  text-decoration:none; color:#4363f5;
+  display:inline-flex; align-items:center; text-decoration:none;
+  line-height:0;        /* убираем возможные отступы из-за baseline */
+}
+.logo img{
+  display:block; width:auto; height:28px; /* подгони, если нужно */
 }
 
 /* Desktop nav */
 .nav{ display:flex; gap:10px; }
-.navBtn{ padding:10px 14px; border-radius:12px; font-weight:500; }
-.primary{ padding:12px 16px; border-radius:12px; }
+.navBtn{
+  padding:10px 14px; border-radius:12px; font-weight:500;
+  -webkit-tap-highlight-color: transparent;
+}
+.navBtn:active{ background:inherit !important; }
+.primary{
+  padding:12px 16px; border-radius:12px;
+  -webkit-tap-highlight-color: transparent;
+}
+.primary:active{ background:inherit !important; }
 .link{ transition: background .2s ease; }
-.switch{ background:#E9EFF7; }
 
 /* Mobile "Меню" button */
 .menuBtn{
   display:none;
   align-items:center; justify-content:center;
   width:68px; height:38px;
-  border:1px solid rgba(44,44,44,0.3);   /* #2C2C2C4D */
+  border:1px solid rgba(44,44,44,0.3);
   border-radius:8px;
   background:transparent;
   font-family:Inter, system-ui, sans-serif;
   font-weight:500; font-size:14px; line-height:1.3; letter-spacing:-0.03em;
   color:#2C2C2C; cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
 }
+.menuBtn:active{ background:inherit; }
 
 /* ===== Mobile menu overlay & sheet ===== */
 .overlay{
   position:fixed; inset:0;
   background:rgba(0,0,0,.28);
-  z-index:999;                  /* поднимаем над контентом */
+  z-index:999;
   backdrop-filter: blur(2px);
 }
 
-/* Панель: ширина 390, отцентрована, скруглённая, «карточка» */
+/* Панель */
 .sheet{
   position:fixed; left:50%; top:0;
   transform:translateX(-50%);
@@ -155,6 +176,7 @@ onMounted(() => {
   box-shadow:0 18px 36px rgba(16,24,40,.16);
   z-index:1000;
   padding:12px 16px 16px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Шапка панели */
@@ -162,13 +184,18 @@ onMounted(() => {
   display:flex; align-items:center; justify-content:space-between;
   padding:4px 0 8px;
 }
-.sheetLogo{ font-weight:800; font-size:18px; color:#4363f5; }
+.sheetLogo{
+  display:inline-flex; align-items:center; line-height:0;
+}
+.sheetLogo img{ display:block; width:auto; height:22px; }
 .closeBtn{
   width:38px; height:38px; border-radius:8px;
   border:1px solid rgba(44,44,44,0.12);
   background:#fff; cursor:pointer; line-height:1;
   color:#2C2C2C;
+  -webkit-tap-highlight-color: transparent;
 }
+.closeBtn:active{ background:#fff; }
 
 /* Ссылки */
 .sheetNav{
@@ -183,9 +210,10 @@ onMounted(() => {
   color:#1F2937;
   font-family:Inter, system-ui, sans-serif; font-weight:600; font-size:15px; letter-spacing:-0.02em;
   background:#F6F7FB;
+  -webkit-tap-highlight-color: transparent;
 }
-.sheetLink:active{ transform:translateY(1px); }
-.sheetSwitch{ background:#E9EFF7; }
+/* без визуального «active» при тапе */
+.sheetLink:active{ background:#F6F7FB; transform:none; }
 
 /* CTA внутри меню */
 .sheetCta{
@@ -196,10 +224,18 @@ onMounted(() => {
   background:#FFD249; color:#2C2C2C;
   font-family:Inter, system-ui, sans-serif; font-weight:600; font-size:15px; letter-spacing:-.02em;
   box-shadow:0 10px 24px rgba(255,210,73,.28);
+  -webkit-tap-highlight-color: transparent;
 }
+.sheetCta:active{ background:#FFD249; }
 .sheetCta i{
   width:36px; height:36px; border-radius:10px; background:#fff;
   display:grid; place-items:center; flex:0 0 36px;
+}
+
+/* Доступность: видимый фокус только для клавиатуры */
+a:focus-visible, button:focus-visible{
+  outline:2px solid #3232E9;
+  outline-offset:2px;
 }
 
 /* ===== Animations ===== */
@@ -222,13 +258,8 @@ onMounted(() => {
 @media (max-width:768px){
   .nav, .primary{ display:none; }
   .menuBtn{ display:flex; }
-
-  .inHero{
-    margin-bottom:60px;
-  }
+  .inHero{ margin-bottom:60px; }
 }
-
-/* На очень узких (без горизонтального скролла) */
 @media (max-width:400px){
   .sheet{ width:100vw; border-radius:0 0 16px 16px; }
 }

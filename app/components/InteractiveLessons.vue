@@ -59,7 +59,7 @@
           <p :class="$style.bottomText">
             Вы осваиваете грамматику, слушая и повторяя английские фразы
           </p>
-          <img :src="b1" :class="$style.bottomArt" alt="" />
+          <img :src="b1" :class="[$style.bottomArt, $style.art1]" alt="" />
         </div>
 
         <div :class="$style.bottomCard">
@@ -67,7 +67,7 @@
           <p :class="$style.bottomText">
             Вы тренируете восприятие на слух, прослушивая каждую фразу столько раз, сколько нужно
           </p>
-          <img :src="b2" :class="$style.bottomArt" alt="" />
+          <img :src="b2" :class="[$style.bottomArt, $style.art2]" alt="" />
         </div>
 
         <div :class="$style.bottomCard">
@@ -75,7 +75,7 @@
           <p :class="$style.bottomText">
             Вы улучшаете произношение, повторяя фразы, копируя произношение и интонации
           </p>
-          <img :src="b3" :class="$style.bottomArt" alt="" />
+          <img :src="b3" :class="[$style.bottomArt, $style.art3]" alt="" />
         </div>
 
         <div :class="$style.bottomCard">
@@ -83,7 +83,7 @@
           <p :class="$style.bottomText">
             Вы расширяете словарный запас, запоминая разговорные фразы целиком в реальном контексте
           </p>
-          <img :src="b4" :class="$style.bottomArt" alt="" />
+          <img :src="b4" :class="[$style.bottomArt, $style.art4]" alt="" />
         </div>
       </div>
     </div>
@@ -118,7 +118,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   font-weight:500;
   font-size:55px;
   line-height:.95;
-  letter-spacing:-0.05em; /* ← латинское em */
+  letter-spacing:-0.05em;
   color:#2C2C2C;
 }
 .hl{ display:inline-block; background:#FFD249; padding:.06em .28em; border-radius:10px; transform:rotate(1.2deg); }
@@ -189,7 +189,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   overflow:hidden;
 }
 .num{
-  position:absolute; top:16px; left:16px;
+  position:absolute; top:30px; left:30px;
   width:32px; height:32px; border-radius:50%; display:grid; place-items:center;
   background:#B87EFF; color:#fff;
 }
@@ -204,11 +204,21 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   line-height:1.2; letter-spacing:-0.03em; color:#0F172A; text-align:left;
   max-width:50%;
 }
+
+/* Базовый стиль для всех артов */
 .bottomArt{
-  position:absolute; right:50px; bottom:-6px;
-  width:auto; height:auto; object-fit:contain; pointer-events:none;
+  position:absolute;
+  object-fit:contain;
+  pointer-events:none;
+  width:auto; height:auto;
   max-width:280px; max-height:230px;
 }
+
+/* Индивидуальные классы — подгоняй для пк пиксельно как нужно */
+.art1{ right:50px;  bottom:0;    }  /* грамматика */
+.art2{ right:5px;     bottom:0px;}  /* наушники */
+.art3{ right:90px; bottom:0px; }  /* попугай */
+.art4{ right:-20px;  bottom:-20px; }  /* книга */
 
 /* ====== Адаптив ====== */
 
@@ -219,40 +229,32 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   .topTile, .bottomCard{ width:100%; }
 }
 
-/* Мобилка: ТОЛЬКО нижние карточки — без изменений контейнера/секций */
+/* Мобилка: нижние карточки компактно, центрируем арт */
 @media (max-width: 640px){
+  .wrap{ padding:120px 15px 0; }
+
+  .title { font-size: 33px; letter-spacing:-0.04em; }
+  .lead  { font-size: 16px; }
+
   .bottomGrid{ gap:16px; }
   .bottomCard{
     height:358px;
     border-radius:16px;
-    padding-top:25px;
-    padding-left:25px;
-    padding-right:25px;
+    padding:25px;
     display:flex;
     flex-direction:column;
     align-items:flex-start;
   }
 
-  .wrap{ padding:120px 15px 0; }
-
-  .title {
-    font-size: 33px;
-    letter-spacing:-0.04em; /* ← тоже явно латинское em */
-  }
-
-  .lead {
-    font-size: 16px;
-  }
-
   .num{
     position:static;
     margin:0;
-    width:32px; height:32px;           /* остаётся кругом */
+    width:32px; height:32px;
     border-radius:50%;
   }
   .bottomText{
     position:static;
-    margin-top:30px;                   /* между цифрой и текстом 30 */
+    margin-top:30px; /* между цифрой и текстом 30 */
     max-width:100%;
     font-size:16px;
     line-height:1.25;
@@ -260,11 +262,10 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   }
   .bottomArt{
     position:absolute;
-    left:50%; bottom:0;                /* упирается в низ, по центру */
+    left:50%; bottom:0;
     right:auto;
     transform:translateX(-50%);
     max-width:220px; max-height:190px;
-    width:auto; height:auto;
   }
 }
 </style>

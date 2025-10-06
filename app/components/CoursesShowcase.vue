@@ -257,8 +257,8 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 .tagText{ position:relative; z-index:1; }
 .tagUnderline{
   position:absolute; left:0;
-  bottom:-0.3em;                        /* фикс уезда подчёркивания */
-  transform: translate(var(--dx,0px), var(--oy,0px)) rotate(-4deg);
+  bottom:-0.15em;                        /* фикс уезда подчёркивания */
+  transform: translate(var(--dx,0px), var(--oy,0px)) rotate(0deg);
   transform-origin:left center;
   width:100%; height:auto; pointer-events:none; z-index:-1;
 }
@@ -266,8 +266,9 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 /* Кнопка */
 .demoBtn{
   width:340px; height:46px; background:#B87EFF; color:#fff; text-decoration:none;
-  border-radius:12px; display:flex; align-items:center; justify-content:space-between;
-  padding:0 5px 0 16px; margin-top:0; box-shadow:0 8px 22px rgba(184,126,255,.25);
+  border-radius:10px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 5px 0 15px; margin-top:0; box-shadow:0 8px 22px rgba(184,126,255,.25);
+  letter-spacing: -0.03em;
 }
 .demoBtn span{
   font-family: Inter, sans-serif; font-weight:600; font-size:16px;
@@ -350,7 +351,7 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 
   /* панель */
   .panel{
-    padding:16px;
+    padding:25px;
     border-radius:16px;
     box-shadow:0 8px 22px rgba(16,24,40,.06);
     height:auto;
@@ -371,6 +372,9 @@ import decorSchool from '@/assets/img/decor-talk.svg'
     width:100%;
     max-width:100%;
     box-sizing:border-box;
+  }
+  .demoBtn span {
+    font-size: 14px;
   }
   .item{ padding:12px; border-radius:10px; }
   .itemTitle{ font-size:16px; margin-bottom:2px; }

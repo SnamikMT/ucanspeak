@@ -23,13 +23,13 @@ useHead({ title: 'Ucanspeak — Преподавателям' })
     <TeachersHowItWorks />
     <TeachersPromoBanner />
     <TeachersCoursesShowcase />
-    <TeachersUcsBrand />
     <TeachersInteractiveLessons />
     <UseReadyLessons />
     <TeachersFeatures />
     <TeachersExclusives />
     <TeachersEnjoyResults/>
     <TeachersCoopBanner/>
+    <TeachersUcsBrand />
     <TeachersPricingTickets />
     <TeachersFaqBlock />
     <TeachersTestimonials />

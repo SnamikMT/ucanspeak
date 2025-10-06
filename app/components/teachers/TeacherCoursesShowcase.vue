@@ -5,20 +5,17 @@
       <header :class="$style.head">
         <!-- Desktop -->
         <h2 :class="[$style.title, $style.titleDesk]">
-          <span :class="$style.brand">Ucanspeak</span>
-          — легкий способ<br/>заговорить на английском
+                    Легко учиться — 
+          <span :class="$style.brand">Легко учить</span>
         </h2>
 
         <!-- Mobile (ровно 3 строки) -->
         <h2
           :class="[$style.title, $style.titleMob]"
-          aria-label="Ucanspeak — лёгкий способ заговорить на английском"
+          aria-label="Легко учиться — Легко учить"
         >
-          <span :class="$style.mLine">
-            <span :class="$style.brand">Ucanspeak</span> — лёгкий
-          </span>
-          <span :class="$style.mLine">способ заговорить</span>
-          <span :class="$style.mLine">на английском</span>
+                    Легко учиться — <br></br>
+          <span :class="$style.brand">Легко учить</span>
         </h2>
 
         <!-- Плашка со штифтом -->
@@ -79,7 +76,7 @@
           </div>
 
           <a href="#" :class="$style.demoBtn">
-            <span>Бесплатный демодоступ на 14 дней</span>
+            <span>Бесплатный демоурок без регистрации</span>
             <i aria-hidden="true">
               <svg width="16" height="11" viewBox="0 0 16 11" fill="none">
                 <path
@@ -257,8 +254,8 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 .tagText{ position:relative; z-index:1; }
 .tagUnderline{
   position:absolute; left:0;
-  bottom:-0.3em;                        /* фикс уезда подчёркивания */
-  transform: translate(var(--dx,0px), var(--oy,0px)) rotate(-4deg);
+  bottom:-0.2em;                        /* фикс уезда подчёркивания */
+  transform: translate(var(--dx,0px), var(--oy,0px)) rotate(0deg);
   transform-origin:left center;
   width:100%; height:auto; pointer-events:none; z-index:-1;
 }
