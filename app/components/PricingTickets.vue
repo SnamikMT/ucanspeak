@@ -1,15 +1,28 @@
 <template>
-  <section :class="$style.wrap" aria-labelledby="pricingTitle">
+  <section :class="$style.wrap" aria-labelledby="pricingTitle" id="pricing">
     <div class="container">
       <!-- Заголовок -->
       <header :class="$style.head">
-        <h2 id="pricingTitle" :class="$style.title">
+        <!-- Desktop -->
+        <h2 id="pricingTitle" :class="[$style.title, $style.titleDesk]">
           Доступ <span :class="$style.hl">на месяц дешевле</span><br />
           1 занятия с преподавателем
         </h2>
-        <p :class="$style.lead">
+        <p :class="[$style.lead, $style.leadDesk]">
           Получите доступ к демо или полной версии обучающей<br />
           платформы на срок от 1 до 12 месяцев
+        </p>
+
+        <!-- Mobile -->
+        <h2 :class="[$style.title, $style.titleMob]" aria-hidden="false">
+          <span :class="$style.mLine">Доступ на месяц</span>
+          <span :class="[$style.mLine, $style.mHL]">дешевле 1 занятия</span>
+          <span :class="$style.mLine">с преподавателем</span>
+        </h2>
+        <p :class="[$style.lead, $style.leadMob]">
+          <span :class="$style.lLine">Получите доступ к демо или полной</span>
+          <span :class="$style.lLine">версии обучающей платформы на срок</span>
+          <span :class="$style.lLine">от 1 до 12 месяцев</span>
         </p>
       </header>
 
@@ -70,11 +83,18 @@ const cards = [
 .wrap{ background:#E9EFF7; padding-top:140px; }
 
 /* Заголовок/лид — ПК */
-.head{ text-align:center; margin-bottom:87px; }
+.head{ text-align:center; margin-bottom:78px; }
 .title{
   font-family:Inter, sans-serif; font-weight:500; font-size:55px;
   line-height:.95; letter-spacing:-.05em; color:#111; margin:0;
 }
+
+/* ПК-версия видимая, моб. скрыта */
+.titleDesk{ display:block; }
+.leadDesk{ display:block; }
+.titleMob{ display:none; }
+.leadMob{ display:none; }
+
 .hl{ background:#FFD249; border-radius:12px; padding:.02em .28em; }
 .lead{
   margin-top:22px; font-family:Inter,sans-serif; font-weight:500;
@@ -137,8 +157,9 @@ const cards = [
   .grid{ grid-template-columns:repeat(2,1fr); }
 }
 
-/* Мобилка: базовая ширина 390, поля по 15 */
+/* Мобилка */
 @media (max-width:640px){
+  
   /* контейнер секции — 390px + 15px поля */
   .wrap > .container{
     max-width:390px;
@@ -148,21 +169,55 @@ const cards = [
     box-sizing:border-box;
   }
 
-  .wrap{ padding:120px 15px 0; margin-top: 0;}
+  .wrap{ padding:120px 0 0; margin-top: 0;}
 
-  .head{ margin-bottom:28px; }
-  .title{
+  .head {margin-bottom: 40px;}
+
+  /* показываем мобильные версии заголовка/лида */
+  .titleDesk{ display:none; }
+  .leadDesk{ display:none; }
+  .titleMob{ display:block; }
+  .leadMob{ display:block; }
+
+  /* мобильный заголовок — 3 строки */
+  .titleMob{
     font-size:33px;
     line-height:1.02;
     letter-spacing:-0.04em;
+    margin:0;
+    color:#111;
   }
-  .hl{ border-radius:8px; }
-  .lead{
-    font-size:16px;             /* как просили */
-    line-height:1.3;
-    letter-spacing:-0.03em;
+  .mLine{ display:block; }
+
+  .mHL{
+    position: relative;
+    display: inline-block;
+    padding: .06em .28em;
+    border-radius: 10px;
+    z-index: 0;              /* ← создаём стек-контекст */
+  }
+  .mHL::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #FFD249;
+    border-radius: 10px;
+    transform: rotate(1.2deg);
+    z-index: -1;             /* ← теперь остаётся за текстом, но над фоном секции */
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
   }
 
+  /* мобильный лид — 3 строки */
+  .leadMob{
+    margin-top:30px;
+    font-size:16px;
+    line-height:1.3;
+    letter-spacing:-.03em;
+    color:#2C2C2C;
+  }
+  .lLine{ display:block; }
+
+  /* сетка карточек — одна колонка */
   .grid{ grid-template-columns:1fr; gap:16px; }
 
   .ticket{
@@ -175,7 +230,7 @@ const cards = [
   .tText{ font-size:15px; }
   .price{ font-size:28px; margin:14px 0; }
 
-  .cutWrap{ margin:0 -22px; }   /* растянуть до краёв карточки */
+  .cutWrap{ margin:0 -22px; }
   .btn{ width:100%; max-width:360px; }
 }
 </style>

@@ -163,7 +163,7 @@ const row2 = [
 }
 .noteText{
   position:relative;
-  z-index:0; /* создаём отдельный stacking context */
+  z-index:0; /* создаем отдельный stacking context */
   display:block;
   background:#fff; color:#2C2C2C;
   font:500 18px/1.3 Inter, system-ui, sans-serif; letter-spacing:-.02em;
@@ -233,12 +233,12 @@ const row2 = [
   display:flex; flex-direction:column;
 }
 .dot{
-  width:36px; height:36px; border-radius:999px;
+  width:32px; height:32px; border-radius:999px;
   display:grid; place-items:center;
-  background:#C8A9FF; color:#fff;
+  background:#B87EFF; color:#fff;
   box-shadow:0 6px 14px rgba(124,92,255,.25);
 }
-/* равный зазор сверху/снизу — даём тексту auto-push и фиксированный gap */
+/* равный зазор сверху/снизу — даем тексту auto-push и фиксированный gap */
 .txt{
   margin-top:auto;              /* толкаем текст к низу */
   margin-bottom:0;
@@ -258,7 +258,7 @@ const row2 = [
 /* mobile-only подписи над h3 */
 .mobNote{ display:none; margin:0 0 40px; }
 .mobL1{
-  display:block; font:500 14px/1.2 Inter, system-ui, sans-serif;
+  display:block; font:600 14px/1.2 Inter, system-ui, sans-serif;
   letter-spacing:-.02em; color:#2C2C2C;
 }
 .mobL2{
@@ -266,14 +266,13 @@ const row2 = [
   font:600 14px/1.2 Inter, system-ui, sans-serif; letter-spacing:-.02em; color:#2C2C2C;
 }
 .mobUnderline{
-  position:absolute; left:-14px; bottom:-6px; max-width:115%;
+  position:absolute; left:-14px; bottom:-8px; max-width:115%;
   pointer-events:none; z-index:-1; transform:rotate(-2deg);
 }
-.mobNotePurple .mobUnderline{ transform:rotate(-0.5deg); }
+.mobNotePurple .mobUnderline{ transform:rotate(-1.1deg); }
 .mobNoteBlue   .mobUnderline{ transform:rotate(0deg); }
 
 /* ===== Адаптивы ===== */
-@media (max-width:1390px){ .inner{ margin:0 17px; } }
 @media (max-width:1220px){
   .row{ grid-template-columns:repeat(3,253px); }
 }
@@ -303,21 +302,26 @@ const row2 = [
 
   .head{ margin-bottom:90px; }
 
+  .txt {
+    font-size: 14px;
+    width: 100%;
+  }
+
   .pin { max-width:100px; right:-17px; top:-30px; }
 
   .note{ width:245px; margin:-14px auto -28px; transform: rotate(5.26deg); }
-  .noteText{ text-align:left; padding:12px 14px 12px; }
+  .noteText{ text-align:left; padding:12px 25px 12px; font-size: 14px;}
   .noteL1{ display:block; }
   .noteSpace{ display:none; }
   .uWrap{ display:block; }
   .underline{
-    left:-10px; bottom:-12px; max-width:85%;
-    transform:rotate(-4deg); z-index:0; /* всё ещё под текстом */
+    left:-10px; bottom:-12px; max-width:71%;
+    transform:rotate(-4deg); z-index:-1; /* все еще под текстом */
   }
 
-  .board{ padding:25px; }
+  .board{ padding: 50px 25px 25px 25px; margin-top: 0; margin-bottom: 20px}
   .boardTitle { font-size:24px; }
-  .boardLead  { font-size:14px; }
+  .boardLead  { font-size:14px; margin: 0 0 40px;}
 
   .pill{ display:none; }
   .mobNote{ display:block; }
@@ -325,8 +329,8 @@ const row2 = [
   .row{ grid-template-columns:1fr; }
   .card{
     width:100%; height:auto;
-    padding:18px;
-    --gap:18px;                 /* компактнее равный зазор на мобилке */
+    padding:20px;
+    --gap:20px;                 /* компактнее равный зазор на мобилке */
   }
 }
 </style>

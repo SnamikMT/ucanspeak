@@ -1,5 +1,5 @@
 <template>
-  <section :class="$style.wrap">
+  <section :class="$style.wrap" id="review">
     <div class="container">
       <!-- Заголовок -->
       <header :class="$style.head">
@@ -194,7 +194,7 @@ const next = () => { active.value = (active.value + 1) % items.length }
 
 /* Мобилка — карусель */
 @media (max-width: 640px){
-  .wrap{ padding:120px 15px 0; }
+  .wrap{ padding:120px 0 0; }
 
   .title{
     font-size:33px; line-height:1.02; letter-spacing:-0.04em;
@@ -230,7 +230,7 @@ const next = () => { active.value = (active.value + 1) % items.length }
 
   .user{ gap:10px; }
   .avatar{ width:40px; height:40px; }
-  .name{ font-size:20px; }
+  .name{ font-size:18px; }
   .sub{ font-size:14px; }
 
   .tagsWrap{ margin-top:10px; }

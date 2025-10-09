@@ -1,7 +1,7 @@
 <!-- components/teachers/TeacherStepCard.vue -->
 <template>
   <article :class="$style.card">
-    <span :class="$style.num"><b>{{ num }}</b></span>
+    <span :class="$style.num">{{ num }}</span>
     <p :class="$style.text"><slot /></p>
   </article>
 </template>
@@ -64,13 +64,13 @@ defineProps<{ num: string }>()
 @media (max-width:640px){
   .card{
     width: 390px;
-    height: 158px;
-    border-radius: 16px;
-    padding: 24px 24px 24px; /* равномерные отступы */
+    height: 137px;
+    padding: 30px 25px 24px; /* равномерные отступы */
     margin: 0 auto;
   }
-  .num{ top: 24px; left: 24px; }
+  .num{ top: 30px; left: 25px; }
   .text{
+    font-size: 16px;
     /* можно оставить 3 строки; при меньшей высоте — сжимать текст */
     -webkit-line-clamp: 3;
   }

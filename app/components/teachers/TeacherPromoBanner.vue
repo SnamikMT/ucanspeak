@@ -142,15 +142,16 @@ import bgWave from '@/assets/img/teachers/cta-wave.svg'
 /* кнопка */
 .cta{
   display:inline-flex; align-items:center; gap:12px;
-  height:40px; padding:0 12px 0 16px;
-  background:#FFD249; color:#2C2C2C;
+  height:46px; padding:0 5px 0 16px;
+  background:#FFDD62; color:#2C2C2C;
   text-decoration:none; border-radius:10px;
   font:600 16px/1.3 Inter, system-ui, sans-serif;
   letter-spacing:-0.03em;
+  justify-content: space-between;
 }
 .cta i{
-  width:28px; height:28px; border-radius:8px; background:#fff;
-  display:grid; place-items:center; flex:0 0 28px;
+  width:36px; height:36px; border-radius:8px; background:#fff;
+  display:grid; place-items:center;
 }
 
 /* ====== Mobile ====== */
@@ -158,9 +159,9 @@ import bgWave from '@/assets/img/teachers/cta-wave.svg'
   .panel{
     width:390px;
     height:690px;
-    margin:16px auto;
+    margin:15px 0px 0px auto;
     border-radius:20px;
-    padding:24px 16px 16px;
+    padding:40px 25px 16px;
 
     /* арт-параметры для мобилки */
     --art-right: 0px;
@@ -180,9 +181,9 @@ import bgWave from '@/assets/img/teachers/cta-wave.svg'
   }
   .art{
     position:absolute;
-    right:-6px;
-    bottom:-6px;     /* тоже немного уводим вниз */
-    width:480px;
+    right: -12px;
+    bottom: -6px;
+    width: 424px;
     height:auto;
     transform:none;
     filter:none;
@@ -191,10 +192,10 @@ import bgWave from '@/assets/img/teachers/cta-wave.svg'
   .content{ z-index:2; }
 
   .title{
-    font-size:28px;
+    font-size:33px;
     line-height:1.08;
-    letter-spacing:-.04em;
-    margin:0 0 20px;
+    letter-spacing:-.05em;
+    margin:0 0 50px;
     max-width:none;
   }
 
@@ -211,11 +212,18 @@ import bgWave from '@/assets/img/teachers/cta-wave.svg'
   }
 
   .cta{
-    height:48px;
-    font-size:15px;
-    border-radius:12px;
-  }
-  .cta i{ width:32px; height:32px; }
+    height: 46px;
+    border-radius: 10px;
+    width: 340px;
+    max-width: 340px;
+    height: auto;
+    padding: 5px 5px 5px 15px;
+    font-size: 14px;
+    gap: 10px;
+    line-height: 130%;
+    letter-spacing: -.03em;
+}
+  .cta i{ width:36px; height:36px; }
 }
 
 /* На очень узких экранах (<400px) */

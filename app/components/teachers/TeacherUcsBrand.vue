@@ -1,5 +1,5 @@
 <template>
-  <section :class="$style.wrap">
+  <section :class="$style.wrap" id="about-brand">
     <div :class="$style.stage">
       <!-- Заголовок -->
       <header :class="$style.head">
@@ -20,7 +20,7 @@
         </h2>
       </header>
 
-      <!-- Ряд 1 -->
+  <!-- Ряд 1 -->
       <div :class="$style.row">
         <!-- A -->
         <article :class="[$style.card, $style.cardA]">
@@ -62,7 +62,6 @@
             </p>
           </div>
 
-          <!-- ВАЖНО: оставляем inline style, но значения — var(...) -->
           <div :class="$style.media2022">
             <img
               :src="screen1"
@@ -135,7 +134,14 @@ import cert2   from '@/assets/img/teachers/teacher-cert-2.png'
 .title{ margin:0; font-family:Inter,sans-serif; font-weight:500; font-size:55px; line-height:.95; letter-spacing:-.05em; color:#2C2C2C; }
 .titleDesk{ display:block; }
 .titleMob{ display:none; }
-.hl{ display:inline-block; background:#FFD249; padding:.08em .3em; border-radius:10px; transform:rotate(.6deg); }
+
+/* плашка под текстом */
+.hl{
+  position:relative; display:inline-block; padding:.08em .3em; border-radius:10px; z-index:0;
+}
+.hl::before{
+  content:""; position:absolute; inset:0; background:#FFD249; border-radius:10px; transform:rotate(.6deg); z-index:-1;
+}
 
 .row{ display:flex; gap:20px; }
 .row + .row{ margin-top:20px; }
@@ -149,35 +155,34 @@ import cert2   from '@/assets/img/teachers/teacher-cert-2.png'
 .cardC{ width:568px; height:400px; }
 .cardD{ width:802px; height:400px; }
 
+/* === КАРТИНКИ: убираем сплющивание === */
 .mediaBottom{ position:absolute; left:50%; bottom:-6px; transform:translateX(-50%); }
-.mediaBottom img{ width:468px; height:256px; display:block; }
+.mediaBottom img{
+  /* раньше стояли width:468px И height:256px -> могло тянуть.
+     оставляем только одну размерность, чтобы сохранять пропорции */
+  width:auto;                   /* ширина сама посчитается */
+  display:block;
+}
 
 /* 2017 */
 .media2017{ position:absolute; inset:0; }
-.phone{ position:absolute; bottom:0; right:0; width:auto; height:351px; z-index:1; display:block; }
-.bird { position:absolute; bottom:0; right:120px; width:257px; height:auto; z-index:2; display:block; }
+.phone{ position:absolute; bottom:0; right:0; width:auto; height:330px; z-index:1; display:block; }
+/* попугай: на десктопе фикс-ширина, авто-высота — без искажений */
+.bird { position:absolute; bottom:0; right:120px; width:230px; height:auto; z-index:2; display:block; }
 
-/* 2022 — контейнер + ДЕФОЛТНЫЕ (ПК) переменные */
+/* 2022 */
 .media2022{
   position:absolute; left:50%; bottom:-80px; transform:translateX(-50%);
-  width:50%; height:280px; pointer-events:none;
-
-  /* ПК-значения (ТВОИ исходные) */
-  --s1-left: 35%;
-  --s1-tx: -64%;
-  --s1-ty: 5%;
-
-  --s2-left: 83%;
-  --s2-tx: -36%;
-  --s2-ty: -11px;
+  width:45%; height:280px; pointer-events:none;
+  --s1-left: 35%; --s1-tx: -64%; --s1-ty: 5%;
+  --s2-left: 83%; --s2-tx: -36%; --s2-ty: -11px;
 }
 
 /* Годы */
-.withYear .cardBody{ padding-top:116px; }
+.withYear .cardBody{ padding-top:103px; }
 .year{ position:absolute; left:40px; top:32px; font:500 36px/.95 Inter,sans-serif; letter-spacing:-0.05em; color:#ffffff; }
 .year span{
-  position:relative; z-index:2;
-  display:flex; align-items:center; justify-content:center;
+  position:relative; z-index:2; display:flex; align-items:center; justify-content:center;
   width:173px; height:56px; border-radius:12px; padding:0;
 }
 .year::before{ content:""; position:absolute; left:0; top:0; width:173px; height:56px; border-radius:12px; transform:rotate(1.15deg); z-index:1; }
@@ -201,13 +206,12 @@ import cert2   from '@/assets/img/teachers/teacher-cert-2.png'
 
 /* ===== Планшеты ===== */
 @media (max-width: 1200px){
-  .stage{ width:100%; max-width:1040px; margin:0 auto; padding:0 16px; }
+  .stage{ width:100%; max-width:1040px; margin:0 auto; }
   .row{ flex-direction:column; }
   .cardA,.cardB,.cardC,.cardD{ width:100%; }
   .lead{ max-width:100%; }
   .cardD .cardBody{ padding-right:300px; }
-
-  .media2022{ width:58%; height:240px; bottom:-60px; }
+  .media2022{ width:52%; height:240px; bottom:-60px; }
 }
 
 /* ===== Мобильные ===== */
@@ -216,80 +220,65 @@ import cert2   from '@/assets/img/teachers/teacher-cert-2.png'
   .head{ margin-bottom:50px; }
   .titleDesk{ display:none; }
   .titleMob{
-    display:block;
-    font-family:Inter, system-ui, sans-serif;
-    font-weight:500;
-    font-size:33px;
-    line-height:1.10;
-    letter-spacing:-0.05em;
-    color:#2C2C2C;
-    margin:0;
+    display:block; font-family:Inter, system-ui, sans-serif; font-weight:500;
+    font-size:33px; line-height:1.10; letter-spacing:-0.05em; color:#2C2C2C; margin:0;
   }
   .head :global(.mline){ display:block; }
-  .hlMob{
-    position:relative; display:inline-block; isolation:isolate;
-  }
+  .hlMob{ position:relative; display:inline-block; isolation:isolate; }
   .hlMob::before{
-    content:"";
-    position:absolute;
-    left:1.68em; right:-.32em;
-    top:50%; transform:translateY(-50%) rotate(1.2deg);
-    height:1.05em; background:#FFD249; border-radius:10px;
-    box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
-    z-index:-1;
-    width:291px;
+    content:""; position:absolute; left:1.68em; right:-.32em; top:50%;
+    transform:translateY(-50%) rotate(1.2deg); height:1.05em; background:#FFD249; border-radius:10px;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.06); z-index:-1; width:291px;
+  }
+
+  .stage {
+    width: 390px;
+    margin: 16px auto 0;
+    grid-template-columns: 1fr;
+    row-gap: 16px;
   }
 
   .row{ gap:14px; }
   .card{ border-radius:16px; }
-  .cardBody{ padding:16px 16px 0 16px; }
-  .lead{ font-size:14.5px; letter-spacing:-0.012em; }
+
+  /* === ПАДДИНГИ КАРТОЧЕК НА МОБИЛКЕ === */
+  .cardBody{
+    padding:25px 16px 0px 30px; /* сверху/снизу 25; слева 30; справа 16 */
+  }
+  .lead{ font-size:14px; letter-spacing:-0.03em; }
 
   .cardA,.cardB,.cardC,.cardD{ height:auto; }
+
   .mediaBottom{ position:relative; left:auto; bottom:auto; transform:none; margin-top:8px; }
-  .mediaBottom img{ width:auto; height:268px; }
+  .mediaBottom img{
+    width:auto;
+  }
 
   .media2017{ position:relative; inset:auto; height:220px; }
-  .phone{ position:absolute; right:6px; bottom:0; height:242px; }
-  .bird { position:absolute; right:100px; bottom:0; height:173px; }
+  .phone{ position:absolute; right:6px; bottom:0; height:242px; width:auto; }
+  /* попугай на мобилке: фикс-высота, авто-ширина — тоже без искажений */
+  .bird { position:absolute; right:100px; bottom:0; height:173px; width:auto; }
 
-  /* ===== ТОЧКА НАСТРОЙКИ ДЛЯ МОБИЛКИ =====
-     Просто меняешь числа ниже — и картинки поедут. */
   .media2022{
     position:relative; left:auto; bottom:auto; transform:none;
     height:200px; margin-top:8px; overflow:visible;
-
-    /* ТВОИ мобильные значения (примерные) */
-    --s1-left: 42%;
-    --s1-tx: -40%;
-    --s1-ty: 15%;
-
-    --s2-left: 94%;
-    --s2-tx: -20%;
-    --s2-ty: 20%;
+    --s1-left: 48%; --s1-tx: -40%; --s1-ty: 15%;
+    --s2-left: 102%; --s2-tx: -20%; --s2-ty: 20%;
   }
-
   .cardC{ overflow:hidden; }
 
   .withYear .cardBody{ padding-top:86px; }
-  .year{ left:16px; top:14px; font-size:24px; }
+  .year{ left:16px; top:32px; font-size:24px; }
   .year span, .year::before{ width:132px; height:46px; }
 
-  /* Сертификаты и CTA */
   .cardD .cardBody{ padding-right:16px; }
-  .certs{ position:relative; right:auto; bottom:auto; justify-content:center; padding:30px 0 30px; }
-  .certs img{ width:44%; height:auto; }
+  .certs{ position:relative; right:auto; bottom:auto; justify-content:center; padding:30px 0 30px; gap: 18px;}
+  .certs img{ width:40%; height:auto; }
 
   .ctaBtn{
-    position:relative;
-    left:auto; bottom:auto;
-    margin:12px auto 16px;
-    width:226px; height:46px;
-    border-radius:14px;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:0 10px 0 14px;
-    background:#41BCF8; color:#fff; text-decoration:none;
-    font-size: 14px;
+    position:relative; left:auto; bottom:auto; margin:0px auto 16px;
+    width:226px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:space-between;
+    padding:0 10px 0 14px; background:#41BCF8; color:#fff; text-decoration:none; font-size:14px;
   }
   .ctaBtn i{ width:36px; height:36px; flex:0 0 36px; border-radius:10px; background:#fff; display:grid; place-items:center; margin-left:8px; }
   .ctaBtn i img{ width:18px; height:18px; }

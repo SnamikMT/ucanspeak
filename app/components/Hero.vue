@@ -1,9 +1,3 @@
-Теперь только тут осталось поправить для мобилки код 
-
-Чтобы текст кнопки весь умещался в кнопку и он стрелки справа был 36 на 36 почти прибит к краю кнопки с отступом 5 справа 
-
-Слово Ucanspeak на мобилке должно бы в третьей строке 
-
 <template>
   <section :class="$style.wrap">
     <div :class="$style.panel">
@@ -27,9 +21,41 @@
 
       <!-- ===== Правый столбец: медиа ===== -->
       <div :class="$style.mediaBox">
-        <img :class="$style.mediaImg" src="/hero-girl.jpg" alt="Ucanspeak" />
-        <button type="button" :class="$style.playBtn" aria-label="Смотреть демо">
-          <svg width="21" height="21" viewBox="0 0 13 16" fill="none" aria-hidden="true">
+        <!-- Постер всегда снизу, пока нет 1-го кадра -->
+        <img
+          :class="[$style.mediaPoster, showPoster ? $style.visible : $style.hidden]"
+          :src="poster"
+          alt="Видео превью"
+          draggable="false"
+        />
+
+        <!-- Видео поверх постера, появляется только когда есть 1-й кадр -->
+        <video
+          ref="vid"
+          :class="[$style.mediaVideo, showVideo ? $style.visible : $style.hidden]"
+          :poster="poster"
+          muted
+          playsinline
+          webkit-playsinline
+          preload="metadata"
+          controls="false"
+          controlslist="nodownload noplaybackrate noremoteplayback nofullscreen"
+          disablepictureinpicture
+          disableremoteplayback
+          :oncontextmenu="() => false"
+        >
+          <source v-if="videoWebm" :src="videoWebm" type="video/webm" />
+          <source v-if="videoMp4"  :src="videoMp4"  type="video/mp4" />
+        </video>
+
+        <!-- Play-кнопка поверх всего, исчезает после клика -->
+        <button
+          type="button"
+          :class="[$style.playBtn, hasStarted ? $style.hidden : $style.visible]"
+          aria-label="Смотреть демо"
+          @click="startVideo"
+        >
+          <svg width="20" height="20" viewBox="0 0 13 16" fill="none" aria-hidden="true">
             <path d="M1 1v14l11-7L1 1z" fill="#fff"/>
           </svg>
         </button>
@@ -53,9 +79,55 @@
 </template>
 
 <script setup lang="ts">
-import Header from '@/components/Header.vue'
+import { ref } from 'vue'
+import Header   from '@/components/Header.vue'
 import waveDesk from '@/assets/img/hero-wave.svg'
 import waveMob  from '@/assets/img/hero-wave-mobile.svg'
+
+/* Источники видео */
+import videoWebm from '@/assets/video/hero-alpha.webm'
+import videoMp4  from '@/assets/video/hero.mp4'
+const poster = '/hero-girl.jpg'
+
+const vid = ref<HTMLVideoElement|null>(null)
+const hasStarted = ref(false) // нажали Play
+const showPoster = ref(true)  // постер виден до 1-го кадра
+const showVideo  = ref(false) // видео показываем только когда есть 1-й кадр
+
+function revealOnFirstFrame(v: HTMLVideoElement){
+  // Современный способ: rVFC — отрисован кадр
+  const anyV = v as any
+  if (typeof anyV.requestVideoFrameCallback === 'function'){
+    anyV.requestVideoFrameCallback(() => {
+      showVideo.value = true
+      // прячем постер после плавного появления видео
+      setTimeout(()=>{ showPoster.value = false }, 60)
+    })
+    return
+  }
+  // Фолбек: ждём timeupdate/canplay и currentTime>0
+  const onTick = () => {
+    if (v.currentTime > 0 && v.readyState >= 2){
+      showVideo.value = true
+      setTimeout(()=>{ showPoster.value = false }, 60)
+      v.removeEventListener('timeupdate', onTick)
+      v.removeEventListener('canplay',   onTick)
+    }
+  }
+  v.addEventListener('timeupdate', onTick)
+  v.addEventListener('canplay', onTick, { once:true })
+}
+
+function startVideo(){
+  const v = vid.value
+  if (!v) return
+  hasStarted.value = true
+  // запускаем и сразу подписываемся на первый кадр
+  v.muted = true
+  v.currentTime = 0
+  revealOnFirstFrame(v)
+  v.play().catch(()=>{})
+}
 </script>
 
 <style module>
@@ -65,7 +137,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   background:#E9EFF7;
 }
 
-/* белая панель героя: внутри — и шапка, и контент */
+/* белая панель героя */
 .panel{
   position:relative;
   max-width:1390px;
@@ -76,41 +148,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   isolation:isolate;
   box-shadow:0 12px 40px rgba(0,0,0,.06);
   min-height:700px;
-  /* вертикальные паддинги под контент, верх закрывает header-бар */
   padding:0 0 64px;
-}
-
-/* ===== Встроенный header-бар ===== */
-.bar{
-  display:flex; align-items:center; justify-content:space-between;
-  padding: 25px 50px 66px 50px;
-}
-
-.logo{
-  font-weight:800;
-  font-size:22px;
-  letter-spacing:.2px;
-  text-decoration:none;
-  color:#4363f5;
-}
-
-.nav{ display:flex; gap:10px; }
-.navBtn{ padding:10px 14px; border-radius:12px; font-weight:500; }
-.primary{ padding:12px 16px; border-radius:12px; }
-
-/* бургер только на мобилке */
-.menuBtn{
-  display:none;
-  flex-direction:column; justify-content:center; gap:5px;
-  width:44px; height:36px;
-  border:1px solid rgba(44,44,44,0.3);
-  border-radius:8px;
-  background:transparent;
-  cursor:pointer;
-}
-.menuBtn span{
-  display:block; height:2px; width:20px;
-  background:#2C2C2C; border-radius:2px; margin:0 auto;
 }
 
 /* ===== Контент слева ===== */
@@ -118,9 +156,8 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   padding-left:50px; padding-right:30px;
   display:flex; flex-direction:column; z-index:2;
 }
-
 .title{
-  margin:10px 0 18px;      /* небольшой отступ от шапки */
+  margin:10px 0 18px;
   font-family: Inter, sans-serif;
   font-weight:500;
   font-size:65px;
@@ -129,12 +166,24 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   color:#141414;
 }
 .line1, .line2{ display:block; }
+
+/* фон только под словом */
 .hl{
-  display:inline-block;
-  background:#FFD249;
-  padding:.05em .28em;
-  border-radius:.28em;
-  transform: rotate(1.2deg);
+  position: relative;
+  display: inline-block;
+  padding: .06em .28em;
+  border-radius: 10px;
+}
+.hl::before{
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -0.18em; right: -0.18em; top: -0.10em; bottom: -0.10em;
+  background: #FFD249;
+  border-radius: 10px;
+  transform: rotate(1.51deg);
+  transform-origin: left center;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
 }
 
 .lead{
@@ -144,7 +193,7 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   max-width:594px;
 }
 
-/* ===== Бэйджи (desktop) ===== */
+/* ===== Бэйджи ===== */
 .badgeBase{
   position:absolute; background:#EAEEF7; border-radius:10px; padding:16px 20px;
   font:500 16px/1.3 Inter,sans-serif; letter-spacing:-.03em;
@@ -159,14 +208,37 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   width:320px; height:500px; border-radius:20px; overflow:hidden;
   background:#fff; box-shadow:0 18px 44px rgba(0,0,0,.10); z-index:2;
 }
-.mediaImg{ width:100%; height:100%; object-fit:cover; border-radius:20px; }
+
+/* Постер под видео, видео сверху */
+.mediaPoster,
+.mediaVideo{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:20px;
+  background:transparent;
+}
+.mediaVideo{ z-index:2; }
+.mediaPoster{ z-index:1; }
+
+/* скрыть webkit-контролы */
+.mediaVideo::-webkit-media-controls,
+.mediaVideo::-webkit-media-controls-enclosure{ display:none !important; }
+
+/* Play сверху */
 .playBtn{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   width:94px; height:50px; border:0; border-radius:12px; background:#B87EFF; color:#fff;
   display:grid; place-items:center; box-shadow:0 10px 28px rgba(184,126,255,.45); cursor:pointer;
+  z-index:3;
 }
 
-/* CTA внутри панели */
+/* Плавные появления/исчезновения */
+.visible{ opacity:1; transition:opacity .18s ease; }
+.hidden { opacity:0; transition:opacity .18s ease; pointer-events:none; }
+
+/* CTA */
 .cta{
   position:absolute; bottom:50px; left:50px;
   display:flex; align-items:center; justify-content:space-between;
@@ -183,37 +255,36 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 
 /* ===== Адаптив ===== */
 @media (max-width:1390px){
-  .panel{ margin:0 15px; } /* мягкие поля по краям при сужении */
+  .panel{ margin:0 15px; }
 }
-
-@media (max-width:768px){
-  .nav, .primary{ display:none; }
-  .menuBtn{ display:flex; }
-}
-
 @media (max-width:640px){
-  .panel{ height:680px; min-height:680px; }
-  .bar{ padding:16px 18px; }  /* компактнее шапка */
+  /* фикс 390 на мобиле */
+  .panel{
+    width:390px; max-width:390px;
+    height:680px; min-height:680px;
+    margin:0 auto;
+  }
   .left{ padding-left:25px; padding-right:25px; }
 
   .title{
     font-size:33px; line-height:.95; letter-spacing:-.05em;
     text-align:left; margin-bottom:20px;
   }
-  .hl{ border-radius:10px; transform: rotate(1.2deg); }
 
   .lead{ font-size:14px; max-width:none; text-align:left; }
 
   .bgDesk{ display:none; }
   .bgMob{ display:block; position:absolute; left:0; right:0; bottom:40px; width:100%; height:auto; z-index:1; }
 
+  /* круглый медиабокс */
   .mediaBox{
     width:162px; height:162px; border-radius:50%;
     right:15px; top:345px; left:auto; bottom:auto;
     border:3px solid #EAEEF7; overflow:hidden; background:#fff;
     box-shadow:0 14px 26px rgba(0,0,0,.10); z-index:3;
   }
-  .mediaImg{ border-radius:50%; }
+  .mediaPoster, .mediaVideo{ border-radius:50%; }
+
   .playBtn{
     width:34px; height:34px; border-radius:50%; background:#B87EFF;
     box-shadow:0 8px 18px rgba(184,126,255,.35);
@@ -222,15 +293,16 @@ import waveMob  from '@/assets/img/hero-wave-mobile.svg'
   .badge1, .badge2{
     left:25px; right:auto; width:254px; height:auto; padding:12px 14px;
     background:#EAEEF7; box-shadow:0 8px 18px rgba(17,24,39,.10);
-    z-index: 2;
-    font-size: 14px;
+    z-index: 2; font-size: 14px;
   }
   .badge1{ top:53%; transform:rotate(5deg); }
   .badge2{ top:65%; transform:rotate(-5deg); }
 
   .cta{
     position:absolute; left:25px; right:25px; bottom:25px;
-    width:auto; height:56px; margin:0;
+    width:340px; max-width:340px;
+    height:auto; padding:5px 5px 5px 15px; gap:10px;
+    font-size:14px; line-height:130%; letter-spacing:-.03em;
   }
   .cta i{ width:36px; height:36px; }
 }

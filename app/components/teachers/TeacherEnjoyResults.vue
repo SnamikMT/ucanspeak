@@ -13,7 +13,8 @@
       <div :class="$style.stack">
         <!-- Наклонная плашка со штифтом -->
         <div :class="$style.note">
-          <span :class="$style.noteText">
+          <!-- ВЕРСИЯ ДЛЯ ПК (как было) -->
+          <span :class="[$style.noteText, $style.noteDesk]">
             Ничто так не мотивирует ученика
             <br />
             продолжать занятия,
@@ -22,6 +23,19 @@
               <img :src="underline" :class="$style.underline" alt="" aria-hidden="true" />
             </span>
           </span>
+
+          <!-- ВЕРСИЯ ДЛЯ МОБИЛКИ (РОВНО 3 строки) -->
+          <span :class="[$style.noteText, $style.noteMob]">
+            <span :class="$style.mLine">Ничто так не мотивирует</span>
+            <span :class="$style.mLine">ученика продолжать занятия,</span>
+            <span :class="$style.mLine">
+              <span :class="$style.uWrap">
+                как ощущение прогресса
+                <img :src="underline" :class="$style.underline" alt="" aria-hidden="true" />
+              </span>
+            </span>
+          </span>
+
           <img :src="pin" :class="$style.pin" alt="" aria-hidden="true" />
         </div>
 
@@ -40,7 +54,7 @@
 
           <span :class="[$style.badge, $style.bBlue]">
             <img :src="iconBlue" alt="" class="icon" />
-            Вы бережёте свои голосовые связки
+            Вы бережете свои голосовые связки
           </span>
 
           <span :class="[$style.badge, $style.bPink]">
@@ -88,10 +102,10 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
 
 /* заголовок */
 .head{
-  position:relative;         /* чтобы z-index работал */
+  position:relative;
   text-align:center;
   margin:0;
-  z-index:3;                 /* <- выше стикера и доски */
+  z-index:3;
 }
 .title{
   margin:0;
@@ -117,13 +131,13 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
   margin-top:135px;
 }
 
-/* заметка: центр по верхнему краю board, наезжает на 1/2 своей высоты */
+/* заметка */
 .note{
   position:absolute;
   left:50%; top:0;
   transform: translate(-50%, -50%) rotate(5.26deg);
   filter: drop-shadow(3px 4px 9px rgba(0,0,0,.25));
-  z-index:2;                 /* <- между заголовком и доской */
+  z-index:2;
   pointer-events:none;
 }
 .noteText{
@@ -137,11 +151,15 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
   border-radius:12px;
 }
 
-/* обводка только под фразой — в своём stacking context ниже текста */
+/* версии текста */
+.noteDesk{ display:block; }
+.noteMob { display:none; }
+
+/* подчёркивание под фразой */
 .uWrap{
   position:relative;
   display:inline-block;
-  z-index:0;                 /* текст / содержимое */
+  z-index:0;
 }
 .underline{
   position:absolute;
@@ -149,7 +167,7 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
   max-width:110%;
   pointer-events:none;
   transform: rotate(-5.26deg);
-  z-index:-1;                /* <- под текстом uWrap */
+  z-index:-1;
 }
 
 /* пин */
@@ -166,7 +184,7 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
   box-shadow:0 10px 26px rgba(16,24,40,.06);
   min-height:448px;
   padding:64px 16px 64px;
-  z-index:1;                 /* <- самый нижний из трёх */
+  z-index:1;
 }
 
 /* бейджи */
@@ -178,9 +196,7 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
   letter-spacing:-.02em; color:#1F2937;
   box-shadow:0 6px 18px rgba(16,24,40,.12);
 }
-.badge img{
-  width:24px; height:24px; flex:0 0 24px;
-}
+.badge img{ width:24px; height:24px; flex:0 0 24px; }
 
 /* позиции бейджей */
 .bGreen { background:#CFF3C9; left:329px; top:80px;}
@@ -211,94 +227,75 @@ import iconYellow from '@/assets/img/teachers/yellow.png'
   .title{ font-size:46px; }
   .sub{ font-size:28px; transform:translate(-50%,-22%); }
 }
+
+/* ─────────────────── МОБИЛКА ─────────────────── */
 @media (max-width:640px){
-  .wrap{ padding-top:120px; }
+  .wrap{ padding-top:100px; }
   .inner{ width:390px; max-width:390px; margin:0 auto; }
 
-  .title{ font-size:33px; line-height:1.02; letter-spacing:-.04em; }
+  .title{ font-size:33px; line-height:1.02; letter-spacing:-0.04em; }
 
-  /* расстояние от заголовка до доски */
   .stack{ margin-top:100px; }
 
-  /* ─── ПЛАШКА С ПИНОМ ───────────────────────────────────────── */
+  /* показываем мобильную версию текста, скрываем десктопную */
+  .noteDesk{ display:none; }
+  .noteMob { display:block; }
+
   .note{
-    width:290px;                         /* фиксированная ширина плашки */
+    width:290px;
     left:50%; top:0;
     transform: translate(-50%, -50%) rotate(5.26deg);
   }
   .noteText{
-    width:290px;                         /* чтобы гарантировать 3 строки */
+    width:290px;
     padding:14px 16px 12px;
     border-radius:12px;
     background:#fff; color:#2C2C2C;
     font-family: Inter, system-ui, sans-serif;
-    font-weight:500;                     /* Medium */
-    font-size:14px;                      /* как в ТЗ */
-    line-height:1.3;                     /* 130% */
-    letter-spacing:-.03em;               /* -3% */
-    white-space:normal;                  /* переносы разрешены */
-    word-break:normal;
+    font-weight:500;
+    font-size:14px;
+    line-height:1.3;            /* 130% */
+    letter-spacing:-.03em;      /* -3% */
+    white-space:normal;
   }
-  /* пин — справа от текста, по центру плашки */
+  .mLine{ display:block; }      /* три строки как просили */
+
+  /* подчёркивание чуть ближе для мобильной ширины */
+  .underline{ bottom:-14px; }
+
   .pin{
-    position:absolute;
-    right:-14px;                         /* чуть выходит за край */
+    right:-14px;
     top:50%;
-    transform: translateY(-50%) rotate(6deg);
+    transform: translateY(-60%) rotate(-12deg);
     width:84px; height:auto;
   }
 
-  /* ─── БЕЛАЯ ДОСКА ──────────────────────────────────────────── */
+  /* доска и содержимое */
   .board{
-    min-height:528px;                    /* высота по ТЗ */
-    padding:60px 12px 24px;
+    min-height:528px;
+    padding:90px 12px 24px;
     border-radius:20px;
     box-shadow:0 10px 26px rgba(16,24,40,.06);
-
-    display:flex;                        /* делаем колонку */
-    flex-direction:column;
-    align-items:center;
-    gap:20px;                            /* расстояние между пунктами */
+    display:flex; flex-direction:column; align-items:center; gap:20px;
   }
-
-  /* подзаголовок ДОЛЖЕН БЫТЬ НАД карточками */
   .sub{
-    order:0;                             /* выше бейджей */
-    position:static;
-    transform:none;
-    margin:0 0 2px;
-    text-align:center;
-    font-family:Inter, system-ui, sans-serif;
-    font-weight:500;
-    font-size:22px;
-    line-height:1.18;
-    letter-spacing:-.03em;
-    color:#2C2C2C;
+    order:0; position:static; transform:none; margin:0 0 2px;
+    font-size:22px; line-height:1.18; letter-spacing:-.03em;
   }
-
-  /* пункты: 339×56, иконка слева, текст справа */
   .badge{
-    order:1;
-    position:static;
-    width:339px;
-    height:56px;
-    padding:0 14px;
-    border-radius:12px;
+    order:1; position:static;
+    width:339px; height:56px; padding:0 14px; border-radius:12px;
     display:flex; align-items:center; gap:10px;
-    font:500 14px/1 Inter, system-ui, sans-serif;
-    letter-spacing:-.02em;
+    font:500 14px/1 Inter, system-ui, sans-serif; letter-spacing:-.02em;
     box-shadow:0 6px 18px rgba(16,24,40,.12);
-    margin:0;                            /* расстояние задаёт gap у .board */
+    margin:0;
   }
   .badge img{ width:24px; height:24px; flex:0 0 24px; }
 
-  /* цвета — без позиционирования */
   .bGreen { background:#CFF3C9; }
   .bPurple{ background:#D7CCFF; }
   .bBlue  { background:#CFE6FF; }
   .bPink  { background:#FFD3EA; }
   .bYellow{ background:#FFD86A; }
 }
-
-
 </style>

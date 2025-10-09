@@ -1,5 +1,5 @@
 <template>
-  <section :class="$style.wrap" aria-labelledby="pricingTitle">
+  <section :class="$style.wrap" aria-labelledby="pricingTitle" id="pricing">
     <div class="container">
       <!-- Заголовок -->
       <header :class="$style.head">
@@ -7,9 +7,15 @@
           <span :class="$style.hl">Выбирайте тариф &</span><br /> boost
           your English teaching!
         </h2>
-        <p :class="$style.lead">
+        <p :class="[$style.lead, $style.leadDesk]">
           Получите доступ к демо или полной версии обучающей<br />
           платформы на срок от 1 до 12 месяцев
+        </p>
+
+        <p :class="[$style.lead, $style.leadMob]">
+          <span :class="$style.lLine">Получите доступ к демо или полной</span>
+          <span :class="$style.lLine">версии обучающей платформы на срок</span>
+          <span :class="$style.lLine">от 1 до 12 месяцев</span>
         </p>
       </header>
 
@@ -55,7 +61,7 @@ const cards = [
     text: 'Вас ждут бесплатные задания: десятки упражнений на лексику, грамматику, произношение',
     price: 'от 600 ₽/мес', color: '#3232E9', cls: 'blue', rot: '0deg', dark: false },
   { title: 'Старт',
-    text: 'Индивидуальная программа для обучения от 20 минут занятий в день, ничего лишнего, сможете настроить всё под себя',
+    text: 'Индивидуальная программа для обучения от 20 минут занятий в день, ничего лишнего, сможете настроить все под себя',
     price: 'от 600 ₽/мес', color: '#B87EFF', cls: 'violet', rot: '-8deg', dark: false },
   { title: 'Эксперт',
     text: 'Максимальный доступ ко всем упражнениям и материалам на сайте, занимайтесь сколько хотите',
@@ -80,6 +86,12 @@ const cards = [
   margin-top:22px; font-family:Inter,sans-serif; font-weight:500;
   font-size:18px; line-height:1.3; letter-spacing:-.03em; color:#2C2C2C;
 }
+
+/* ПК-версия видимая, моб. скрыта */
+.titleDesk{ display:block; }
+.leadDesk{ display:block; }
+.titleMob{ display:none; }
+.leadMob{ display:none; }
 
 /* Сетка карточек — ПК */
 .grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
@@ -139,18 +151,17 @@ const cards = [
 
 /* Мобилка: базовая ширина 390, поля по 15 */
 @media (max-width:640px){
-  /* контейнер секции — 390px + 15px поля */
-  .wrap > .container{
+
+  :global(.container){
+    width:390px;
     max-width:390px;
     margin:0 auto;
-    padding-left:15px;
-    padding-right:15px;
+    padding:0;               /* чтобы не “распирало” */
     box-sizing:border-box;
   }
+  .wrap{ padding:120px 0 0; margin-top: 0;}
 
-  .wrap{ padding:120px 15px 0; margin-top: 0;}
-
-  .head{ margin-bottom:28px; }
+  .head{ margin-bottom:40px; }
   .title{
     font-size:33px;
     line-height:1.02;
@@ -161,6 +172,22 @@ const cards = [
     font-size:16px;             /* как просили */
     line-height:1.3;
     letter-spacing:-0.03em;
+    margin-top: 30px;
+  }
+
+    /* показываем мобильные версии заголовка/лида */
+  .titleDesk{ display:none; }
+  .leadDesk{ display:none; }
+  .titleMob{ display:block; }
+  .leadMob{ display:block; }
+
+  /* мобильный заголовок — 3 строки */
+  .titleMob{
+    font-size:33px;
+    line-height:1.02;
+    letter-spacing:-0.04em;
+    margin:0;
+    color:#111;
   }
 
   .grid{ grid-template-columns:1fr; gap:16px; }
@@ -175,7 +202,7 @@ const cards = [
   .tText{ font-size:15px; }
   .price{ font-size:28px; margin:14px 0; }
 
-  .cutWrap{ margin:0 -22px; }   /* растянуть до краёв карточки */
+  .cutWrap{ margin:0 -22px; }   /* растянуть до краев карточки */
   .btn{ width:100%; max-width:360px; }
 }
 </style>

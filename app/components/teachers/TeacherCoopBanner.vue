@@ -100,11 +100,11 @@ import pin  from '@/assets/img/pin3.svg'
   position:relative; width:450px; height:363px;
   border-radius:20px; background:#C8BDFF; box-shadow:0 10px 26px rgba(16,24,40,.08);
 }
-.wave{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; opacity:.55; }
+.wave{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:.55; }
 .sticker{ position:absolute; right:18px; top:-73px; transform:rotate(6deg); z-index:2; }
 .pin{ width:105px; height:auto; }
 
-.rightCol{ position:relative; z-index:1; padding:30px; display:flex; flex-direction:column; gap:12px; }
+.rightCol{ position:relative; z-index:1; padding:30px; display:flex; flex-direction:column; gap:25px; }
 .rTitle{
   margin:0; font-family:Inter, system-ui, sans-serif; font-weight:500; font-size:40px;
   line-height:1; letter-spacing:-.05em; color:#2C2C2C;
@@ -128,7 +128,7 @@ import pin  from '@/assets/img/pin3.svg'
 
   /* Левая карточка: фикс. высота 544 */
   .leftCard{
-    width:390px; height:544px;               /* ← по ТЗ */
+    width:390px; height:520px;               /* ← по ТЗ */
     border-radius:16px;
     position:relative;
     box-shadow:0 8px 22px rgba(16,24,40,.06);
@@ -137,12 +137,14 @@ import pin  from '@/assets/img/pin3.svg'
 
   /* внутренние отступы: сверху/снизу 30; снизу даём запас под арт+кнопку */
   .leftCol{
-    padding:30px 16px 320px 16px;            /* верх/бока = 30/16, низ с запасом */
+    padding:30px 25px 355px 25px;        /* верх/бока = 30/16, низ с запасом */
     width:auto;
   }
 
   /* заголовок/описание поменьше */
-  .title{ font-size:28px; line-height:1.05; letter-spacing:-.04em; margin:0 0 12px; }
+  .title{         font-size: 24px;
+        line-height: 1.05;
+        letter-spacing: -.06em; margin:0 0 25px; }
   .lead{  margin:0; font-size:14px; line-height:1.3; }
 
   /* Кнопка: по центру, 30px от низа, левый внутренний паддинг 25px */
@@ -150,7 +152,7 @@ import pin  from '@/assets/img/pin3.svg'
     position:absolute; left:50%; bottom:30px; transform:translateX(-50%);
     width:340px; height:48px; border-radius:12px;
     display:flex; align-items:center; justify-content:space-between;
-    padding:0 12px 0 25px;                   /* ← левый 25px */
+    padding:0px 5px 0 27%;;                   /* ← левый 25px */
     font-size:14px; letter-spacing:-.03em;
   }
   .cta i{ width:36px; height:36px; border-radius:10px; }
@@ -158,7 +160,7 @@ import pin  from '@/assets/img/pin3.svg'
   /* Картинка «стоит» на кнопке: центрируем и ставим прямо над кнопкой */
   .man{
     position:absolute; left:50%;
-    bottom: calc(30px + 48px + 10px);        /* 30 снизу + 48 кнопка + 10 зазор */
+    bottom: calc(30px + 48px + 2px);        /* 30 снизу + 48 кнопка + 10 зазор */
     transform:translateX(-50%);
     height:260px; width:auto;                /* немного крупнее */
     object-fit:contain; pointer-events:none;
@@ -168,8 +170,8 @@ import pin  from '@/assets/img/pin3.svg'
   .rightCard{
     width:390px; height:auto; border-radius:16px; margin-top:16px;
   }
-  .rightCol{ padding:18px 16px 16px; }
-  .rTitle{ font-size:28px; line-height:1.05; letter-spacing:-.04em; }
+  .rightCol{ padding: 25px 30px; }
+  .rTitle{ font-size:24px; line-height:1.05; letter-spacing:-.04em; }
   .rLead{  font-size:14px; line-height:1.3; }
   .sticker{ right:10px; top:-56px; } .pin{ width:84px; }
 }

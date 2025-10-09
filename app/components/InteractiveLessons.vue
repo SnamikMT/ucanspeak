@@ -1,5 +1,5 @@
 <template>
-  <section :class="$style.wrap">
+  <section :class="$style.wrap" id="interactive">
     <div class="container">
       <!-- Заголовок -->
       <header :class="$style.head">
@@ -19,7 +19,17 @@
         <div :class="$style.topTile" style="--bg:#41BCF8">
           <div :class="$style.topTileBody">
             <img :src="bgVideo"   :class="$style.topTileBG"   alt="" />
-            <img :src="shotVideo" :class="$style.topTileShot" alt="Видеофрагменты" />
+            <!-- Мобильные vars: --m-shot-left / --m-shot-top / --m-shot-scale -->
+            <img
+              :src="shotVideo"
+              :class="$style.topTileShot"
+              alt="Видеофрагменты"
+              :style="{
+                '--m-shot-left':'50%',
+                '--m-shot-top':'6px',
+                '--m-shot-scale':'1'
+              }"
+            />
           </div>
           <footer :class="$style.topTileBar">
             <div :class="$style.metric">3 000+</div>
@@ -31,7 +41,16 @@
         <div :class="$style.topTile" style="--bg:#FFDE76">
           <div :class="$style.topTileBody">
             <img :src="bgDialogs"   :class="$style.topTileBG"   alt="" />
-            <img :src="shotDialogs" :class="$style.topTileShot" alt="Диалоги" />
+            <img
+              :src="shotDialogs"
+              :class="$style.topTileShot"
+              alt="Диалоги"
+              :style="{
+                '--m-shot-left':'52%',
+                '--m-shot-top':'8px',
+                '--m-shot-scale':'1'
+              }"
+            />
           </div>
           <footer :class="$style.topTileBar">
             <div :class="$style.metric">150+</div>
@@ -43,7 +62,16 @@
         <div :class="$style.topTile" style="--bg:#C8BDFF">
           <div :class="$style.topTileBody">
             <img :src="bgGrammar"   :class="$style.topTileBG"   alt="" />
-            <img :src="shotGrammar" :class="$style.topTileShot" alt="Грамматика" />
+            <img
+              :src="shotGrammar"
+              :class="$style.topTileShot"
+              alt="Грамматика"
+              :style="{
+                '--m-shot-left':'50%',
+                '--m-shot-top':'10px',
+                '--m-shot-scale':'1'
+              }"
+            />
           </div>
           <footer :class="$style.topTileBar">
             <div :class="$style.metric">150+</div>
@@ -59,31 +87,88 @@
           <p :class="$style.bottomText">
             Вы осваиваете грамматику, слушая и повторяя английские фразы
           </p>
-          <img :src="b1" :class="[$style.bottomArt, $style.art1]" alt="" />
+          <img
+            :src="b1"
+            :class="[$style.bottomArt, $style.art1]"
+            alt=""
+            :style="{
+              /* моб.позиция для этой картинки */
+              '--m-left':'50%',
+              '--m-bottom':'0px',
+              '--m-translateX':'-50%',
+              '--m-scale':'1'
+            }"
+          />
         </div>
 
         <div :class="$style.bottomCard">
-          <span :class="$style.num"><b>02</b></span>
+          <span :class="$style.num">02</span>
           <p :class="$style.bottomText">
             Вы тренируете восприятие на слух, прослушивая каждую фразу столько раз, сколько нужно
           </p>
-          <img :src="b2" :class="[$style.bottomArt, $style.art2]" alt="" />
+          <img
+            :src="b2"
+            :class="[$style.bottomArt, $style.art2]"
+            alt=""
+            :style="{
+              '--m-left':'42%',
+              '--m-bottom':'0px',
+              '--m-translateX':'-50%',
+              '--m-scale':'1'
+            }"
+          />
         </div>
 
+        <!-- 03: ПОПУГАЙ — ВИДЕО вместо картинки -->
         <div :class="$style.bottomCard">
-          <span :class="$style.num"><b>03</b></span>
+          <span :class="$style.num">03</span>
           <p :class="$style.bottomText">
             Вы улучшаете произношение, повторяя фразы, копируя произношение и интонации
           </p>
-          <img :src="b3" :class="[$style.bottomArt, $style.art3]" alt="" />
+
+          <video
+            :class="[$style.bottomArt, $style.art3]"
+            :poster="parrotPoster"
+            autoplay
+            muted
+            loop
+            playsinline
+            webkit-playsinline
+            preload="metadata"
+            controls="false"
+            controlslist="nodownload noplaybackrate noremoteplayback nofullscreen"
+            disablepictureinpicture
+            disableremoteplayback
+            :oncontextmenu="() => false"
+            :style="{
+              /* моб.позиция для видео-попугая */
+              '--m-left':'50%',
+              '--m-bottom':'0px',
+              '--m-translateX':'-50%',
+              '--m-scale':'1'
+            }"
+          >
+            <source :src="parrotWebm" type="video/webm" />
+            <source :src="parrotMp4"  type="video/mp4" />
+          </video>
         </div>
 
         <div :class="$style.bottomCard">
-          <span :class="$style.num"><b>04</b></span>
+          <span :class="$style.num">04</span>
           <p :class="$style.bottomText">
             Вы расширяете словарный запас, запоминая разговорные фразы целиком в реальном контексте
           </p>
-          <img :src="b4" :class="[$style.bottomArt, $style.art4]" alt="" />
+          <img
+            :src="b4"
+            :class="[$style.bottomArt, $style.art4]"
+            alt=""
+            :style="{
+              '--m-left':'50%',
+              '--m-bottom':'-25px',
+              '--m-translateX':'-50%',
+              '--m-scale':'1'
+            }"
+          />
         </div>
       </div>
     </div>
@@ -103,7 +188,10 @@ import shotGrammar from '@/assets/img/interactive/top-grammar-shot.png'
 /* низ: иллюстрации */
 import b1 from '@/assets/img/interactive/bottom-grammar.png'
 import b2 from '@/assets/img/interactive/bottom-headphones.png'
-import b3 from '@/assets/img/interactive/bottom-parrot.png'
+/* b3 был попугай-картинка — заменяем на видео */
+import parrotPoster from '@/assets/img/interactive/bottom-parrot.png'
+import parrotWebm   from '@/assets/video/parrot.mp4'  /* ЗАМЕНИТЕ на ваш путь */
+import parrotMp4    from '@/assets/video/parrot.mp4'   /* ЗАМЕНИТЕ на ваш путь */
 import b4 from '@/assets/img/interactive/bottom-book.png'
 </script>
 
@@ -111,7 +199,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
 /* секция */
 .wrap{ padding:140px 0 0; }
 
-.head{ text-align:center; margin:0 0 50px; } /* 50 до карточек */
+.head{ text-align:center; margin:0 0 50px; }
 .title{
   margin:0;
   font-family: Inter, sans-serif;
@@ -121,17 +209,30 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   letter-spacing:-0.05em;
   color:#2C2C2C;
 }
-.hl{ display:inline-block; background:#FFD249; padding:.06em .28em; border-radius:10px; transform:rotate(1.2deg); }
+
+/* плашка только фоном */
+.hl{
+  position:relative;
+  display:inline-block;
+  padding:.06em .28em;
+  border-radius:10px;
+  z-index:0;
+}
+.hl::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:#FFD249;
+  border-radius:10px;
+  transform:rotate(1.51deg);
+  z-index:-1;
+}
 
 /* описание */
 .lead{
   margin-top:30px;
-  font-family:Inter, sans-serif;
-  font-weight:500;
-  font-size:18px;
-  line-height:1.3;
-  letter-spacing:-0.03em;
-  color:#2C2C2C;
+  font-family:Inter, sans-serif; font-weight:500;
+  font-size:18px; line-height:1.3; letter-spacing:-0.03em; color:#2C2C2C;
 }
 
 /* ===== верхние карточки ===== */
@@ -151,7 +252,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
 }
 .topTileShot{
   position:absolute; left:50%; top:2px; transform:translateX(-50%);
-  display:block; width:auto; height:auto; max-width:92%; object-fit:contain;
+  display:block; width:auto; height:auto; max-width:100%; object-fit:contain;
   filter: drop-shadow(0 8px 22px rgba(16,24,40,.18));
 }
 .topTileBar{
@@ -160,14 +261,9 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   border-radius: 20px;
   padding:30px; display:flex; flex-direction:column; justify-content:center;
 }
-.metric{
-  font-family: Inter, sans-serif; font-weight:600; font-size:36px;
-  line-height:1.3; letter-spacing:-0.03em; margin:0;
-}
-.label{
-  font-family: Inter, sans-serif; font-weight:500; font-size:20px;
-  line-height:1.3; letter-spacing:-0.03em;
-}
+.metric{ font:600 36px/1.3 Inter, sans-serif; letter-spacing:-.03em; margin:0; }
+.label{  font:500 20px/1.3 Inter, sans-serif; letter-spacing:-.03em; }
+
 /* белый текст только у первой карточки */
 .topGrid > :nth-child(1) .metric,
 .topGrid > :nth-child(1) .label{ color:#fff; }
@@ -193,19 +289,14 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   width:32px; height:32px; border-radius:50%; display:grid; place-items:center;
   background:#B87EFF; color:#fff;
 }
-.num b{
-  font-family:Inter, sans-serif; font-weight:600; font-size:14px;
-  line-height:1.3; letter-spacing:-0.03em; text-align:center;
-}
+.num b{ font:600 14px/1.3 Inter, sans-serif; letter-spacing:-.03em; text-align:center; }
 .bottomText{
-  position:absolute; left:30px; bottom:30px;
-  margin:0;
-  font-family:Inter, sans-serif; font-weight:500; font-size:20px;
-  line-height:1.2; letter-spacing:-0.03em; color:#0F172A; text-align:left;
+  position:absolute; left:30px; bottom:30px; margin:0;
+  font:500 20px/1.2 Inter, sans-serif; letter-spacing:-.03em; color:#0F172A; text-align:left;
   max-width:50%;
 }
 
-/* Базовый стиль для всех артов */
+/* Общие правила для артов (и IMG, и VIDEO) */
 .bottomArt{
   position:absolute;
   object-fit:contain;
@@ -213,59 +304,66 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   width:auto; height:auto;
   max-width:280px; max-height:230px;
 }
+/* Desktop-позиции (как было) */
+.art1{ right:50px;  bottom:0;    }
+.art2{ right:5px;   bottom:0;    }
+.art3{ right:90px;  bottom:0;    }  /* видео наследует этот класс */
+.art4{ right:-20px; bottom:-20px; }
 
-/* Индивидуальные классы — подгоняй для пк пиксельно как нужно */
-.art1{ right:50px;  bottom:0;    }  /* грамматика */
-.art2{ right:5px;     bottom:0px;}  /* наушники */
-.art3{ right:90px; bottom:0px; }  /* попугай */
-.art4{ right:-20px;  bottom:-20px; }  /* книга */
+/* скрыть контролы в webkit */
+.bottomArt::-webkit-media-controls,
+.bottomArt::-webkit-media-controls-enclosure{ display:none !important; }
 
 /* ====== Адаптив ====== */
-
-/* Планшеты — стекаем блоки в одну колонку */
 @media (max-width: 1280px){
   .topGrid{ grid-template-columns:1fr; }
   .bottomGrid{ grid-template-columns:1fr; }
   .topTile, .bottomCard{ width:100%; }
 }
 
-/* Мобилка: нижние карточки компактно, центрируем арт */
 @media (max-width: 640px){
-  .wrap{ padding:120px 15px 0; }
+  .wrap{ padding:120px 0 0; }
 
   .title { font-size: 33px; letter-spacing:-0.04em; }
   .lead  { font-size: 16px; }
+  .metric{ font-size: 24px; }
+  .label { font-size: 16px; }
+
+  /* Моб. позиционирование скриншотов ТОП-карточек через переменные */
+  .topTileShot{
+    left: var(--m-shot-left, 50%);
+    top:  var(--m-shot-top, 6px);
+    transform: translateX(-50%) scale(var(--m-shot-scale, 1));
+  }
 
   .bottomGrid{ gap:16px; }
   .bottomCard{
     height:358px;
     border-radius:16px;
-    padding:25px;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
+    padding:30px 25px;
+    display:flex; flex-direction:column; align-items:flex-start;
   }
 
   .num{
-    position:static;
-    margin:0;
-    width:32px; height:32px;
-    border-radius:50%;
+    position:static; margin:0; width:32px; height:32px; border-radius:50%;font-size: 14px;
   }
   .bottomText{
     position:static;
-    margin-top:30px; /* между цифрой и текстом 30 */
+    margin-top:30px;
     max-width:100%;
     font-size:16px;
     line-height:1.25;
     text-align:left;
   }
+
+  /* Моб. позиционирование артов НИЖНИХ карточек (и img, и video) через переменные */
   .bottomArt{
-    position:absolute;
-    left:50%; bottom:0;
-    right:auto;
-    transform:translateX(-50%);
-    max-width:220px; max-height:190px;
+    left: var(--m-left, 50%);
+    right: auto;
+    bottom: var(--m-bottom, 0px);
+    transform: translateX(var(--m-translateX, -50%)) scale(var(--m-scale, 1));
+    max-width: 311px;
+    max-height: 211px;
   }
 }
 </style>

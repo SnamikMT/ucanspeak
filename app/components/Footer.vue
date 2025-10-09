@@ -1,5 +1,5 @@
 <template>
-  <footer :class="$style.wrap" id="site-footer">
+  <footer :class="$style.wrap" id="contact">
     <!-- верхняя полоса -->
     <div :class="$style.top">
       <img src="/assets/img/footer-logo-top.svg" alt="ucanspeak" :class="$style.topLogo" />
@@ -35,7 +35,7 @@
           <ul :class="$style.list">
             <li><a href="#" rel="nofollow">Telegram</a></li>
             <li><a href="#" rel="nofollow">Whatsapp</a></li>
-            <li><a href="#" rel="nofollow">Вконтакте</a></li>
+            <li><a href="#" rel="nofollow">MAX</a></li>
             <li><a href="mailto:info@ucanspeak.ru">info@ucanspeak.ru</a></li>
           </ul>
         </div>
@@ -51,14 +51,14 @@
 
 <script setup lang="ts">
 const nav = [
-  { href: '#', label: 'Что включено в платформу' },
-  { href: '#', label: 'Аудиотренажер' },
-  { href: '#', label: 'Интерактивные уроки' },
-  { href: '#', label: 'О бренде' },
-  { href: '#', label: 'Тарифы' },
-  { href: '#', label: 'Часто задаваемые вопросы' },
-  { href: '#', label: 'Отзывы' },
-  { href: '#', label: 'Преподавателям' }
+  { href: '#platform', label: 'Что включено в платформу' },
+  { href: '/students#audio-trainer', label: 'Аудиотренажер' },
+  { href: '#interactive', label: 'Интерактивные уроки' },
+  { href: '#about-brand', label: 'О бренде' },
+  { href: '#pricing', label: 'Тарифы' },
+  { href: '#faq', label: 'Часто задаваемые вопросы' },
+  { href: '#review', label: 'Отзывы' },
+  { href: '/teachers', label: 'Преподавателям' }
 ]
 
 const docs = [
@@ -174,7 +174,7 @@ function scrollTop() {
 
 @media (max-width: 640px){
   /* сверху 120 как всегда */
-  .wrap{ margin:120px 15px 0; height: 1232px;}
+  .wrap{ margin:120px 0 0; height: 1232px;}
   .grid{ grid-template-columns:1fr; gap:53px; }
 }
 

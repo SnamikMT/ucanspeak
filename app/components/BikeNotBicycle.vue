@@ -79,12 +79,29 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
   color:#2C2C2C;
 }
 .hl{
-  background:#FFD249;
   padding:.06em .28em;
   border-radius:10px;
   display:inline-block;
-  transform: rotate(1.1deg);
 }
+
+/* плашка только фоном */
+.hl{
+  position:relative;
+  display:inline-block;
+  padding:.06em .28em;
+  border-radius:10px;
+  z-index:0;
+}
+.hl::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:#FFD249;
+  border-radius:10px;
+  transform: rotate(1.1deg);
+  z-index:-1; /* фон под текстом */
+}
+
 .lead{
   margin:14px 0 0;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
@@ -161,12 +178,12 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
 
 /* Мобильный */
 @media (max-width: 640px){
-  .wrap{ padding:120px 15px 0; margin-top: 0; }
+  .wrap{ padding:120px 0 0; margin-top: 0; }
 
   .inner{
     height:690px;
     max-width:390px;
-    padding:24px 16px;
+    padding:40px 25px;
     border-radius:20px;
     display:block;
   }
@@ -178,7 +195,7 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
     text-align:center;
     margin-bottom:14px;
   }
-  .hl{ border-radius:10px; transform:rotate(1.1deg); }
+  .hl{ border-radius:10px; }
 
   .lead{
     font-size:16px;

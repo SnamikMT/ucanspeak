@@ -18,7 +18,7 @@
           <span :class="$style.brand">Легко учить</span>
         </h2>
 
-        <!-- Плашка со штифтом -->
+ <!-- Плашка со штифтом -->
         <div :class="$style.note">
           <p :class="$style.noteText">
             Полноценная система разговорной практики:
@@ -97,7 +97,7 @@
             :class="$style.cardImg"
             :style="{
               left: '450px', top: '152px', zIndex: 1,
-              '--mx': '-70px', '--mb': '65px', '--mrot': '-4deg', '--mwidth': '180px'
+              '--mx': '-70px', '--mb': '65px', '--mrot': '-4deg', '--mwidth': '192px'
             }"
           />
           <!-- 2 -->
@@ -107,7 +107,7 @@
             :class="$style.cardImg"
             :style="{
               left: '735px', top: '27px', zIndex: 2,
-              '--mx': '70px', '--mb': '170px', '--mrot': '2deg', '--mwidth': '182px'
+              '--mx': '70px', '--mb': '170px', '--mrot': '2deg', '--mwidth': '192px'
             }"
           />
           <!-- 3 (вылазит ниже панели) -->
@@ -117,7 +117,7 @@
             :class="$style.cardImg"
             :style="{
               left: '980px', top: '198px', zIndex: 3,
-              '--mx': '80px', '--mb': '-39px', '--mrot': '0', '--mwidth': '178px'
+              '--mx': '58px', '--mb': '-24px', '--mrot': '0', '--mwidth': '192px'
             }"
           />
         </div>
@@ -160,11 +160,21 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 
 .brand{
   position:relative; display:inline-block;
-  background:#FFD249;
   padding:.1em .3em;
   border-radius:10px;
-  transform: rotate(1.51deg);
   z-index:0;
+}
+
+/* фон-плашка со склонением — под текстом */
+.brand::before{
+  content: "";
+  position: absolute;
+  inset: 0;                    /* растягиваем под весь .brand */
+  background: #FFD249;
+  border-radius: 10px;
+  transform: rotate(1.51deg);  /* наклон только у фона */
+  z-index: -1;                 /* под текст */
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.06); /* как везде */
 }
 
 /* Плашка под заголовком — адаптивная */
@@ -229,11 +239,11 @@ import decorSchool from '@/assets/img/decor-talk.svg'
   overflow:visible;
 }
 .left{
-  width:340px; display:flex; flex-direction:column; gap:20px;
+  width:370px; display:flex; flex-direction:column; gap:20px;
   overflow:visible;
 }
 .item{
-  width:340px; background:#F7F9FE; border:2px solid #EAEEF7;
+  width:370px; background:#F7F9FE; border:2px solid #EAEEF7;
   border-radius:12px; padding:16px 18px; box-sizing:border-box;
   overflow:visible;
 }
@@ -262,11 +272,9 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 
 /* Кнопка */
 .demoBtn{
-  width:340px; height:46px; background:#B87EFF; color:#fff; text-decoration:none;
+  width:370px; height:46px; background:#B87EFF; color:#fff; text-decoration:none;
   border-radius:12px; display:flex; align-items:center; justify-content:space-between;
-  padding:0 5px 0 16px; margin-top:0; box-shadow:0 8px 22px rgba(184,126,255,.25);
-}
-.demoBtn span{
+  padding:0 5px 0 15px; margin-top:0; box-shadow:0 8px 22px rgba(184,126,255,.25);
   font-family: Inter, sans-serif; font-weight:600; font-size:16px;
   line-height:1.3; letter-spacing:-0.03em;
 }
@@ -306,7 +314,7 @@ import decorSchool from '@/assets/img/decor-talk.svg'
 }
 
 /* ====== Мобилка ====== */
-@media (max-width: 600px){
+@media (max-width: 640px){
   .wrap{ padding:120px 0 0; }
   .head{ overflow:visible; }
 
@@ -337,17 +345,17 @@ import decorSchool from '@/assets/img/decor-talk.svg'
     width: 381px;
     height:auto;
     padding:12px 14px;
-    transform: translateY(50px) rotate(2.2deg);
+    transform: translateY(50px) rotate(5.26deg);
     margin-left:auto; margin-right:auto;
     box-shadow: 0 4px 10px rgba(0,0,0,.18);
   }
-  .noteText{ font-size:16px; line-height:1.28; }
+  .noteText{ font-size:14px; line-height:1.28; }
   .underline{ bottom:-2.22em; transform: rotate(-6deg) translateY(2%); }
   .pin{ width:72px; height:72px; top:-14px; right:-12px; }
 
   /* панель */
   .panel{
-    padding:16px;
+    padding:25px;
     border-radius:16px;
     box-shadow:0 8px 22px rgba(16,24,40,.06);
     height:auto;
@@ -361,25 +369,27 @@ import decorSchool from '@/assets/img/decor-talk.svg'
     gap:12px;
     box-sizing:border-box;
     overflow:visible;
-    margin-top: 80px;
+    margin-top: 60px;
   }
   .item,
-  .demoBtn{
-    width:100%;
-    max-width:100%;
-    box-sizing:border-box;
-  }
   .item{ padding:12px; border-radius:10px; }
   .itemTitle{ font-size:16px; margin-bottom:2px; }
   .itemText,.itemList{ font-size:14px; }
   .itemList li{ margin:.2em 0; }
-  .demoBtn{ height:44px; border-radius:10px; }
-  .demoBtn i{ width:32px; height:32px; border-radius:8px; }
+  .demoBtn{ height:46px; border-radius:10px;         width:340px; max-width:340px;
+    align-self:flex-start;          /* чтобы не растягивалась на всю ширину */
+    height:auto;                    /* высоту даст паддинг */
+    padding:5px 5px 5px 15px;
+    font-size:14px;
+    gap:10px;
+    line-height: 130%;
+    letter-spacing: -.03em;}
+  .demoBtn i{ width:36px; height:36px; border-radius:10px; }
 
   /* подчёркивания в списке — фиксируем по baseline */
   .tagUnderline{
     bottom:-0.3em;
-    transform: translate(var(--dx,0px), var(--oy,0px)) rotate(-4deg);
+    transform: translate(var(--dx,0px), var(--oy,0px)) rotate(-0deg);
     width:100%;
   }
 
@@ -388,7 +398,7 @@ import decorSchool from '@/assets/img/decor-talk.svg'
     position:relative;
     width:100%;
     height:360px;
-    margin-top:8px;
+    margin-top:30px;
     overflow:visible; /* даём выйти вниз */
   }
   .canvas > img{

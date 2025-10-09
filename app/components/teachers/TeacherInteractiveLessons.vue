@@ -1,5 +1,5 @@
 <template>
-  <section :class="$style.wrap">
+  <section :class="$style.wrap" id="interactive">
     <div :class="$style.inner">
       <!-- Заголовок -->
       <header :class="$style.head">
@@ -119,7 +119,7 @@ const feats: Feat[] = [
 .hl::before{
   content:"";
   position:absolute;
-  inset:-.38em -.38em;
+  inset:-.48em -.08em;
   top:50%;
   transform:translateY(-50%) rotate(1.2deg);
   background:#FFD249;
@@ -137,7 +137,7 @@ const feats: Feat[] = [
 
 /* ===== Карточки ===== */
 
-/* По умолчанию (ПК ≥ 1390): сетка жёстко на 1390px */
+/* По умолчанию (ПК ≥ 1390): сетка жестко на 1390px */
 .grid{
   list-style:none;
   margin:50px auto 0;
@@ -180,18 +180,18 @@ const feats: Feat[] = [
 .text{ margin-top:40px; }
 .metric{
   font-family: Inter, system-ui, sans-serif;
-  font-weight:700;
+  font-weight:600;
   font-size:36px;
   line-height:1.1;
   letter-spacing:-.03em;
   color:#2C2C2C;
-  margin:0 0 6px;
+  margin:0 0 8px;
 }
 .label{
   font:500 20px/1.2 Inter, system-ui, sans-serif;
   letter-spacing:-.03em;
   color:#2C2C2C;
-  margin:0 0 12px;
+  margin:0 0 30px;
 }
 .desc{
   margin:0;
@@ -254,8 +254,8 @@ const feats: Feat[] = [
   }
   .shotWrap{ height:170px; }
   .shot{ max-width:92%; }
-  .metric{ font-size:30px; }
-  .label{ font-size:18px; }
+  .metric{ font-size:24px; }
+  .label{ font-size:16px; }
   .desc{ font-size:14px; }
 }
 </style>

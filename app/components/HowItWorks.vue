@@ -1,5 +1,5 @@
 <template>
-  <section :class="$style.wrap">
+  <section :class="$style.wrap" id="platform">
     <div :class="$style.container">
       <header :class="$style.head">
         <h2 :class="$style.title">
@@ -28,7 +28,7 @@
         <article :class="$style.step">
           <span :class="$style.num"><b>01</b></span>
           <p :class="$style.stepText">
-            Вы слушаете, читаете и повторяете фразы, копируя произношение
+            Вы слушаете, читаете и повторяете<br /> фразы, копируя произношение<br />
             и интонации носителей языка.
           </p>
         </article>
@@ -36,7 +36,7 @@
         <article :class="$style.step">
           <span :class="$style.num"><b>02</b></span>
           <p :class="$style.stepText">
-            Вы смотрите видеофрагменты из фильмов и мультфильмов, переводите
+            Вы смотрите видеофрагменты<br /> из фильмов и мультфильмов,<br /> переводите
             и повторяете фразы.
           </p>
         </article>
@@ -44,7 +44,7 @@
         <article :class="$style.step">
           <span :class="$style.num"><b>03</b></span>
           <p :class="$style.stepText">
-            Вы переводите с&nbsp;русского на&nbsp;английский или с&nbsp;английского на&nbsp;русский,
+            Вы переводите с&nbsp;русского<br /> на&nbsp;английский или с&nbsp;английского<br /> на&nbsp;русский,
             сверяясь с&nbsp;ответом.
           </p>
         </article>
@@ -52,9 +52,9 @@
         <article :class="$style.step">
           <span :class="$style.num"><b>04</b></span>
           <p :class="$style.stepText">
-            Вы отрабатываете разговорные навыки<br />
-            до автоматизма в аудиотренажере,<br />
-            совмещая занятия английским с повседневными делами.
+            Вы отрабатываете разговорные навыки до<br />
+            автоматизма в аудиотренажере,совмещая<br />
+            занятия английским с повседневными делами.
           </p>
         </article>
 
@@ -113,10 +113,28 @@ import heroBg from '@/assets/img/how-hero-bg.png'
   line-height:.95; letter-spacing:-.05em; color:#2C2C2C;
 }
 .hl{
-  display:inline-block; background:#FFD249; padding:.06em .34em; border-radius:10px;
-  transform:rotate(1.5deg);
+  display:inline-block; border-radius:10px;
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.06);
 }
+
+/* плашка только фоном */
+.hl{
+  position:relative;
+  display:inline-block;
+  padding:.06em .34em;
+  border-radius:10px;
+  z-index:0;
+}
+.hl::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:#FFD249;
+  border-radius:10px;
+  transform:rotate(1.51deg);
+  z-index:-1; /* фон под текстом */
+}
+
 .lead{
   margin:0 auto;
   font:500 18px/1.3 Inter, sans-serif; letter-spacing:-.03em; color:#2C2C2C;
@@ -153,16 +171,43 @@ import heroBg from '@/assets/img/how-hero-bg.png'
 }
 .wave{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .heroBg{ position:absolute; left:26px; bottom:26px; height:88px; z-index:1; }
+/* Заголовок — оба ряда по одному левому краю */
 .heroTitle{
   position:absolute; left:30px; right:30px; bottom:40px; margin:0;
-  font:500 40px/1.15 Inter, sans-serif; letter-spacing:-.05em; color:#fff; z-index:2;
+  display:flex; flex-direction:column; align-items:flex-start; /* общий левый край текста */
+  text-align:left;
+  font:500 40px/1.15 Inter, sans-serif;
+  letter-spacing:-.05em; color:#fff; z-index:2;
 }
+
+/* Текст “работает?” — НЕ вращаем, задаём внутренние паддинги 13px */
 .bubble{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:214px; height:50px; background:#fff; color:#2C2C2C;
-  border-radius:10px; transform:rotate(1.5deg); margin-left:.25rem;
-  box-shadow:0 6px 16px rgba(0,0,0,.12);
+  position:relative;
+  display:inline-block;
+  color:#2C2C2C; font-weight:500; line-height:1.1;
+  text-align:left;                  /* текст по левому краю */
+  z-index:0;                        /* поверх фона-псевдоэлемента */
 }
+
+/* Белая наклонённая плашка — отдельный слой, выдвигаем ЛЕВЕЕ текста */
+.bubble::before{
+  content:"";
+  position:absolute;
+  /* делаем фон шире текста: выступ слева и справа */
+  left:-16px;                       /* ← выступ за левый край текста */
+  right:-10px;                      /* можно подправить под макет */
+  top:-6px; bottom:-6px;            /* вертикальные поля фона */
+  background:#fff; border-radius:10px;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+  transform:rotate(1.51deg);
+  transform-origin:left center;     /* чтоб край вращался вокруг левого */
+  z-index:-1;                       /* фон под текстом */
+}
+
+/* немного приблизим плашку к нижней строке, как в макете */
+.bubble{ margin-top:4px; }
+
+
 .parrot{ position:absolute; right:5px; bottom:0; width:200px; max-width:42%; }
 
 /* Шаги */
@@ -170,25 +215,24 @@ import heroBg from '@/assets/img/how-hero-bg.png'
   position:relative; background:#fff; border-radius:20px;
   box-shadow:0 8px 22px rgba(16,24,40,.06);
   padding:30px;                                  /* desktop */
-  min-height:200px;
+  min-height:170px;
   display:flex; flex-direction:column; justify-content:flex-end; gap:18px;
 }
 .num{
-  position:absolute; top:16px; left:16px;        /* desktop */
+  position:absolute; top:30px; left:30px;        /* desktop */
   width:32px; height:32px; border-radius:999px; display:grid; place-items:center;
-  background:#B87EFF; color:#fff; box-shadow:0 4px 10px rgba(184,126,255,.35);
+  background:#41BCF8; color:#fff; box-shadow:0 4px 10px hsla(203, 100%, 75%, 0.35);
 }
 .num b{ font:600 14px/1.2 Inter, system-ui, sans-serif; letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
 
 .stepText{
   margin:0; color:#2C2C2C; text-align:left;
-  font:500 16px/1.3 Inter, sans-serif; letter-spacing:-.03em;
-  max-width:85%;
+  font:500 16px Inter, sans-serif; letter-spacing:-.03em; line-height: 130%;
   word-break:break-word;
 }
 
 /* CTA */
-.ctaCard{ background:#fff; padding:30px; display:flex; flex-direction:column; gap:18px; }
+.ctaCard{ background:#fff; padding:30px; display:flex; flex-direction:column; gap:30px; }
 .rowText{ display:flex; gap:12px; }
 .starIcon{ width:24px; height:25px; flex:0 0 24px; }
 
@@ -222,8 +266,8 @@ import heroBg from '@/assets/img/how-hero-bg.png'
 @media (max-width:640px){
   .wrap{ padding-top:120px; }
 
-  .head{ margin-bottom:32px; }
-  .title{ font-size:33px; line-height:1.02; letter-spacing:-.04em; margin-bottom:14px; }
+  .head{ margin-bottom:40px; }
+  .title{ font-size:33px; line-height:1.02; letter-spacing:-.04em; margin-bottom:20px; }
   .lead{ font-size:16px; }
 
   .container{
@@ -244,13 +288,18 @@ import heroBg from '@/assets/img/how-hero-bg.png'
   .step{
     padding:30px 25px;
   }
+
+  .stepText{
+    font-size: 14px;
+  }
   /* цифра: отступ 30/30 */
   .num{
     top:30px; left:25px;
   }
 
-  .hero{ min-height:220px; }
-  .heroTitle{ font-size:30px; bottom:32px; }
+  .hero{ min-height:170px; }
+    .heroTitle{ font-size:32px; bottom:32px; }
+  .bubble::before{ left:-14px; right:-8px; top:-5px; bottom:-5px; }
   .heroBg{ left:16px; bottom:20px; height:64px; }
   .parrot{ width:170px; max-width:48%; }
 
@@ -270,7 +319,7 @@ import heroBg from '@/assets/img/how-hero-bg.png'
   }
 
   .stepText {
-    max-width: 95%;
+    max-width: 100%;
   }
 }
 </style>

@@ -1,11 +1,19 @@
 <template>
-  <section :class="$style.wrap" aria-labelledby="faqTitle">
+  <section :class="$style.wrap" aria-labelledby="faqTitle" id="faq">
     <div :class="$style.inner">
       <!-- Заголовок -->
       <header :class="$style.head">
-        <h2 id="faqTitle" :class="$style.title">
+        <!-- Desktop -->
+        <h2 id="faqTitle" :class="[$style.title, $style.titleDesk]">
           Отвечаем на волнующие<br />
           <span :class="$style.hl">вопросы</span>
+        </h2>
+
+        <!-- Mobile (3 строки) -->
+        <h2 :class="[$style.title, $style.titleMob]" aria-label="Отвечаем на волнующие вопросы">
+          <span :class="$style.mLine">Отвечаем</span>
+          <span :class="$style.mLine">на волнующие</span>
+          <span :class="[$style.mLine, $style.mHL]">вопросы</span>
         </h2>
       </header>
 
@@ -36,7 +44,7 @@
             </span>
           </button>
 
-          <!-- Плавное раскрытие: анимируем высоту answerOuter; внутри контент с паддингами -->
+          <!-- Ответ -->
           <transition
             name="faq"
             @enter="onEnter"
@@ -80,16 +88,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, onMounted } from 'vue'
+import { ref } from 'vue'
 
 const openIndex = ref<number|null>(null)
 
 const faqs = [
-  { q: 'Не уверен, что мне подойдёт платформа. Как быть?', a: 'У нас есть бесплатный пробный период, чтобы вы могли понять подходит ли вам обучение.' },
+  { q: 'Не уверен, что мне подойдет платформа. Как быть?', a: 'У нас есть бесплатный пробный период, чтобы вы могли понять подходит ли вам обучение.' },
   { q: 'UCANSPEAK лучше репетитора?', a: 'В платформе вы получаете системный подход, гибкий график и доступ к интерактивным материалам.' },
   { q: 'Как часто нужно заниматься?', a: 'Мы рекомендуем 3-4 раза в неделю по 20-30 минут для стабильного прогресса.' },
   { q: 'Какой минимальный уровень нужен для старта?', a: 'Можно начинать с нуля — есть базовые курсы и поддержка.' },
-  { q: 'Справится ли ребёнок с обучением английскому на платформе самостоятельно?', a: 'Да, у нас есть адаптированные материалы для детей и простая структура уроков.' }
+  { q: 'Справится ли ребенок с обучением английскому на платформе самостоятельно?', a: 'Да, у нас есть адаптированные материалы для детей и простая структура уроков.' }
 ]
 
 // refs для панелей (v-show не размонтирует, так что хранить безопасно)
@@ -100,7 +108,7 @@ function toggle(i: number) {
 }
 
 /* ===== Плавные хуки для height ===== */
-const EASING = 'cubic-bezier(.22,.61,.36,1)' // мягкая кривая
+const EASING = 'cubic-bezier(.22,.61,.36,1)'
 
 function setTransition(el: HTMLElement) {
   el.style.transition = `height .28s ${EASING}, opacity .28s ${EASING}, transform .28s ${EASING}`
@@ -115,11 +123,9 @@ function clearTransition(el: HTMLElement) {
 function onEnter(el: Element) {
   const elh = el as HTMLElement
   setTransition(elh)
-  // стартовые значения
   elh.style.height = '0px'
   elh.style.opacity = '0'
   elh.style.transform = 'translateY(-4px)'
-  // след. кадр — до целевой высоты
   requestAnimationFrame(() => {
     const h = elh.scrollHeight
     elh.style.height = h + 'px'
@@ -130,7 +136,6 @@ function onEnter(el: Element) {
 
 function onAfterEnter(el: Element) {
   const elh = el as HTMLElement
-  // фиксируем авто-высоту после анимации
   elh.style.height = 'auto'
   elh.style.opacity = '1'
   elh.style.transform = 'translateY(0)'
@@ -139,12 +144,9 @@ function onAfterEnter(el: Element) {
 
 function onBeforeLeave(el: Element) {
   const elh = el as HTMLElement
-  // из auto → фиксированная высота, чтобы был плавный схлоп
   elh.style.height = elh.scrollHeight + 'px'
   elh.style.opacity = '1'
   elh.style.transform = 'translateY(0)'
-  // синхронный reflow, затем включаем transition
-  // и сразу ставим целевые значения
   requestAnimationFrame(() => {
     setTransition(elh)
     elh.style.height = '0px'
@@ -155,7 +157,6 @@ function onBeforeLeave(el: Element) {
 
 function onLeave(el: Element) {
   const elh = el as HTMLElement
-  // по завершении схлопа чистим стили (на всякий)
   elh.addEventListener('transitionend', () => {
     clearTransition(elh)
   }, { once: true })
@@ -173,7 +174,7 @@ function onLeave(el: Element) {
 }
 
 /* Заголовок */
-.head{ text-align:center; margin-bottom:60px; }
+.head{ text-align:center; margin-bottom:30px; }
 .title{
   margin:0;
   font-family: Inter, sans-serif;
@@ -185,7 +186,20 @@ function onLeave(el: Element) {
   text-align:center;
 }
 
-/* Спан для мобильного хайлайта */
+/* Desktop / Mobile заголовки */
+.titleDesk{ display:block; }
+.titleMob{ display:none; }
+
+.mLine{ display:block; }
+.mHL{
+  position:relative; display:inline-block; padding:.06em .28em; border-radius:10px;
+}
+.mHL::before{
+  content:""; position:absolute; inset:0; background:#FFD249; border-radius:10px;
+  transform:rotate(1.2deg); z-index:-1;
+}
+
+/* Спан для десктопного хайлайта (если нужен ровный фон) */
 .hl{ display:inline; background:none; }
 
 /* сетка */
@@ -239,10 +253,10 @@ function onLeave(el: Element) {
   transform: rotate(45deg);
 }
 
-/* ===== Ответ: плавная высота без дёрганий ===== */
+/* ===== Ответ ===== */
 .answerOuter{
   overflow:hidden;
-  height:0;                 /* стартовое */
+  height:0;
   opacity:0;
   transform:translateY(-4px);
   will-change:height, opacity, transform;
@@ -254,9 +268,6 @@ function onLeave(el: Element) {
   box-shadow:0 4px 12px rgba(0,0,0,.06);
   font-family:Inter,sans-serif; font-size:16px; line-height:1.4; color:#374151;
 }
-
-/* transition-класс на всякий, но основное — в хуках */
-.faq-enter-active, .faq-leave-active{}
 
 /* CTA */
 .cta{
@@ -279,26 +290,35 @@ function onLeave(el: Element) {
 
 /* мобильный */
 @media (max-width:640px){
-  .wrap{ padding:120px 15px 0; }
+  .wrap{ padding:120px 0 0; }
 
-  .title{
-    font-size:33px; line-height:1.02; letter-spacing:-0.04em;
+  .grid {gap: 10px;}
+
+  /* мобильный заголовок: 3 строки */
+  .titleDesk{ display:none; }
+  .titleMob{
+    display:block;
+    font-size:33px;
+    line-height:1.02;
+    letter-spacing:-0.04em;
+    margin:0;
   }
 
-  .hl{
-    display:inline-block;
-    background:#FFD249;
+  /* вопросы — 16px и больше расстояние до плюса */
+  .text{
+    font-size:16px;
+    line-height:1.3;
+  }
+  .item{
+    min-height:76px;
+    padding:0 16px 0 16px;      /* симметричнее */
+    gap:30px;                   /* ← больше зазор между текстом и плюсом */
     border-radius:10px;
-    padding:.06em .28em;
-    transform:rotate(1.2deg);
-    box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
   }
-
-  .text{ font-size:18px; line-height:1.25; }
-  .item{ min-height:76px; padding:0 14px 0 16px; border-radius:16px; }
   .plus{ width:30px; height:30px; flex:0 0 30px; }
 
   .answerInner{ font-size:16px; line-height:1.35; }
+
   .cta{ min-height:84px; }
   .ctaText{ font-size:18px; }
 }

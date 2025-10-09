@@ -1,5 +1,5 @@
 <template>
-  <section :class="$style.wrap">
+  <section :class="$style.wrap" id="review">
     <div class="container">
       <!-- Заголовок -->
       <header :class="$style.head">
@@ -105,7 +105,7 @@ const items: TItem[] = [
   { photo: userPhoto, avatar: userAvatar, name: 'Алена', subtitle: 'Экзамены в университете на отлично',
     text: 'Пользуюсь платформой уже несколько месяцев и очень довольна результатами! Уроки построены так, что материал легко усваивается, а задания мотивируют заниматься регулярно. Особенно нравится возможность отрабатывать разговорную речь с носителями языка — это помогает не только улучшить произношение, но и чувствовать себя увереннее в общении. Интерфейс простой и понятный, а аудио- и видеоматериалы делают процесс обучения интересным.' },
   { photo: userPhoto, avatar: userAvatar, name: 'Антон', subtitle: 'Повысил уровень разговорного',
-    text: 'За пару месяцев стал свободнее общаться на работе с иностранными коллегами. Очень выручают тренажёры и короткие ежедневные занятия.' },
+    text: 'За пару месяцев стал свободнее общаться на работе с иностранными коллегами. Очень выручают тренажеры и короткие ежедневные занятия.' },
   { photo: userPhoto, avatar: userAvatar, name: 'Марина', subtitle: 'Подготовка к поездке',
     text: 'Диалоги по темам путешествий — супер! Разобралась со всеми фразами в аэропорту и отеле.' },
   { photo: userPhoto, avatar: userAvatar, name: 'Игорь', subtitle: 'Сдал собеседование',
@@ -142,7 +142,7 @@ const next = () => { active.value = (active.value + 1) % items.length }
 /* Mobile title выключен по умолчанию */
 .titleMob{ display:none; }
 
-/* Жёлтая плашка: наклон строго -1.5° */
+/* Желтая плашка: наклон строго -1.5° */
 .hl{
   display:inline-block;
   background:#FFD249;
@@ -216,7 +216,7 @@ const next = () => { active.value = (active.value + 1) % items.length }
 
 /* Мобилка — карусель + заголовок в 3 строки */
 @media (max-width: 640px){
-  .wrap{ padding:120px 15px 0; }
+  .wrap{ padding:120px 0 0; }
 
   /* Переключаем версии заголовка */
   .titleDesk{ display:none; }
@@ -262,7 +262,7 @@ const next = () => { active.value = (active.value + 1) % items.length }
 
   .user{ gap:10px; }
   .avatar{ width:40px; height:40px; }
-  .name{ font-size:20px; }
+  .name{ font-size:18px; }
   .sub{ font-size:14px; }
 
   .tagsWrap{ margin-top:10px; }

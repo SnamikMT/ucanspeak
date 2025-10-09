@@ -1,6 +1,6 @@
 <!-- components/teachers/TeachersSteps.vue -->
 <template>
-  <section :class="$style.wrap">
+  <section :class="$style.wrap" id="platform">
     <div :class="$style.inner">
       <!-- Заголовок -->
       <header :class="$style.head">
@@ -11,7 +11,7 @@
           </span>
         </h2>
         <p :class="$style.lead">
-          Внедрите методы UCANSPEAK и превзойдите конкурентов
+          Внедрите методы UCANSPEAK<br></br> и превзойдите конкурентов
         </p>
       </header>
 
@@ -99,9 +99,9 @@ import pin from '@/assets/img/pin2.svg'
   position:absolute;
   left:-.38em;
   right:-.38em;
-  top:50%;
+  top:62%;
   transform:translateY(-50%) rotate(1.5deg); /* теперь наклон вправо! */
-  height:1.05em;
+  height:1.25em;
   background:#FFD249;
   border-radius:10px;
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.06);
@@ -148,7 +148,7 @@ import pin from '@/assets/img/pin2.svg'
   font-size:40px;
   line-height:1.15;
   letter-spacing:-0.05em;
-  color:#111827;
+  color:#2C2C2C;
   white-space:nowrap;
 }
 .pin {
@@ -212,18 +212,18 @@ import pin from '@/assets/img/pin2.svg'
 
   .grid {
     grid-template-columns:390px;
-    grid-auto-rows:158px;
+    grid-auto-rows:137px;
     justify-content:center;
-    gap:16px;
+    gap:20px;
   }
 
   .note {
     top:-24px;
-    width:245px;
+    width:196px;
     height:72px;
-    padding-left:18px;
+    padding-left:40px;
   }
-  .txt { font-size:28px; }
-  .pin { width:44px; height:44px; right:-10px; top:-14px; }
+  .txt { font-size:26px; }
+  .pin { width:90px; height:90px; right:-20px; top:-20px; }
 }
 </style>

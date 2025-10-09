@@ -8,7 +8,7 @@
 
     <!-- Навигация (desktop) -->
     <nav :class="$style.nav">
-      <NuxtLink to="/pricing" class="btn btn--ghost" :class="$style.navBtn">Тарифы</NuxtLink>
+      <NuxtLink to="#pricing" class="btn btn--ghost" :class="$style.navBtn">Тарифы</NuxtLink>
       <NuxtLink
         :to="isTeachers ? '/students' : '/teachers'"
         class="btn btn--ghost"
@@ -16,7 +16,7 @@
       >
         {{ isTeachers ? 'Взрослым & Детям' : 'Преподавателям' }}
       </NuxtLink>
-      <NuxtLink to="/contacts" class="btn btn--ghost" :class="$style.navBtn">Контакты</NuxtLink>
+      <NuxtLink to="#contact" class="btn btn--ghost" :class="$style.navBtn">Контакты</NuxtLink>
     </nav>
 
     <!-- CTA (desktop) -->
@@ -61,7 +61,7 @@
       </header>
 
       <nav :class="$style.sheetNav">
-        <NuxtLink to="/pricing" :class="$style.sheetLink" @click="close()">Тарифы</NuxtLink>
+        <NuxtLink to="#pricing" :class="$style.sheetLink" @click="close()">Тарифы</NuxtLink>
 
         <NuxtLink
           :to="isTeachers ? '/students' : '/teachers'"
@@ -71,7 +71,7 @@
           {{ isTeachers ? 'Взрослым & Детям' : 'Преподавателям' }}
         </NuxtLink>
 
-        <NuxtLink to="/contacts" :class="$style.sheetLink" @click="close()">Контакты</NuxtLink>
+        <NuxtLink to="#contact" :class="$style.sheetLink" @click="close()">Контакты</NuxtLink>
       </nav>
 
       <NuxtLink to="/platform" :class="$style.sheetCta" @click="close()">
