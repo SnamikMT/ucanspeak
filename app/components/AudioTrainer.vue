@@ -321,7 +321,7 @@ import iconTime       from '@/assets/img/feature-time.svg'
   }
   .stickyText{ font-size:14px; line-height:18px; }
   .stLine{ line-height:18px; }
-  .underTv{ bottom:-10px; }
+  .underTv{ bottom:-14px; }
   .pin{ right:-6px; top:-36px; transform:scale(.72); transform-origin:top right; }
 
   .info{
