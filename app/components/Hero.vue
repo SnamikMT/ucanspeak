@@ -100,7 +100,7 @@ import waveDesk from '@/assets/img/hero-wave.svg'
 import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 
 /* Источники видео */
-import videoWebm from '@/assets/video/hero-alpha.webm'
+import videoWebm from '@/assets/video/hero.mp4'
 import videoMp4  from '@/assets/video/hero.mp4'
 const poster = '/hero-girl.jpg'
 

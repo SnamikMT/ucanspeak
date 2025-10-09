@@ -118,7 +118,7 @@ import waveDesk from '@/assets/img/teachers/teachers-hero-wave.svg'
 import waveMob  from '@/assets/img/teachers/teachers-hero-wave-mobile.svg'
 
 /* видео (webm с альфой — при наличии) + mp4 фолбек + постер */
-import videoWebm from '@/assets/video/hero-alpha.webm'
+import videoWebm from '@/assets/video/hero.mp4'
 import videoMp4  from '@/assets/video/hero.mp4'
 const poster = '/hero-girl.jpg'
 
