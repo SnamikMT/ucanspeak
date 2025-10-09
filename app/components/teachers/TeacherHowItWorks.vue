@@ -207,7 +207,7 @@ import pin from '@/assets/img/pin2.svg'
 
 @media (max-width:640px) {
   .wrap { padding-top:120px; }
-  .title { font-size:33px; line-height:1.02; letter-spacing:-0.04em; }
+  .title { font-size:33px; line-height:1.02; letter-spacing:-0.06em; }
   .head { margin-bottom:64px; }
 
   .grid {

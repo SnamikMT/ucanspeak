@@ -135,7 +135,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-import imgPhone2x     from '@/assets/img/extras-phone.png'
+import imgPhone2x     from '@/assets/img/teachers/teacher-extras-phone.png'
 import imgTranslate2x from '@/assets/img/extras-translate.png'
 import imgTables2x    from '@/assets/img/extras-tables.png'
 

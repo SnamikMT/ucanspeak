@@ -18,8 +18,13 @@
         <!-- Mobile -->
         <h2 :class="[$style.title, $style.titleMob]">
           <span :class="$style.mline">Используйте</span>
-          <span :class="[$style.mline, $style.mbubble]">готовые уроки&nbsp;или</span>
-          <span :class="[$style.mline, $style.mbubble]">отдельные практики</span>
+
+          <!-- ОДНА ОБЩАЯ ПЛАШКА на 2 строки -->
+          <span :class="$style.mBubbleBlock">
+            <span :class="$style.mline">готовые уроки&nbsp;или</span>
+            <span :class="$style.mline">отдельные практики</span>
+          </span>
+
           <span :class="$style.mline">для создания</span>
           <span :class="$style.mline">персонализированной</span>
           <span :class="$style.mline">программы обучения</span>
@@ -61,7 +66,7 @@ import parrot from '@/assets/img/teachers/parrot.png'
   box-shadow:0 10px 24px rgba(16,24,40,.08);
   padding:0 var(--pad-x);
   display:flex;
-  align-items:center;                /* ← центрируем текст по вертикали */
+  align-items:center;
   justify-content:space-between;
 }
 
@@ -166,17 +171,24 @@ import parrot from '@/assets/img/teachers/parrot.png'
   }
   .mline { display:block; }
 
-  /* белые плашки */
-  .mbubble {
+  /* ЕДИНАЯ плашка на 2 строки */
+  .mBubbleBlock{
+    position:relative;
     display:inline-block;
-    background:#fff;
     color:#2C2C2C;
-    padding:.08em .28em;
+    padding:.08em .28em;      /* внутренние отступы текста */
+    border-radius:12px;       /* радиус самого блока */
+    z-index:0;                /* для ::before ниже текста */
+  }
+  .mBubbleBlock::before{
+    content:"";
+    position:absolute;
+    inset:-.10em -.18em;      /* чтобы фон выступал вокруг текста */
+    background:#fff;
     border-radius:12px;
-    transform:rotate(.6deg);
+    transform:rotate(.6deg);  /* лёгкий наклон фона */
     box-shadow:0 2px 0 rgba(0,0,0,.06);
-    -webkit-box-decoration-break:clone;
-    box-decoration-break:clone;
+    z-index:-1;
   }
 
   /* попугай снизу по центру */

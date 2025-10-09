@@ -19,7 +19,7 @@
         <div :class="$style.topTile" style="--bg:#41BCF8">
           <div :class="$style.topTileBody">
             <img :src="bgVideo"   :class="$style.topTileBG"   alt="" />
-            <!-- Мобильные vars: --m-shot-left / --m-shot-top / --m-shot-scale -->
+            <!-- мобильные var-позиции -->
             <img
               :src="shotVideo"
               :class="$style.topTileShot"
@@ -82,6 +82,7 @@
 
       <!-- BOTTOM: четыре карточки -->
       <div :class="$style.bottomGrid">
+        <!-- 01 -->
         <div :class="$style.bottomCard">
           <span :class="$style.num"><b>01</b></span>
           <p :class="$style.bottomText">
@@ -92,7 +93,6 @@
             :class="[$style.bottomArt, $style.art1]"
             alt=""
             :style="{
-              /* моб.позиция для этой картинки */
               '--m-left':'50%',
               '--m-bottom':'0px',
               '--m-translateX':'-50%',
@@ -101,8 +101,9 @@
           />
         </div>
 
+        <!-- 02 -->
         <div :class="$style.bottomCard">
-          <span :class="$style.num">02</span>
+          <span :class="$style.num"><b>02</b></span>
           <p :class="$style.bottomText">
             Вы тренируете восприятие на слух, прослушивая каждую фразу столько раз, сколько нужно
           </p>
@@ -119,13 +120,12 @@
           />
         </div>
 
-        <!-- 03: ПОПУГАЙ — ВИДЕО вместо картинки -->
+        <!-- 03: ПОПУГАЙ — ВИДЕО -->
         <div :class="$style.bottomCard">
-          <span :class="$style.num">03</span>
+          <span :class="$style.num"><b>03</b></span>
           <p :class="$style.bottomText">
             Вы улучшаете произношение, повторяя фразы, копируя произношение и интонации
           </p>
-
           <video
             :class="[$style.bottomArt, $style.art3]"
             :poster="parrotPoster"
@@ -141,20 +141,21 @@
             disableremoteplayback
             :oncontextmenu="() => false"
             :style="{
-              /* моб.позиция для видео-попугая */
               '--m-left':'50%',
               '--m-bottom':'0px',
               '--m-translateX':'-50%',
               '--m-scale':'1'
             }"
           >
-            <source :src="parrotWebm" type="video/webm" />
+            <!-- если есть webm с альфой — оставьте; иначе можно удалить -->
+            <source v-if="parrotWebm" :src="parrotWebm" type="video/webm" />
             <source :src="parrotMp4"  type="video/mp4" />
           </video>
         </div>
 
+        <!-- 04 -->
         <div :class="$style.bottomCard">
-          <span :class="$style.num">04</span>
+          <span :class="$style.num"><b>04</b></span>
           <p :class="$style.bottomText">
             Вы расширяете словарный запас, запоминая разговорные фразы целиком в реальном контексте
           </p>
@@ -188,10 +189,13 @@ import shotGrammar from '@/assets/img/interactive/top-grammar-shot.png'
 /* низ: иллюстрации */
 import b1 from '@/assets/img/interactive/bottom-grammar.png'
 import b2 from '@/assets/img/interactive/bottom-headphones.png'
-/* b3 был попугай-картинка — заменяем на видео */
+
+/* попугай — видео */
 import parrotPoster from '@/assets/img/interactive/bottom-parrot.png'
-import parrotWebm   from '@/assets/video/parrot.mp4'  /* ЗАМЕНИТЕ на ваш путь */
-import parrotMp4    from '@/assets/video/parrot.mp4'   /* ЗАМЕНИТЕ на ваш путь */
+/* Если у вас нет webm — оставьте только mp4 и удалите импорт/тег webm */
+import parrotWebm   from '@/assets/video/parrot.webm'   /* при наличии */
+import parrotMp4    from '@/assets/video/parrot.mp4'
+
 import b4 from '@/assets/img/interactive/bottom-book.png'
 </script>
 
@@ -264,7 +268,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
 .metric{ font:600 36px/1.3 Inter, sans-serif; letter-spacing:-.03em; margin:0; }
 .label{  font:500 20px/1.3 Inter, sans-serif; letter-spacing:-.03em; }
 
-/* белый текст только у первой карточки */
+/* первый тайл — светлый текст */
 .topGrid > :nth-child(1) .metric,
 .topGrid > :nth-child(1) .label{ color:#fff; }
 /* остальные — тёмный */
@@ -296,7 +300,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   max-width:50%;
 }
 
-/* Общие правила для артов (и IMG, и VIDEO) */
+/* Общие правила для артов (и IMG, и VIDEO) — ВСЕГДА видимы по умолчанию */
 .bottomArt{
   position:absolute;
   object-fit:contain;
@@ -304,13 +308,14 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   width:auto; height:auto;
   max-width:280px; max-height:230px;
 }
+
 /* Desktop-позиции (как было) */
 .art1{ right:50px;  bottom:0;    }
 .art2{ right:5px;   bottom:0;    }
-.art3{ right:90px;  bottom:0;    }  /* видео наследует этот класс */
+.art3{ right:90px;  bottom:0;    }  /* видео наследует позицию */
 .art4{ right:-20px; bottom:-20px; }
 
-/* скрыть контролы в webkit */
+/* убрать контролы webkit у видео */
 .bottomArt::-webkit-media-controls,
 .bottomArt::-webkit-media-controls-enclosure{ display:none !important; }
 
@@ -329,7 +334,7 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   .metric{ font-size: 24px; }
   .label { font-size: 16px; }
 
-  /* Моб. позиционирование скриншотов ТОП-карточек через переменные */
+  /* Моб. позиционирование скриншотов ТОП-карточек через CSS-переменные */
   .topTileShot{
     left: var(--m-shot-left, 50%);
     top:  var(--m-shot-top, 6px);
@@ -345,15 +350,11 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   }
 
   .num{
-    position:static; margin:0; width:32px; height:32px; border-radius:50%;font-size: 14px;
+    position:static; margin:0; width:32px; height:32px; border-radius:50%;
   }
   .bottomText{
-    position:static;
-    margin-top:30px;
-    max-width:100%;
-    font-size:16px;
-    line-height:1.25;
-    text-align:left;
+    position:static; margin-top:30px; max-width:100%;
+    font-size:16px; line-height:1.25; text-align:left;
   }
 
   /* Моб. позиционирование артов НИЖНИХ карточек (и img, и video) через переменные */

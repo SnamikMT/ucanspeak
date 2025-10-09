@@ -122,7 +122,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-import imgPhone2x     from '@/assets/img/extras-phone.png'
+import imgPhone2x     from '@/assets/img/teachers/teacher-extras-phone.png'
 import imgTranslate2x from '@/assets/img/extras-translate.png'
 import imgTables2x    from '@/assets/img/extras-tables.png'
 
@@ -244,8 +244,8 @@ onBeforeUnmount(()=>{
 .leftBadges, .rightBadges{
   position:absolute; top:-88px; width:360px; pointer-events:none;
 }
-.leftBadges{ left:0; top: -20%; display:flex; flex-direction:column; align-items:flex-end; }
-.rightBadges{ right:0; top: -20%; display:flex; flex-direction:column; align-items:flex-start; padding-left:70px; }
+.leftBadges{ left:0; display:flex; flex-direction:column; align-items:flex-end; }
+.rightBadges{ right:0; display:flex; flex-direction:column; align-items:flex-start; padding-left:70px; }
 
 .badge{
   display:inline-flex; align-items:center; gap:9px;

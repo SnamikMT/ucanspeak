@@ -6,7 +6,7 @@
 
       <!-- Левый столбец -->
       <div :class="$style.left">
-        <!-- DESKTOP заголовок (Одна плашка на «для учителей и языковых школ») -->
+        <!-- DESKTOP заголовок -->
         <h1 :class="[$style.title, $style.titleDesk]">
           <span :class="$style.line">Интерактивная платформа</span>
           <span :class="$style.line">разговорной практики английского</span>
@@ -16,7 +16,7 @@
           </span>
         </h1>
 
-        <!-- MOBILE заголовок (две плашки: отдельно «для учителей» и «и языковых школ») -->
+        <!-- MOBILE заголовок (две плашки) -->
         <h1 :class="[$style.title, $style.titleMob]">
           <span :class="$style.mline">Интерактивная</span>
           <span :class="$style.mline">платформа</span>
@@ -31,8 +31,8 @@
         </p>
       </div>
 
-      <!-- Правый столбец: медиа (постер + видео + play) -->
-      <div :class="$style.mediaBox">
+      <!-- Правый столбец: медиа (постер + видео + play/pause) -->
+      <div :class="$style.mediaBox" @click="onMediaClick">
         <!-- Постер — виден до первого кадра -->
         <img
           :class="[$style.mediaPoster, showPoster ? $style.visible : $style.hidden]"
@@ -46,7 +46,7 @@
           ref="vid"
           :class="[$style.mediaVideo, showVideo ? $style.visible : $style.hidden]"
           :poster="poster"
-          muted
+          :muted="muted"
           playsinline
           webkit-playsinline
           preload="metadata"
@@ -63,12 +63,26 @@
         <!-- Play поверх всего -->
         <button
           type="button"
-          :class="[$style.playBtn, hasStarted ? $style.hidden : $style.visible]"
+          :class="[$style.playBtn, hasStarted && isPlaying ? $style.hidden : $style.visible]"
           aria-label="Смотреть демо"
-          @click="startVideo"
+          @click.stop="onPlayButton"
         >
           <svg width="20" height="20" viewBox="0 0 13 16" fill="none" aria-hidden="true">
             <path d="M1 1v14l11-7L1 1z" fill="#fff"/>
+          </svg>
+        </button>
+
+        <!-- Pause (наше, без плеера) -->
+        <button
+          v-if="hasStarted"
+          type="button"
+          :class="[$style.pauseBtn, isPlaying ? $style.visible : $style.hidden]"
+          aria-label="Пауза"
+          @click.stop="pauseVideo"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="3" y="2" width="4" height="12" rx="1" fill="white"/>
+            <rect x="9" y="2" width="4" height="12" rx="1" fill="white"/>
           </svg>
         </button>
       </div>
@@ -79,7 +93,7 @@
         <i aria-hidden="true"><img src="@/assets/img/teachers/teachers-hero-arrow.svg" alt="" /></i>
       </a>
 
-      <!-- Бэйджи (как были) -->
+      <!-- Бэйджи -->
       <aside :class="$style.badge1">
         Интерактивные уроки <br/>по английской грамматике <br/>для взрослых и детей
       </aside>
@@ -106,10 +120,12 @@ import waveMob  from '@/assets/img/teachers/teachers-hero-wave-mobile.svg'
 /* видео (webm с альфой — при наличии) + mp4 фолбек + постер */
 import videoWebm from '@/assets/video/hero-alpha.webm'
 import videoMp4  from '@/assets/video/hero.mp4'
-const poster = '/hero-girl.jpg'  /* замените на ваш постер при необходимости */
+const poster = '/hero-girl.jpg'
 
 const vid = ref<HTMLVideoElement|null>(null)
 const hasStarted = ref(false)
+const isPlaying  = ref(false)
+const muted      = ref(false)
 const showPoster = ref(true)
 const showVideo  = ref(false)
 
@@ -134,14 +150,56 @@ function revealOnFirstFrame(v: HTMLVideoElement){
   v.addEventListener('canplay', onTick, { once:true })
 }
 
-function startVideo(){
+async function startVideo(){
   const v = vid.value
   if (!v) return
   hasStarted.value = true
-  v.muted = true
+  muted.value = false
+  v.muted = false
+  v.volume = 1
   v.currentTime = 0
   revealOnFirstFrame(v)
-  v.play().catch(()=>{})
+
+  try{
+    await v.play()
+    isPlaying.value = true
+  }catch(_){
+    // фолбек: старт без звука (если браузер запретил звук)
+    try{
+      v.muted = true
+      muted.value = true
+      await v.play()
+      isPlaying.value = true
+      setTimeout(()=>{ try{ v.muted = false; muted.value = false }catch(_e){} }, 0)
+    }catch(__){}
+  }
+}
+
+function pauseVideo(){
+  const v = vid.value
+  if (!v) return
+  v.pause()
+  isPlaying.value = false
+}
+function resumeVideo(){
+  const v = vid.value
+  if (!v) return
+  v.muted = false
+  muted.value = false
+  v.play().then(()=>{ isPlaying.value = true }).catch(()=>{})
+}
+
+/* клики */
+function onPlayButton(){
+  startVideo()
+}
+function onMediaClick(){
+  if (!hasStarted.value){
+    startVideo()
+  } else {
+    if (isPlaying.value) pauseVideo()
+    else resumeVideo()
+  }
 }
 </script>
 
@@ -198,7 +256,7 @@ function startVideo(){
   max-width:594px;
 }
 
-/* ===== ПЛАШКИ: вращаем только фон, текст ровный ===== */
+/* ===== ПЛАШКИ ===== */
 .hlBox{
   position:relative;
   display:inline-block;
@@ -216,16 +274,17 @@ function startVideo(){
   transform-origin:left center;
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.06);
 }
-.hlAll{} /* десктоп — одна общая плашка */
+.hlAll{}
 
 /* ===== Правый медиа-бокс ===== */
 .mediaBox{
   position:absolute; bottom:50px; right:50px;
   width:320px; height:500px; border-radius:20px; overflow:hidden;
   background:#fff; box-shadow:0 18px 44px rgba(0,0,0,.10); z-index:2;
+  cursor:pointer;
 }
 
-/* Постер и видео — стопка, видео сверху */
+/* Постер и видео — стопка */
 .mediaPoster, .mediaVideo{
   position:absolute; inset:0;
   width:100%; height:100%;
@@ -239,12 +298,21 @@ function startVideo(){
 .mediaVideo::-webkit-media-controls,
 .mediaVideo::-webkit-media-controls-enclosure{ display:none !important; }
 
-/* Play кнопка поверх */
+/* Play */
 .playBtn{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   width:94px; height:50px; border:0; border-radius:12px; background:#B87EFF; color:#fff;
   display:grid; place-items:center; box-shadow:0 10px 28px rgba(184,126,255,.45); cursor:pointer;
-  z-index:3;
+  z-index:3; pointer-events:auto;
+}
+
+/* Pause */
+.pauseBtn{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:48px; height:48px; border:0; border-radius:50%;
+  background:rgba(0,0,0,.28);
+  display:grid; place-items:center; cursor:pointer;
+  z-index:3; pointer-events:auto;
 }
 
 /* Плавная видимость */
@@ -264,10 +332,17 @@ function startVideo(){
 
 /* Бэйджи */
 .badgeBase{
-  position:absolute; background:#EAEEF7; border-radius:10px; padding:16px 20px;
-  font:500 16px/1.25 Inter,sans-serif; letter-spacing:-.03em;
-  box-shadow:0 10px 24px rgba(17,24,39,.10); z-index:3;
-  display:flex; align-items:center; justify-content:center; text-align:center;
+  position:absolute;
+  background:#EAEEF7;
+  border-radius:10px;
+  padding:16px 20px;
+  font:500 16px/1.25 Inter,sans-serif;
+  letter-spacing:-.03em;
+  box-shadow:0 10px 24px rgba(17,24,39,.10);
+  z-index:3;
+
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
 }
 .badge1{ composes: badgeBase; width:260px; height:103px; transform:rotate(5deg);  top:439px; left:50px; }
 .badge2{ composes: badgeBase; width:283px; height:82px;  transform:rotate(-5deg); top:453px; left:375px; }
@@ -332,6 +407,10 @@ function startVideo(){
   .playBtn{
     width:34px; height:34px; border-radius:50%; background:#B87EFF;
     box-shadow:0 8px 18px rgba(184,126,255,.35);
+  }
+  .pauseBtn{
+    width:42px; height:42px; border-radius:50%;
+    background:rgba(0,0,0,.28);
   }
 
   /* Мобильные бэйджи компактнее */

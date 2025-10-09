@@ -20,7 +20,7 @@
       </div>
 
       <!-- ===== Правый столбец: медиа ===== -->
-      <div :class="$style.mediaBox">
+      <div :class="$style.mediaBox" @click="onMediaClick">
         <!-- Постер всегда снизу, пока нет 1-го кадра -->
         <img
           :class="[$style.mediaPoster, showPoster ? $style.visible : $style.hidden]"
@@ -34,7 +34,7 @@
           ref="vid"
           :class="[$style.mediaVideo, showVideo ? $style.visible : $style.hidden]"
           :poster="poster"
-          muted
+          :muted="muted"
           playsinline
           webkit-playsinline
           preload="metadata"
@@ -48,15 +48,30 @@
           <source v-if="videoMp4"  :src="videoMp4"  type="video/mp4" />
         </video>
 
-        <!-- Play-кнопка поверх всего, исчезает после клика -->
+        <!-- Кнопка Play/Pause поверх всего -->
         <button
           type="button"
-          :class="[$style.playBtn, hasStarted ? $style.hidden : $style.visible]"
+          :class="[$style.playBtn, hasStarted && isPlaying ? $style.hidden : $style.visible]"
           aria-label="Смотреть демо"
-          @click="startVideo"
+          @click.stop="onPlayButton"
         >
-          <svg width="20" height="20" viewBox="0 0 13 16" fill="none" aria-hidden="true">
+          <!-- Иконка Play -->
+          <svg v-if="!hasStarted || !isPlaying" width="20" height="20" viewBox="0 0 13 16" fill="none" aria-hidden="true">
             <path d="M1 1v14l11-7L1 1z" fill="#fff"/>
+          </svg>
+        </button>
+
+        <!-- Полупрозрачная кнопка паузы (показываем только когда идёт воспроизведение) -->
+        <button
+          v-if="hasStarted"
+          type="button"
+          :class="[$style.pauseBtn, isPlaying ? $style.visible : $style.hidden]"
+          aria-label="Пауза"
+          @click.stop="pauseVideo"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="3" y="2" width="4" height="12" rx="1" fill="white"/>
+            <rect x="9" y="2" width="4" height="12" rx="1" fill="white"/>
           </svg>
         </button>
       </div>
@@ -90,22 +105,21 @@ import videoMp4  from '@/assets/video/hero.mp4'
 const poster = '/hero-girl.jpg'
 
 const vid = ref<HTMLVideoElement|null>(null)
-const hasStarted = ref(false) // нажали Play
-const showPoster = ref(true)  // постер виден до 1-го кадра
-const showVideo  = ref(false) // видео показываем только когда есть 1-й кадр
+const hasStarted = ref(false)  // было ли вообще нажатие «Play»
+const isPlaying  = ref(false)  // сейчас играет?
+const muted      = ref(false)  // хотим звук (по клику стартуем со звуком)
+const showPoster = ref(true)   // постер виден до 1-го кадра
+const showVideo  = ref(false)  // видео показываем только когда есть 1-й кадр
 
 function revealOnFirstFrame(v: HTMLVideoElement){
-  // Современный способ: rVFC — отрисован кадр
   const anyV = v as any
   if (typeof anyV.requestVideoFrameCallback === 'function'){
     anyV.requestVideoFrameCallback(() => {
       showVideo.value = true
-      // прячем постер после плавного появления видео
       setTimeout(()=>{ showPoster.value = false }, 60)
     })
     return
   }
-  // Фолбек: ждём timeupdate/canplay и currentTime>0
   const onTick = () => {
     if (v.currentTime > 0 && v.readyState >= 2){
       showVideo.value = true
@@ -118,15 +132,68 @@ function revealOnFirstFrame(v: HTMLVideoElement){
   v.addEventListener('canplay', onTick, { once:true })
 }
 
-function startVideo(){
+async function startVideo(){
   const v = vid.value
   if (!v) return
   hasStarted.value = true
-  // запускаем и сразу подписываемся на первый кадр
-  v.muted = true
+  muted.value = false      // стартуем со звуком
+  v.muted = false
+  v.volume = 1
   v.currentTime = 0
   revealOnFirstFrame(v)
-  v.play().catch(()=>{})
+
+  try{
+    await v.play()
+    isPlaying.value = true
+  }catch(_){
+    // некоторые браузеры могут не дать сразу включить звук.
+    // Фолбек: запускаем без звука, затем включаем звук, если можно.
+    try{
+      v.muted = true
+      muted.value = true
+      await v.play()
+      isPlaying.value = true
+      // попытаемся включить звук сразу после старта (ещё в рамках жеста клика — если это onPlayButton)
+      setTimeout(()=>{
+        try{
+          v.muted = false
+          muted.value = false
+        }catch(_e){}
+      }, 0)
+    }catch(__){
+      // оставим как есть, пользователь может попробовать ещё раз
+    }
+  }
+}
+
+function pauseVideo(){
+  const v = vid.value
+  if (!v) return
+  v.pause()
+  isPlaying.value = false
+}
+
+function resumeVideo(){
+  const v = vid.value
+  if (!v) return
+  v.muted = false
+  muted.value = false
+  v.play().then(()=>{ isPlaying.value = true }).catch(()=>{})
+}
+
+/* Клик по большой области медиабокса */
+function onMediaClick(){
+  if (!hasStarted.value){
+    startVideo()
+  } else {
+    if (isPlaying.value) pauseVideo()
+    else resumeVideo()
+  }
+}
+
+/* Клик по кнопке Play (чтобы не всплывал) */
+function onPlayButton(){
+  startVideo()
 }
 </script>
 
@@ -207,6 +274,7 @@ function startVideo(){
   position:absolute; bottom:50px; right:50px;
   width:320px; height:500px; border-radius:20px; overflow:hidden;
   background:#fff; box-shadow:0 18px 44px rgba(0,0,0,.10); z-index:2;
+  cursor:pointer; /* понятно что кликабельно */
 }
 
 /* Постер под видео, видео сверху */
@@ -222,16 +290,25 @@ function startVideo(){
 .mediaVideo{ z-index:2; }
 .mediaPoster{ z-index:1; }
 
-/* скрыть webkit-контролы */
+/* Полное скрытие любых webkit-контролов */
 .mediaVideo::-webkit-media-controls,
 .mediaVideo::-webkit-media-controls-enclosure{ display:none !important; }
 
-/* Play сверху */
+/* Кнопка Play сверху */
 .playBtn{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   width:94px; height:50px; border:0; border-radius:12px; background:#B87EFF; color:#fff;
   display:grid; place-items:center; box-shadow:0 10px 28px rgba(184,126,255,.45); cursor:pointer;
-  z-index:3;
+  z-index:3; pointer-events:auto;
+}
+
+/* Кнопка Pause (делаем аккуратной) */
+.pauseBtn{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:48px; height:48px; border:0; border-radius:50%;
+  background:rgba(0,0,0,.28);
+  display:grid; place-items:center; cursor:pointer;
+  z-index:3; pointer-events:auto;
 }
 
 /* Плавные появления/исчезновения */
@@ -288,6 +365,10 @@ function startVideo(){
   .playBtn{
     width:34px; height:34px; border-radius:50%; background:#B87EFF;
     box-shadow:0 8px 18px rgba(184,126,255,.35);
+  }
+  .pauseBtn{
+    width:42px; height:42px; border-radius:50%;
+    background:rgba(0,0,0,.28);
   }
 
   .badge1, .badge2{
