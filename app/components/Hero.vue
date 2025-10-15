@@ -8,9 +8,19 @@
       <div :class="$style.left">
         <h1 :class="$style.title">
           <span :class="$style.line1">
-            Заговорите <span :class="$style.hl">на&nbsp;английском уже</span>
+            <!-- мобилка: "уже" внутри плашки; десктоп: скрываем его здесь -->
+            Заговорите
+            <span :class="$style.hl">
+              на&nbsp;английском
+              <span :class="$style.mobOnly">&nbsp;уже</span>
+            </span>
           </span>
-          <span :class="$style.line2">сегодня с Ucanspeak</span>
+
+          <span :class="$style.line2">
+            <!-- десктоп: "уже" в начале 2-й строки; мобилка: скрыто -->
+            <span :class="$style.deskOnly">уже&nbsp;</span>
+            сегодня с Ucanspeak
+          </span>
         </h1>
 
         <p :class="$style.lead">
@@ -21,10 +31,10 @@
 
       <!-- Правый столбец: медиабокс -->
       <div
-        :class="[$style.mediaBox, wideOnMobile ? $style.wideMob : '']"
-        @click="onMediaClick"
+        :class="$style.mediaBox"
+        @click="onPreviewClick"
       >
-        <!-- Постер снизу -->
+        <!-- Постер -->
         <img
           :class="[$style.mediaPoster, showPoster ? $style.visible : $style.hidden]"
           :src="poster"
@@ -32,15 +42,16 @@
           draggable="false"
         />
 
-        <!-- Видео сверху, только после 1-го кадра -->
+        <!-- Видео (ПК воспроизводим внутри бокса; на мобилке — превью, без старта) -->
         <video
-          ref="vid"
+          ref="inlineVid"
           :class="[$style.mediaVideo, showVideo ? $style.visible : $style.hidden]"
           :poster="poster"
-          :muted="muted"
+          :muted="true"
           playsinline
           webkit-playsinline
           preload="metadata"
+          controls="false"
           controlslist="nodownload noplaybackrate noremoteplayback nofullscreen"
           disablepictureinpicture
           disableremoteplayback
@@ -50,25 +61,25 @@
           <source v-if="videoMp4"  :src="videoMp4"  type="video/mp4" />
         </video>
 
-        <!-- Play -->
+        <!-- Play-кнопка -->
         <button
           type="button"
-          :class="[$style.playBtn, hasStarted && isPlaying ? $style.hidden : $style.visible]"
+          :class="[$style.playBtn, (isMobile && !modalOpen) || (!isMobile && !isInlinePlaying) ? $style.visible : $style.hidden]"
           aria-label="Смотреть демо"
-          @click.stop="onPlayButton"
+          @click.stop="onPreviewClick"
         >
-          <svg v-if="!hasStarted || !isPlaying" width="20" height="20" viewBox="0 0 13 16" fill="none" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 13 16" fill="none" aria-hidden="true">
             <path d="M1 1v14l11-7L1 1z" fill="#fff"/>
           </svg>
         </button>
 
-        <!-- Пауза -->
+        <!-- Пауза (только ПК-воспроизведение) -->
         <button
-          v-if="hasStarted"
+          v-if="!isMobile"
           type="button"
-          :class="[$style.pauseBtn, isPlaying ? $style.visible : $style.hidden]"
+          :class="[$style.pauseBtn, isInlinePlaying ? $style.visible : $style.hidden]"
           aria-label="Пауза"
-          @click.stop="pauseVideo"
+          @click.stop="pauseInline"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <rect x="3" y="2" width="4" height="12" rx="1" fill="white"/>
@@ -83,7 +94,7 @@
         <i aria-hidden="true"><img src="@/assets/img/hero-arrow.svg" alt="" /></i>
       </a>
 
-      <!-- Бэйджи -->
+      <!-- Бэйджи (позиции не менял) -->
       <aside :class="$style.badge1">Для тех, кто готов<br/> заниматься самостоятельно</aside>
       <aside :class="$style.badge2">Для взрослых и детей<br/>с любым уровнем языка</aside>
 
@@ -91,43 +102,81 @@
       <img :class="$style.bgDesk" :src="waveDesk" alt="" aria-hidden="true" />
       <img :class="$style.bgMob"  :src="waveMob"  alt="" aria-hidden="true" />
     </div>
+
+    <!-- ===== MODAL (мобилка по клику; на ПК можно тоже открыть по желанию) ===== -->
+    <div v-if="modalOpen" :class="$style.modal" @click.self="closeModal">
+      <div :class="$style.modalInner">
+        <!-- Видео в модалке -->
+        <video
+          ref="modalVid"
+          :class="$style.modalVideo"
+          :poster="poster"
+          playsinline
+          webkit-playsinline
+          preload="metadata"
+          controls="false"
+          controlslist="nodownload noplaybackrate noremoteplayback nofullscreen"
+          disablepictureinpicture
+          disableremoteplayback
+          :oncontextmenu="() => false"
+        >
+          <source v-if="videoWebm" :src="videoWebm" type="video/webm" />
+          <source v-if="videoMp4"  :src="videoMp4"  type="video/mp4" />
+        </video>
+
+        <!-- Кнопки модалки -->
+        <button :class="$style.modalClose" aria-label="Закрыть" @click="closeModal">
+          ✕
+        </button>
+        <button
+          :class="[$style.modalPlay, isModalPlaying ? $style.hidden : $style.visible]"
+          aria-label="Воспроизвести"
+          @click.stop="playModal"
+        >
+          <svg width="22" height="22" viewBox="0 0 13 16" fill="none" aria-hidden="true">
+            <path d="M1 1v14l11-7L1 1z" fill="#fff"/>
+          </svg>
+        </button>
+        <button
+          :class="[$style.modalPause, isModalPlaying ? $style.visible : $style.hidden]"
+          aria-label="Пауза"
+          @click.stop="pauseModal"
+        >
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="3" y="2" width="4" height="12" rx="1" fill="white"/>
+            <rect x="9" y="2" width="4" height="12" rx="1" fill="white"/>
+          </svg>
+        </button>
+      </div>
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, nextTick } from 'vue'
 import Header   from '@/components/Header.vue'
 import waveDesk from '@/assets/img/hero-wave.svg'
 import waveMob  from '@/assets/img/hero-wave-mobile.svg'
 
-/* Видео (горизонтальный ролик) */
-import videoWebm from '@/assets/video/hero.mp4' // при наличии webm — можно заменить
+/* Источники видео */
+import videoWebm from '@/assets/video/hero.mp4'   // если будет webm — поменяйте
 import videoMp4  from '@/assets/video/hero.mp4'
 const poster = '/hero-girl.jpg'
 
-/* Переключатель для мобилки: прямоугольник вместо кружка */
-const useWideMobileVideo = true
-
-/* медиазапрос для мобилки */
+/* media query */
 const isMobile = ref(false)
 let mql: MediaQueryList | null = null
-function applyMq(){ isMobile.value = !!mql?.matches }
-onMounted(()=>{
+const applyMq = () => { isMobile.value = !!mql?.matches }
+onMounted(() => {
   mql = window.matchMedia('(max-width: 640px)')
   mql.addEventListener?.('change', applyMq)
   applyMq()
 })
-onBeforeUnmount(()=>{
-  mql?.removeEventListener?.('change', applyMq)
-})
+onBeforeUnmount(() => mql?.removeEventListener?.('change', applyMq))
 
-const wideOnMobile = computed(()=> useWideMobileVideo && isMobile.value)
-
-/* Воспроизведение */
-const vid = ref<HTMLVideoElement|null>(null)
-const hasStarted = ref(false)
-const isPlaying  = ref(false)
-const muted      = ref(false)
+/* ----- Inline player (ПК) ----- */
+const inlineVid = ref<HTMLVideoElement|null>(null)
+const isInlinePlaying = ref(false)
 const showPoster = ref(true)
 const showVideo  = ref(false)
 
@@ -138,56 +187,70 @@ function revealOnFirstFrame(v: HTMLVideoElement){
       showVideo.value = true
       setTimeout(()=>{ showPoster.value = false }, 60)
     })
-    return
-  }
-  const onTick = () => {
-    if (v.currentTime > 0 && v.readyState >= 2){
-      showVideo.value = true
-      setTimeout(()=>{ showPoster.value = false }, 60)
-      v.removeEventListener('timeupdate', onTick)
-      v.removeEventListener('canplay',   onTick)
+  } else {
+    const onTick = () => {
+      if (v.currentTime > 0 && v.readyState >= 2){
+        showVideo.value = true
+        setTimeout(()=>{ showPoster.value = false }, 60)
+        v.removeEventListener('timeupdate', onTick)
+        v.removeEventListener('canplay',   onTick)
+      }
     }
+    v.addEventListener('timeupdate', onTick)
+    v.addEventListener('canplay', onTick, { once:true })
   }
-  v.addEventListener('timeupdate', onTick)
-  v.addEventListener('canplay', onTick, { once:true })
 }
 
-async function startVideo(){
-  const v = vid.value
+async function playInline(){
+  const v = inlineVid.value
   if (!v) return
-  hasStarted.value = true
-  muted.value = false
-  v.muted = false
-  v.volume = 1
+  v.muted = true               // ПК: безопасно автоплей без звука
   v.currentTime = 0
   revealOnFirstFrame(v)
+  try{ await v.play(); isInlinePlaying.value = true }catch{}
+}
+function pauseInline(){ inlineVid.value?.pause(); isInlinePlaying.value = false }
 
-  try{
-    await v.play()
-    isPlaying.value = true
-  }catch{
-    try{
-      v.muted = true
-      muted.value = true
-      await v.play()
-      isPlaying.value = true
-      setTimeout(()=>{ try{ v.muted = false; muted.value = false }catch{} }, 0)
-    }catch{}
+/* клик по превью */
+function onPreviewClick(){
+  if (isMobile.value){
+    openModal()
+  }else{
+    isInlinePlaying.value ? pauseInline() : playInline()
   }
 }
-function pauseVideo(){ vid.value?.pause(); isPlaying.value = false }
-function resumeVideo(){
-  const v = vid.value; if (!v) return
-  v.muted = false; muted.value = false
-  v.play().then(()=> isPlaying.value = true).catch(()=>{})
-}
 
-/* клики */
-function onMediaClick(){
-  if (!hasStarted.value) startVideo()
-  else isPlaying.value ? pauseVideo() : resumeVideo()
+/* ----- Modal player (мобилка) ----- */
+const modalOpen = ref(false)
+const modalVid = ref<HTMLVideoElement|null>(null)
+const isModalPlaying = ref(false)
+
+async function openModal(){
+  modalOpen.value = true
+  // заблокировать скролл страницы
+  document.documentElement.style.overflow = 'hidden'
+  await nextTick()
+  const v = modalVid.value
+  if (!v) return
+  v.muted = false; v.volume = 1
+  v.currentTime = 0
+  try{ await v.play(); isModalPlaying.value = true }catch{}
 }
-function onPlayButton(){ startVideo() }
+function closeModal(){
+  const v = modalVid.value
+  if (v){ v.pause(); isModalPlaying.value = false }
+  modalOpen.value = false
+  document.documentElement.style.overflow = ''
+}
+async function playModal(){
+  const v = modalVid.value; if (!v) return
+  v.muted = false
+  try{ await v.play(); isModalPlaying.value = true }catch{}
+}
+function pauseModal(){
+  const v = modalVid.value; if (!v) return
+  v.pause(); isModalPlaying.value = false
+}
 </script>
 
 <style module>
@@ -226,6 +289,11 @@ function onPlayButton(){ startVideo() }
   color:#141414;
 }
 .line1, .line2{ display:block; }
+
+/* утил-классы для "уже" */
+.deskOnly{ display:inline; }
+.mobOnly { display:none;  }
+
 .hl{
   position: relative;
   display: inline-block;
@@ -244,23 +312,22 @@ function onPlayButton(){ startVideo() }
   max-width:594px;
 }
 
-/* Бэйджи */
+/* Бэйджи — без изменений позиций */
 .badgeBase{
   position:absolute; background:#EAEEF7; border-radius:10px; padding:16px 20px;
   font:500 16px/1.3 Inter,sans-serif; letter-spacing:-.03em;
   box-shadow:0 10px 24px rgba(17,24,39,.10); z-index:3;
 }
-.badge1{ composes: badgeBase; width:260px; height:74px; transform:rotate(5deg);  top:400px; left:148px; }
-.badge2{ composes: badgeBase; width:241px; height:74px; transform:rotate(-5deg); top:403px; left:535px; }
+.badge1{ composes: badgeBase; width:260px; height:74px; transform:rotate(5deg);  top:400px; left:90px; }
+.badge2{ composes: badgeBase; width:241px; height:74px; transform:rotate(-5deg); top:403px; left:390px; }
 
-/* ===== Медиабокс =====
-   ДЕСКТОП: горизонтальный прямоугольник 16:9 (например 560×315)
-*/
+/* ===== Медиабокс ===== */
+/* ПК: горизонтальный 16:9; фон плея — #B87EFF */
 .mediaBox{
   position:absolute; bottom:50px; right:50px;
-  width:560px; height:315px;            /* ← горизонтальный на ПК */
+  width:560px; height:315px;
   border-radius:20px; overflow:hidden;
-  background:#000; box-shadow:0 18px 44px rgba(0,0,0,.10); z-index:2;
+  background:#B87EFF; box-shadow:0 18px 44px rgba(0,0,0,.10); z-index:2;
   cursor:pointer;
 }
 .mediaPoster, .mediaVideo{
@@ -307,17 +374,40 @@ function onPlayButton(){ startVideo() }
 .bgDesk{ position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; z-index:1; display:block; pointer-events:none;}
 .bgMob{ display:none; pointer-events:none; }
 
+/* ===== Модалка (Мобилка) ===== */
+.modal{
+  position:fixed; inset:0; background:rgba(15,23,42,.55);
+  backdrop-filter: blur(2px);
+  display:grid; place-items:center; z-index:9999;
+}
+.modalInner{
+  position:relative; width:92vw; max-width:720px; aspect-ratio:16/9;
+  border-radius:16px; overflow:hidden; background:#000;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+.modalVideo{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
+}
+.modalClose{
+  position:absolute; top:10px; right:10px;
+  width:36px; height:36px; border-radius:10px; border:0;
+  background:rgba(0,0,0,.45); color:#fff; font-size:18px; cursor:pointer;
+}
+.modalPlay, .modalPause{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:64px; height:64px; border-radius:16px; border:0;
+  background:#B87EFF; color:#fff; display:grid; place-items:center;
+  box-shadow:0 12px 28px rgba(184,126,255,.45);
+}
+
 /* ===== Адаптив ===== */
 @media (max-width:1390px){
   .panel{ margin:0 15px; }
-  /* Чтобы прямоугольник на меньших десктопах не влезал за край */
   .mediaBox{ width:520px; height:293px; }
 }
-
 @media (max-width:1024px){
-  .mediaBox{ width:480px; height:270px; } /* 16:9 */
+  .mediaBox{ width:480px; height:270px; }
 }
-
 @media (max-width:640px){
   /* фикс 390 */
   .panel{
@@ -331,14 +421,18 @@ function onPlayButton(){ startVideo() }
   }
   .lead{ font-size:14px; max-width:none; text-align:left; }
 
+  /* утил-классы для "уже" */
+  .deskOnly{ display:none; }
+  .mobOnly { display:inline; }
+
   .bgDesk{ display:none; }
   .bgMob{ display:block; position:absolute; left:0; right:0; bottom:40px; width:100%; height:auto; z-index:1; }
 
-  /* Вариант по умолчанию на мобилке (кружок) — перезапишем размеры ниже */
+  /* круглый превью-бокс — фон #B87EFF + рамка */
   .mediaBox{
     width:162px; height:162px; border-radius:50%;
     right:15px; top:345px; left:auto; bottom:auto;
-    border:3px solid #EAEEF7; overflow:hidden; background:#000;
+    border:3px solid #EAEEF7; overflow:hidden; background:#B87EFF;
     box-shadow:0 14px 26px rgba(0,0,0,.10); z-index:3;
   }
   .mediaPoster, .mediaVideo{ border-radius:50%; }
@@ -347,24 +441,9 @@ function onPlayButton(){ startVideo() }
     width:34px; height:34px; border-radius:50%; background:#B87EFF;
     box-shadow:0 8px 18px rgba(184,126,255,.35);
   }
-  .pauseBtn{
-    width:42px; height:42px; border-radius:50%;
-    background:rgba(0,0,0,.28);
-  }
+  .pauseBtn{ display:none; } /* в кружке пауза не нужна — открываем модалку */
 
-  /* ГОРИЗОНТАЛЬНЫЙ на мобилке (флаг включён) */
-  .wideMob{
-    position:absolute;
-    left:15px; right:15px; top:350px;
-    width:auto; height:220px;
-    border-radius:16px; border:none;
-  }
-  .wideMob .mediaPoster,
-  .wideMob .mediaVideo{
-    border-radius:16px; object-fit:cover;
-  }
-
-  /* Бэйджи и CTA */
+  /* badge1/badge2 — оставлены как были */
   .badge1, .badge2{
     left:25px; right:auto; width:254px; height:auto; padding:12px 14px;
     background:#EAEEF7; box-shadow:0 8px 18px rgba(17,24,39,.10);
