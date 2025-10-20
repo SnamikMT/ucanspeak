@@ -23,7 +23,7 @@
 
       <!-- Карточки -->
       <div :class="$style.grid">
-        <!-- Левая карточка (449×540) — фон-картинка + заголовок -->
+        <!-- Левая карточка -->
         <div
           :class="$style.before"
           :style="{ backgroundImage: `url(${leftImg})` }"
@@ -31,15 +31,13 @@
           <h3 :class="$style.cardHead">До занятий с Ucanspeak</h3>
         </div>
 
-        <!-- Правая карточка (540 высота) -->
+        <!-- Правая карточка -->
         <div :class="$style.after">
           <h3 :class="$style.cardHead">После занятий с Ucanspeak</h3>
 
           <div :class="$style.planeWrap">
-            <!-- Самолёт по центру, родной размер -->
             <img :src="plane" :class="$style.plane" alt="Ucanspeak plane" />
 
-            <!-- Плашки -->
             <span :class="[$style.badge, $style.b1]">
               Легко формулируете и высказываете свои мысли фразами на английском
             </span>
@@ -69,7 +67,7 @@ const leftImg = leftCardImage
 </script>
 
 <style module>
-/* ===== ДЕСКТОП ===== */
+/* ===== ДЕСКТОП (как было) ===== */
 .wrap{
   background:#E9EFF7;
   padding-top:140px;
@@ -124,7 +122,7 @@ const leftImg = leftCardImage
 /* Левая карточка — картинка целиком по ширине */
 .before{
   width:449px;
-  background:#EEF3FF no-repeat top center / contain; /* картинка полностью, без обрезки */
+  background:#EEF3FF no-repeat top center / contain;
 }
 
 /* Заголовки карточек */
@@ -170,33 +168,18 @@ const leftImg = leftCardImage
 .b3{ background:#C8BDFF; left:107px; bottom:80px; transform:rotate(8deg); z-index:3; }
 .b4{ background:#FFD551; right:40px; bottom:83px; transform:rotate(7deg); z-index:2; }
 
-/* ===== АДАПТИВ ===== */
-
-/* планшеты */
+/* ===== БАЗОВЫЙ «планшет» как было: стэк ===== */
 @media (max-width:1024px){
   .stage{ width:auto; padding:0 16px; }
   .grid{ grid-template-columns:1fr; }
   .before{ width:100%; }
 }
 
-/* телефоны: фикс ширина контента 390 */
+/* ===== МОБИЛКА (как было) ===== */
 @media (max-width:640px){
-  .wrap{
-    padding-top:120px;
-    /* убираем внутренние боковые, шириной рулит .stage */
-    padding-left:0;
-    padding-right:0;
-  }
+  .wrap{ padding-top:120px; padding-left:0; padding-right:0; }
+  .stage{ width:390px; max-width:390px; margin:0 auto; padding:0; }
 
-  /* ЖЁСТКО 390px, без внутренних паддингов */
-  .stage{
-    width:390px;
-    max-width:390px;
-    margin:0 auto;
-    padding:0;
-  }
-
-  /* Заголовок: показываем мобильный, 4 строки */
   .titleDesk{ display:none; }
   .titleMob{
     display:block;
@@ -211,7 +194,6 @@ const leftImg = leftCardImage
   }
   .mline{ display:block; }
 
-  /* Плашка только фоном (текст не наклоняем) */
   .hlMob{
     position:relative; display:inline-block; padding:.06em .28em; border-radius:10px; z-index:0;
   }
@@ -228,7 +210,7 @@ const leftImg = leftCardImage
 
   .before{
     height:auto;
-    aspect-ratio: 449 / 540; /* сохраняем пропорцию */
+    aspect-ratio: 449 / 540;
     border-radius:16px;
     background-position: top center;
     background-size: contain;
@@ -247,9 +229,7 @@ const leftImg = leftCardImage
     letter-spacing:-0.05em;
   }
 
-  .head {
-    margin: 0 0 40px;
-  }
+  .head { margin: 0 0 40px; }
 
   .planeWrap{ height:calc(100% - 24px); }
   .plane{
@@ -263,9 +243,98 @@ const leftImg = leftCardImage
     max-width:260px;
     padding:16px 14px 14px 21px;
   }
-  .b1{ left:1px; top:75px; }
+  .b1{ left:1px;  top:75px; }
   .b2{ right:22px; top:170px; }
   .b3{ left:-4px; bottom:185px; }
-  .b4{ right:7px; bottom:103px; transform: rotate(-6deg);}
+  .b4{ right:7px;  bottom:103px; transform: rotate(-6deg); }
+}
+
+/* ===== ПРОМЕЖУТОЧНЫЕ 641–1200: «резиновая» прослойка =====
+   - сохраняем 2 колонки (не стэк) до 1024 по умолчанию переопределим ниже
+   - масштабируем правую карточку и плашки через коэффициент --k
+*/
+@media (min-width:641px) and (max-width:1200px){
+  .stage{
+    width:min(96vw, 1200px);
+    margin:0 auto;
+    padding:0 16px;
+  }
+
+  .grid{
+    margin-top: clamp(40px, 6vw, 70px);
+    grid-template-columns: clamp(360px, 32vw, 449px) 1fr;
+    column-gap: clamp(14px, 2vw, 20px);
+    align-items:stretch;
+  }
+
+  .before{
+    width:auto;
+    height: clamp(440px, 46vw, 540px);
+    border-radius: clamp(16px, 1.6vw, 20px);
+    background-position: top center;
+    background-size: contain;
+  }
+
+  .after{
+    /* коэффициент масштабирования от 0.78 до 1.0 (при 641→1200) */
+    --k: clamp(0.78, calc((100vw - 641px) / (1200 - 641)), 1);
+    height: clamp(480px, 48vw, 540px);
+    border-radius: clamp(16px, 1.6vw, 20px);
+    padding: 0 clamp(14px, 1.6vw, 20px) clamp(14px, 1.6vw, 20px);
+  }
+
+  .cardHead{
+    font-size: clamp(28px, 3.2vw, 36px);
+    margin-top: clamp(28px, 3vw, 40px);
+  }
+
+  .planeWrap{ height: calc(100% - clamp(24px, 2.6vw, 40px)); }
+
+  /* Самолёт — «родной» размер умножаем на k и ограничиваем контейнером */
+  .plane{
+    top: 45%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: calc(560px * var(--k));
+    filter: drop-shadow(0 calc(10px * var(--k)) calc(24px * var(--k)) rgba(16,24,40,.12));
+  }
+
+  /* Плашки — всё «дышит» через k; где right — тоже умножаем */
+  .badge{
+    font-size: clamp(14px);
+    max-width: calc(460px);
+    padding: calc(18px);
+    border-radius: calc(12px);
+  }
+  .b1{
+    left:  calc(20px);
+    top:   calc(64px);
+    transform: rotate(5.6deg);
+    z-index:2;
+  }
+  .b2{
+    right: calc(10px);
+    top:   calc(30px);
+    transform: rotate(5deg);
+    z-index:1;
+  }
+  .b3{
+    left:   calc(3px);
+    bottom: calc(50px);
+    transform: rotate(8deg);
+    z-index:3;
+  }
+  .b4{
+    right:  calc(60px);
+    bottom: calc(103px);
+    transform: rotate(7deg);
+    z-index:2;
+  }
+}
+
+/* ВАЖНО: если хочешь именно стэк в зоне <=1024 — этот блок оставляем,
+   а «резиновый» выше всё равно сгладит размеры/позиции. */
+@media (max-width:1024px){
+  .grid{ grid-template-columns: 1fr; }
 }
 </style>

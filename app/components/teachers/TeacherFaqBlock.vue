@@ -285,7 +285,7 @@ function onLeave(el: Element) {
 
 /* адаптив */
 @media (max-width:1280px){
-  .grid{ grid-template-columns:1fr; }
+  .grid{ grid-template-columns:1fr; padding: 0 15px;}
 }
 
 /* мобильный */
@@ -303,7 +303,8 @@ function onLeave(el: Element) {
   }
 
   .grid {
-    gap: 10px;
+    gap: 10px ;
+    padding: 0 15px;
   }
 
   /* вопросы — 16px и больше расстояние до плюса */

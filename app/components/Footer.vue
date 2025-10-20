@@ -76,14 +76,16 @@ function scrollTop() {
 </script>
 
 <style module>
-/* общий блок */
+/* общий блок — «белая плашка» футера */
 .wrap{
-  margin-top:140px;
   position:relative;
   background:#fff;
   border-radius:16px;
   overflow:hidden;
-  height:800px;
+  /* ПК: как и было, только без жёсткой высоты сверху */
+  min-height:800px;
+  /* внешний отступ сверху (как было) */
+  margin-top:140px;
 }
 
 /* верхняя полоса */
@@ -162,9 +164,43 @@ function scrollTop() {
   width:100%; height:auto; z-index:2; pointer-events:none;
 }
 
+/* ===== 2 колонки на планшете (как было) ===== */
 @media (max-width:1100px){
   .grid{ grid-template-columns:1fr 1fr; gap:32px; }
 }
+
+/* ===== «МЕЖДУ» 641–1200px — белая плашка с резиновыми отступами ===== */
+@media (min-width:641px) and (max-width:1200px){
+  /* внешние поля у плашки */
+  .wrap{
+    margin-left:  clamp(15px, 3.5vw, 32px);
+    margin-right: clamp(15px, 3.5vw, 32px);
+    margin-bottom: clamp(25px, 4vw, 60px);
+    /* сверху оставляем как было */
+    /* margin-top: 140px; */
+    border-radius: 20px;
+    overflow-x: clip;     /* на случай декоративных слоёв */
+    min-height: 1000px;    /* немного ниже, но без обрезания */
+  }
+
+  /* чуть компактнее внутренние паддинги */
+  .top{
+    padding-top: clamp(40px, 5vw, 50px);
+    padding-left: clamp(20px, 4vw, 50px);
+    padding-right: clamp(16px, 4vw, 32px);
+  }
+  .inner{
+    padding-top: clamp(28px, 4.5vw, 53px);
+    padding-left: clamp(20px, 4vw, 50px);
+    padding-right: clamp(16px, 4vw, 32px);
+  }
+
+  .grid{
+    gap: clamp(20px, 3vw, 36px);
+  }
+}
+
+/* ===== Узкие планшеты ===== */
 @media (max-width:720px){
   .top{ padding:40px 16px 0; padding-left:16px; }
   .inner{ padding:32px 16px 0; }
@@ -172,10 +208,16 @@ function scrollTop() {
   .phone{ font-size:20px; }
 }
 
+/* ===== МОБИЛКА ≤640px — белая плашка с отступами 15/25 ===== */
 @media (max-width: 640px){
-  /* сверху 120 как всегда */
-  .wrap{ margin:120px 0 0; height: 1232px;}
+  /* ВНЕШНИЕ отступы плашки (то, что просили): по бокам 15, снизу 25 */
+  .wrap{
+    margin: 120px 15px 25px;  /* top 120 (как делаете обычно), sides 15, bottom 25 */
+    border-radius: 16px;
+    height: 1232px;           /* сохранил, как было, чтобы не «поехала» волна */
+    overflow: hidden;
+  }
+
   .grid{ grid-template-columns:1fr; gap:53px; }
 }
-
 </style>

@@ -1,10 +1,11 @@
 <template>
   <section :class="$style.band">
-    <div class="container">
+    <!-- ширина и отступы полностью синхронны геро-панели -->
+    <div :class="$style.stage">
       <h2 :class="$style.srOnly">Преимущества</h2>
 
       <div :class="$style.grid">
-        <!-- 1-я: моб. ширина 125 -->
+        <!-- 1 -->
         <FeatureCard
           num="01"
           title="Аудиотренажер<br>и интерактивные онлайн уроки"
@@ -15,7 +16,7 @@
           :mobileArtWidth="125"
         />
 
-        <!-- 2-я: видео с прозрачностью -->
+        <!-- 2: видео -->
         <FeatureCard
           num="02"
           title="Приоритет –<br>разговорная практика"
@@ -27,7 +28,7 @@
           :artBottom="-18"
         />
 
-        <!-- 3-я: моб. ширина 130 -->
+        <!-- 3 -->
         <FeatureCard
           num="03"
           title="Озвучено<br>носителями языка"
@@ -57,41 +58,58 @@ import practicePoster from '@/assets/img/feat-parrot.png'
 <style module>
 .band{ padding:16px 0 0; }
 
+/* обёртка с шириной/отступами как у геро-панели */
+.stage{
+  max-width:1390px;      /* как .panel у героя */
+  margin:0 auto;
+}
+
+/* при ширине окна меньше «desktop» — такие же боковые поля 15px */
+@media (max-width:1390px){
+  .stage{ margin:0 15px; }
+}
+
+/* мобилка: фикс 390px по центру — впритык к макету героя */
+@media (max-width:640px){
+  .stage{
+    width:390px;
+    max-width:390px;
+    margin:0 auto;
+  }
+}
+
+/* скрытый заголовок */
 .srOnly{
   position:absolute !important; width:1px; height:1px; margin:-1px; padding:0;
   overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
 }
 
-/* 3 колонки, ширина контейнера как в макете */
+/* ===== СЕТКА КАРТОЧЕК =====
+   ПК: 3 колонки (резиновые), на «планшетах» — 2, на узких — 1,
+   при этом ширина блока следует .stage. */
 .grid{
   display:grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
   gap:20px;
-  max-width:1390px;
-  margin:0 auto;
+  align-items:stretch;
 }
 
-/* планшеты */
-@media (max-width:1024px){
-  .grid{ grid-template-columns:1fr; }
-}
-
-/* мобилка: ровно 390px секция + грид */
-@media (max-width:640px){
-  .band{ padding:16px 0 0; } /* убираем лишние боковые отступы */
-  :global(.container){
-    width:390px;
-    max-width:390px;
-    margin:0 auto;
-    padding:0;               /* чтобы не “распирало” */
-    box-sizing:border-box;
-  }
+/* широкие планшеты / ноутбуки */
+@media (max-width:1180px){
   .grid{
-    grid-template-columns:1fr;
-    width:390px;
-    max-width:390px;
-    margin:0 auto;
-    gap:20px;
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
   }
+}
+
+/* узкие планшеты (но ещё не мобилка) */
+@media (max-width:820px){
+  .grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* мобилка — одна колонка (ширина блока задаётся .stage = 390px) */
+@media (max-width:640px){
+  .grid{ gap:20px; }
 }
 </style>

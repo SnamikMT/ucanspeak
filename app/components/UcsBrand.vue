@@ -153,19 +153,13 @@ import cert2   from '@/assets/img/teachers/teacher-cert-2.png'
 .cardC{ width:568px; height:400px; }
 .cardD{ width:802px; height:400px; }
 
-/* === КАРТИНКИ: убираем сплющивание === */
+/* === КАРТИНКИ: без искажений === */
 .mediaBottom{ position:absolute; left:50%; bottom:-6px; transform:translateX(-50%); }
-.mediaBottom img{
-  /* раньше стояли width:468px И height:256px -> могло тянуть.
-     оставляем только одну размерность, чтобы сохранять пропорции */
-  width:auto;                   /* ширина сама посчитается */
-  display:block;
-}
+.mediaBottom img{ width:auto; display:block; }
 
 /* 2017 */
 .media2017{ position:absolute; inset:0; }
 .phone{ position:absolute; bottom:0; right:0; width:auto; height:330px; z-index:1; display:block; }
-/* попугай: на десктопе фикс-ширина, авто-высота — без искажений */
 .bird { position:absolute; bottom:0; right:120px; width:230px; height:auto; z-index:2; display:block; }
 
 /* 2022 */
@@ -202,7 +196,7 @@ import cert2   from '@/assets/img/teachers/teacher-cert-2.png'
 .ctaBtn i{ width:36px; height:36px; border-radius:10px; background:#fff; display:grid; place-items:center; }
 .ctaBtn i img{ width:22px; height:16px; display:block; }
 
-/* ===== Планшеты ===== */
+/* ===== Планшеты (старый фолбек) ===== */
 @media (max-width: 1200px){
   .stage{ width:100%; max-width:1040px; margin:0 auto; }
   .row{ flex-direction:column; }
@@ -210,6 +204,88 @@ import cert2   from '@/assets/img/teachers/teacher-cert-2.png'
   .lead{ max-width:100%; }
   .cardD .cardBody{ padding-right:300px; }
   .media2022{ width:52%; height:240px; bottom:-60px; }
+}
+
+/* ===== НОВОЕ: 601–1200 (ничего не обрезается, есть боковые поля) ===== */
+@media (min-width:601px) and (max-width:1200px){
+  .stage{
+    width:min(96vw, 1200px);
+    margin:0 auto;
+    padding: 0 15px;
+  }
+  .head{ margin-bottom: clamp(40px, 5vw, 70px); }
+  .title{ font-size: clamp(40px, 5vw, 55px); }
+
+  .row{
+    gap: clamp(14px, 2vw, 20px);
+    flex-direction: column;
+  }
+
+  .card{
+    border-radius:16px;
+    height:auto;                /* не фиксируем высоту */
+    overflow: visible;          /* чтобы медиа не обрезались */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cardBody{
+    padding: clamp(26px, 3vw, 40px) clamp(20px, 3vw, 40px) 0 clamp(24px, 3vw, 40px);
+  }
+  .lead{
+    font-size: clamp(16px, 1.9vw, 18px);
+    max-width:89%;
+  }
+
+  /* Добавляем место снизу под медиа у карточек */
+  .cardA .cardBody{ padding-bottom: clamp(123px, 81vw, 278px); }
+  .cardB .cardBody{ padding-bottom: clamp(140px, 22vw, 240px); }
+  .cardC .cardBody{ padding-bottom: clamp(140px, 22vw, 240px); }
+  .cardD .cardBody{ padding-bottom: clamp(20px, 3vw, 40px); padding-right: clamp(180px, 28vw, 320px); }
+
+  /* Общие масштабы медиа */
+  .mediaBottom img{
+    max-width: clamp(420px, 58vw, 640px);
+    height:auto;
+  }
+
+  /* 2017 */
+  .phone{ height: clamp(230px, 30vw, 320px); right: clamp(0px, 0vw, 10px); }
+
+  /* 2022 — уменьшаем, ставим повыше */
+  .media2022{
+    width: clamp(173px, 26%, 516px);
+    height: clamp(200px, 26vw, 260px);
+    bottom: clamp(-20px, -2vw, -40px);
+  }
+
+  .withYear .cardBody{ padding-top: clamp(78px, 8vw, 103px); }
+  .year{
+    left: clamp(22px, 2.6vw, 40px);
+    top: clamp(20px, 2.4vw, 32px);
+    font-size: clamp(24px, 3.2vw, 36px);
+  }
+  .year span, .year::before{
+    width: clamp(132px, 18vw, 173px);
+    height: clamp(44px, 6vw, 56px);
+  }
+
+  /* Сертификаты и кнопка — не абсолютим на узких планшетах, чтобы не резались */
+  .certs{
+    position: static;
+    display:flex;
+    justify-content: center;
+    padding: clamp(14px, 2.4vw, 20px) 15px;
+  }
+  .certs img{
+    width: clamp(160px, 24vw, 200px);
+    height:auto;
+  }
+  .ctaBtn{
+    position: static;
+    margin: 6px 0 clamp(16px, 2.6vw, 24px);
+    height:46px;
+  }
 }
 
 /* ===== Мобильные ===== */
@@ -234,27 +310,22 @@ import cert2   from '@/assets/img/teachers/teacher-cert-2.png'
     margin: 16px auto 0;
     grid-template-columns: 1fr;
     row-gap: 16px;
+    padding: 0; /* важно: НЕ трогаем мобилку */
   }
 
   .row{ gap:14px; }
   .card{ border-radius:16px; }
 
-  /* === ПАДДИНГИ КАРТОЧЕК НА МОБИЛКЕ === */
-  .cardBody{
-    padding:25px 16px 0px 30px; /* сверху/снизу 25; слева 30; справа 16 */
-  }
+  .cardBody{ padding:25px 16px 0px 30px; }
   .lead{ font-size:14px; letter-spacing:-0.03em; }
 
   .cardA,.cardB,.cardC,.cardD{ height:auto; }
 
   .mediaBottom{ position:relative; left:auto; bottom:auto; transform:none; margin-top:8px; }
-  .mediaBottom img{
-    width:auto;
-  }
+  .mediaBottom img{ width:auto; }
 
   .media2017{ position:relative; inset:auto; height:220px; }
   .phone{ position:absolute; right:6px; bottom:0; height:242px; width:auto; }
-  /* попугай на мобилке: фикс-высота, авто-ширина — тоже без искажений */
   .bird { position:absolute; right:100px; bottom:0; height:173px; width:auto; }
 
   .media2022{

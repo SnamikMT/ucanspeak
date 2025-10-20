@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 
 const props = defineProps<{
   num: string
@@ -73,62 +73,43 @@ const cssVars = computed(() => ({
   ...(props.mobileArtWidth ? { '--mobile-art-width':  props.mobileArtWidth + 'px' } : {}),
 }))
 
-/* анти-мерцание плеера: показываем видео только после 1-го кадра */
+/* анти-мерцание плеера */
 const vid = ref<HTMLVideoElement|null>(null)
 const ready = ref(false)
-let armed = false
-let rafId = 0
-
-function markReady(){
-  if (ready.value) return
-  ready.value = true
-}
-
+function markReady(){ if (!ready.value) ready.value = true }
 function armReady(){
-  if (armed) return
-  armed = true
-  const v = vid.value
-  if (!v) return
+  const v = vid.value; if (!v) return
   const anyV = v as any
-
-  // Современный способ — кадр реально отрисован
   if (typeof anyV.requestVideoFrameCallback === 'function'){
     anyV.requestVideoFrameCallback(() => markReady())
-    return
-  }
-
-  // Фолбек: ждём, когда плеер сможет играть и пошло время
-  const onTick = () => {
-    if (v.currentTime > 0 && v.readyState >= 2){
-      markReady()
-      v.removeEventListener('timeupdate', onTick)
-      v.removeEventListener('canplay',   onTick)
+  }else{
+    const onTick = () => {
+      if (v.currentTime > 0 && v.readyState >= 2){
+        markReady()
+        v.removeEventListener('timeupdate', onTick)
+        v.removeEventListener('canplay',   onTick)
+      }
     }
+    v.addEventListener('timeupdate', onTick)
+    v.addEventListener('canplay', onTick, { once:true })
   }
-  v.addEventListener('timeupdate', onTick)
-  v.addEventListener('canplay', onTick, { once:true })
 }
-
-onMounted(()=>{
-  // на всякий — попробовать автозапуск (iOS любит явный вызов)
-  if (vid.value){
-    vid.value.play().catch(()=>{})
-  }
-})
-onBeforeUnmount(()=>{
-  cancelAnimationFrame(rafId)
-})
+onMounted(()=>{ vid.value?.play().catch(()=>{}) })
 </script>
 
 <style module>
+/* Карточка резиновая по ширине колонки, пиксель-перфект на десктопе */
 .card{
   position:relative;
-  width:450px; height:200px;
+  width:100%;
+  max-width:450px;
+  height:200px;
   background:#fff; border-radius:20px; overflow:hidden;
   padding:30px 24px 30px 30px;
   box-shadow:0 6px 18px rgba(16,24,40,.06);
 }
 
+/* номер */
 .num{
   position:absolute; top:30px; left:30px;
   width:32px; height:32px; border-radius:999px;
@@ -138,17 +119,20 @@ onBeforeUnmount(()=>{
 }
 .num b{ font:600 14px/1.3 Inter, sans-serif; }
 
+/* заголовок */
 .title{
   position:absolute; left:30px; bottom:30px; margin:0;
   max-width:260px; font:500 20px/1.2 Inter, sans-serif; letter-spacing:-.03em; color:#0F172A;
 }
 
-/* Общие правила для арта (img/video) */
+/* Арт (img/video).
+   На промежуточных ширинах ограничиваем долей карточки,
+   чтобы не вылезал — min(заданная ширина, 62% от карточки). */
 .art{
   position:absolute;
   right: var(--art-right, 0);
   bottom: var(--art-bottom, 0);
-  width: var(--art-width, auto);
+  width: min(var(--art-width, 9999px), 62%);
   height: var(--art-height, auto);
   object-fit: contain;
   background: transparent;
@@ -156,15 +140,15 @@ onBeforeUnmount(()=>{
   user-select: none;
 }
 
-/* Полное скрытие любых контролов */
+/* webkit-контролы — в ноль */
 .art::-webkit-media-controls,
 .art::-webkit-media-controls-enclosure{ display:none !important; }
 
-/* анти-мерцание: не просто opacity, ещё и visibility, чтобы не было кликов и UI */
+/* анти-мерцание */
 .hide{ opacity:0; visibility:hidden; }
 .show{ opacity:1; visibility:visible; transition:opacity .2s ease; }
 
-/* доп. плашка */
+/* Плашка */
 .pill{
   position:absolute; z-index:2; padding:8px 14px;
   background: linear-gradient(180deg, rgba(172,129,255,.18), rgba(172,129,255,.05));
@@ -174,11 +158,26 @@ onBeforeUnmount(()=>{
   box-shadow:0 6px 14px rgba(124,92,255,.22);
 }
 
-/* мобилка */
+/* ===== Адаптив карточки ===== */
+
+/* широкие планшеты/ноутбуки */
+@media (max-width:1180px){
+  .card{ max-width:none; height:190px; }
+}
+
+/* узкие планшеты (но ещё не мобилка) */
+@media (max-width:820px){
+  .card{ height:184px; }
+  .title{ max-width:240px; }
+}
+
+/* мобилка — как по макету 390 */
 @media (max-width:640px){
-  .card{ width:100%; height:168px; padding:24px 16px 24px 24px; }
+  .card{ width:100%; height:168px; padding:24px 16px 24px 24px; border-radius:16px; }
   .num{ top:24px; left:24px; width:30px; height:30px; }
-  .title{ left:24px; bottom:24px; font-size:16px; }
-  .art{ width: var(--mobile-art-width, var(--art-width, auto)); }
+  .title{ left:24px; bottom:24px; font-size:16px; max-width:220px; }
+  .art{
+    width: var(--mobile-art-width, min(var(--art-width, 9999px), 62%));
+  }
 }
 </style>

@@ -144,44 +144,79 @@ const cards = [
 
 /* ===== Адаптив ===== */
 
-/* 2 колонки на планшете */
+/* «между»: 641–1200 — поля, сужаем угол, ограничиваем X-скролл */
+@media (min-width:641px) and (max-width:1200px){
+  /* контейнеру секции даём резиновую ширину и боковые отступы */
+  .wrap > :global(.container){
+    width:min(96vw, 1200px);
+    margin:0 auto;
+    padding-left:clamp(16px, 2.4vw, 24px);
+    padding-right:clamp(16px, 2.4vw, 24px);
+    box-sizing:border-box;
+  }
+
+  /* отсекаем выступающие повёрнутые углы только по оси X */
+  .wrap{ overflow-x: clip; } /* не режет тени по Y, поддерживается современными браузерами */
+
+  .head{
+    margin-bottom: clamp(40px, 6vw, 78px);
+  }
+  .title{
+    font-size: clamp(40px, 5vw, 55px);
+  }
+  .lead{
+    font-size: clamp(16px, 1.8vw, 18px);
+    margin-top: clamp(16px, 2vw, 22px);
+  }
+
+  /* две колонки и «воздух» между ними */
+  .grid{
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    gap: clamp(14px, 2vw, 24px);
+  }
+
+  /* ослабляем поворот, уменьшаем внутренние поля карточек */
+  .grid{ --k: .6; } /* 60% от исходного угла поворота */
+  .ticket{
+    padding: clamp(-1px, 2.2vw, 12px);
+    min-height: clamp(360px, 44vw, 460px);
+    border-radius: clamp(14px, 1.6vw, 20px);
+  }
+  .tTitle{ font-size: clamp(24px, 3.2vw, 32px); }
+  .tText { font-size: clamp(15px, 2vw, 18px); }
+  .price{ font-size: clamp(26px, 3.4vw, 34px); }
+
+  .cutWrap{ margin:0 calc(-1 * clamp(14px, 2vw, 24px)); }
+
+  /* кнопка не ломается и не вылезает за края */
+  .btn{
+    width: min(100%, 280px);
+    white-space: nowrap;
+  }
+}
+
+/* 2 колонки на планшете (fallback для очень старых браузеров) */
 @media (max-width:1200px){
   .grid{ grid-template-columns:repeat(2,1fr); }
 }
 
-/* Мобилка: базовая ширина 390, поля по 15 */
+/* Мобилка */
 @media (max-width:640px){
-
-  :global(.container){
-    width:390px;
+  .wrap > .container{
     max-width:390px;
     margin:0 auto;
-    padding:0;               /* чтобы не “распирало” */
+    padding-left:15px;
+    padding-right:15px;
     box-sizing:border-box;
   }
-  .wrap{ padding:120px 0 0; margin-top: 0;}
+  .wrap{ padding:120px 0 0; margin-top: 0; }
+  .head {margin-bottom: 40px;}
 
-  .head{ margin-bottom:40px; }
-  .title{
-    font-size:33px;
-    line-height:1.02;
-    letter-spacing:-0.04em;
-  }
-  .hl{ border-radius:8px; }
-  .lead{
-    font-size:16px;             /* как просили */
-    line-height:1.3;
-    letter-spacing:-0.03em;
-    margin-top: 30px;
-  }
-
-    /* показываем мобильные версии заголовка/лида */
   .titleDesk{ display:none; }
   .leadDesk{ display:none; }
   .titleMob{ display:block; }
   .leadMob{ display:block; }
 
-  /* мобильный заголовок — 3 строки */
   .titleMob{
     font-size:33px;
     line-height:1.02;
@@ -189,20 +224,48 @@ const cards = [
     margin:0;
     color:#111;
   }
+  .mLine{ display:block; }
 
-  .grid{ grid-template-columns:1fr; gap:16px; }
+  .mHL{
+    position: relative;
+    display: inline-block;
+    padding: .06em .28em;
+    border-radius: 10px;
+    z-index: 0;
+  }
+  .mHL::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #FFD249;
+    border-radius: 10px;
+    transform: rotate(1.2deg);
+    z-index: -1;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.06);
+  }
+
+  .leadMob{
+    margin-top:30px;
+    font-size:16px;
+    line-height:1.3;
+    letter-spacing:-.03em;
+    color:#2C2C2C;
+  }
+  .lLine{ display:block; }
+
+  .grid{ grid-template-columns:1fr; gap:16px; padding: 0 15px;}
 
   .ticket{
     transform:none;
     padding:20px;
     border-radius:16px;
-    min-height:unset;
   }
   .tTitle{ font-size:24px; }
   .tText{ font-size:15px; }
   .price{ font-size:28px; margin:14px 0; }
 
-  .cutWrap{ margin:0 -22px; }   /* растянуть до краев карточки */
+  .cutWrap{ margin:0 -22px; }
   .btn{ width:100%; max-width:360px; }
 }
 </style>
+

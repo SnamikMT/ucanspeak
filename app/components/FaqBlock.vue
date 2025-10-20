@@ -285,14 +285,14 @@ function onLeave(el: Element) {
 
 /* адаптив */
 @media (max-width:1280px){
-  .grid{ grid-template-columns:1fr; }
+  .grid{ grid-template-columns:1fr; padding: 0 15px;}
 }
 
 /* мобильный */
 @media (max-width:640px){
   .wrap{ padding:120px 0 0; }
 
-  .grid {gap: 10px;}
+  .grid {gap: 10px; padding: 0 15px;}
 
   /* мобильный заголовок: 3 строки */
   .titleDesk{ display:none; }

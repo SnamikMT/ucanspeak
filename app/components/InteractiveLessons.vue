@@ -1,6 +1,6 @@
 <template>
   <section :class="$style.wrap" id="interactive">
-    <div class="container">
+    <div :class="$style.container">
       <!-- Заголовок -->
       <header :class="$style.head">
         <h2 :class="$style.title">
@@ -325,6 +325,95 @@ import b4 from '@/assets/img/interactive/bottom-book.png'
   .bottomGrid{ grid-template-columns:1fr; }
   .topTile, .bottomCard{ width:100%; }
 }
+
+/* ===== ПРОМЕЖУТОЧНЫЕ 641–1280px: аккуратная «резина» ===== */
+@media (min-width:641px) and (max-width:1280px){
+
+  .container{ width:min(96vw, 1200px); margin:0 auto; }
+
+  /* Заголовок и подзаголовок чуть компактнее */
+  .title{
+    font-size: clamp(36px, 4.2vw, 48px);
+    line-height: .98;
+  }
+  .lead{
+    font-size: clamp(16px, 1.8vw, 18px);
+    margin-top: clamp(18px, 2.2vw, 30px);
+  }
+
+  /* ===== ВЕРХНИЕ 3 КАРТОЧКИ =====
+     Вместо жёстких 450px — «резина» с безопасными пределами */
+  .topGrid{
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
+    gap: clamp(14px, 2vw, 20px);
+    justify-content: center;
+  }
+  .topTile{
+    width: 100%;
+    height: clamp(320px, 30vw, 408px);
+    border-radius: clamp(14px, 1.6vw, 20px);
+  }
+  .topTileBody{ padding-bottom: clamp(80px, 8.2vw, 105px); }
+  .topTileBar{
+    height: clamp(88px, 8.8vw, 115px);
+    padding: clamp(18px, 2.2vw, 30px);
+    border-radius: clamp(14px, 1.6vw, 20px);
+  }
+  .metric{ font-size: clamp(22px, 3.2vw, 32px); }
+  .label { font-size: clamp(14px, 2vw, 18px); }
+
+  /* Скрин внутри тайла не «раздувается» */
+  .topTileShot{
+    left:50%;
+    top: clamp(0px, .8vw, 8px);
+    transform: translateX(-50%) scale(1);
+    max-width: min(88%, 520px);
+    height: auto;
+  }
+
+  /* ===== НИЖНИЕ 4 КАРТОЧКИ =====
+     На планшетах — 2 колонки «резиновые» */
+  .bottomGrid{
+    grid-template-columns: repeat(2, minmax(360px, 1fr));
+    gap: clamp(16px, 2vw, 24px);
+    justify-content: center;
+  }
+  .bottomCard{
+    width: 100%;
+    height: clamp(220px, 26vw, 280px);
+    border-radius: clamp(14px, 1.6vw, 20px);
+  }
+
+  /* Номера и текст не уползают */
+  .num{
+    top: clamp(16px, 2vw, 24px);
+    left: clamp(16px, 2vw, 24px);
+    width: clamp(28px, 3.2vw, 32px);
+    height: clamp(28px, 3.2vw, 32px);
+  }
+  .num b{ font-size: clamp(12px, 1.5vw, 14px); }
+
+  .bottomText{
+    left: clamp(16px, 2vw, 30px);
+    bottom: clamp(16px, 2vw, 30px);
+    max-width: 58%;
+    font-size: clamp(16px, 1.9vw, 18px);
+    line-height: 1.22;
+  }
+
+  /* Арты (img+video) ограничены и «дышат» */
+  .bottomArt{
+    max-width: clamp(200px, 22vw, 280px);
+    max-height: clamp(160px, 18vw, 230px);
+  }
+  /* Сдвиги для конкретных артов под «средние» ширины */
+  .art1{ right: clamp(22px, 3vw, 40px);  bottom: 0; }
+  .art2{ right: clamp(0px, 2vw, 10px);   bottom: 0; }
+  .art3{ right: clamp(40px, 6vw, 90px);  bottom: 0; }
+  .art4{ right: clamp(-12px, 2vw, -4px); bottom: clamp(-12px, 2vw, -4px); }
+
+}
+
 
 @media (max-width: 640px){
   .wrap{ padding:120px 0 0; }

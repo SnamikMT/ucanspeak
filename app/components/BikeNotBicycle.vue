@@ -17,17 +17,14 @@
       <!-- Бирка -->
       <aside :class="$style.note" aria-label="Карточка заметки Ucanspeak">
         <span :class="$style.pinDot" aria-hidden="true"></span>
-
-        <!-- SVG-логотип вместо текста -->
         <img :src="logo" :class="$style.noteLogo" alt="UCANSPEAK" />
-
         <p :class="$style.noteText">
           UCANSPEAK — это простой и удобный способ поддерживать
           свой английский язык на уровне!
         </p>
       </aside>
 
-      <!-- Фон: десктоп/мобайл через <picture> -->
+      <!-- Фон -->
       <picture>
         <source media="(max-width: 640px)" :srcset="bikeWaveMobile" />
         <img :class="$style.bg" :src="bikeWave" alt="" aria-hidden="true" />
@@ -39,7 +36,7 @@
 <script setup lang="ts">
 import bikeWave from '@/assets/img/bike-wave.png'
 import bikeWaveMobile from '@/assets/img/bike-wave-mobile.png'
-import logo from '@/assets/img/logo.svg' // ← SVG логотип
+import logo from '@/assets/img/logo.svg'
 </script>
 
 <style module>
@@ -50,7 +47,7 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
   background:transparent;
 }
 
-/* ===== Белая карточка (до 1390) ===== */
+/* ===== Белая карточка (ПК) ===== */
 .inner{
   position:relative;
   max-width:1390px;
@@ -78,11 +75,6 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
   letter-spacing:-0.05em;
   color:#2C2C2C;
 }
-.hl{
-  padding:.06em .28em;
-  border-radius:10px;
-  display:inline-block;
-}
 
 /* плашка только фоном */
 .hl{
@@ -99,7 +91,7 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
   background:#FFD249;
   border-radius:10px;
   transform: rotate(1.1deg);
-  z-index:-1; /* фон под текстом */
+  z-index:-1;
 }
 
 .lead{
@@ -113,7 +105,7 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
   max-width:420px;
 }
 
-/* Бирка справа (ПК) / снизу (моб.) */
+/* Бирка справа (ПК) */
 .note{
   position:absolute;
   top:80px;
@@ -132,32 +124,27 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
   justify-content:flex-end;
 }
 
-/* Логотип (SVG) вместо текста */
 .noteLogo{
   position:absolute; top:20px; left:20px;
   display:block;
-  width:170px;  /* подгоняется под макет */
-  height:30px; /* можно убрать и дать auto по высоте, если нужно */
+  width:170px;
+  height:30px;
   object-fit:contain;
 }
 
-/* Текст с дополнительным правым отступом */
 .noteText{
   margin:0;
   font-family: Inter, sans-serif;
   font-weight:500; font-size:20px; line-height:1.3; letter-spacing:-0.03em; color:#1F2937;
-
-  /* было только left/bottom — добавил right, чтобы не липло к краю */
   padding-left:20px;
-  padding-right:26px;  /* ← увеличенный отступ справа */
+  padding-right:26px;
   padding-bottom:20px;
 }
 
-/* Пин-точка */
 .pinDot{
   position:absolute; top:10px; right:10px;
   width:19px; height:19px; border-radius:50%;
-  background:#DED7FF;            /* ПК */
+  background:#DED7FF;
 }
 
 /* Фон по умолчанию — снизу */
@@ -170,13 +157,81 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
   z-index:1;
 }
 
-/* Планшет */
-@media (max-width: 1024px){
-  .inner{ padding:40px 36px; height:auto; }
+/* ===== ПРОМЕЖУТОЧНЫЕ (641–1200): боковые отступы, масштаб, воздух под фоном ===== */
+@media (min-width:641px) and (max-width:1200px){
+  .inner{
+    /* делаем карточку резиновой и добавляем поля */
+    max-width:1200px;
+    width:min(96vw, 1200px);
+    margin:0 auto;
+    height:450px;         
+    padding:
+      clamp(36px, 5vw, 56px)
+      clamp(18px, 3.2vw, 60px)
+      clamp(140px, 18vw, 220px);/* низ — запас под волну */
+    border-radius: clamp(16px, 1.6vw, 20px);
+
+    display:block;              /* отключаем жёсткий флекс-ряд */
+  }
+
+  .text{
+    max-width: clamp(520px, 64vw, 720px);
+  }
+  .title{
+    font-size: clamp(40px, 5vw, 55px);
+    margin-bottom: clamp(12px, 1.6vw, 18px);
+  }
+  .lead{
+    font-size: clamp(16px, 1.8vw, 18px);
+    max-width: clamp(420px, 58vw, 640px);
+  }
+
+  /* Бирка — меньше поворот, резиновые размеры и отступ от краёв */
+  .note{
+    top: clamp(45px, 38vw, 210px);
+    right: clamp(16px, 4vw, 42px);
+    width: clamp(300px, 34vw, 380px);
+    height: clamp(150px, 18vw, 200px);
+    transform: rotate(7deg); /* помягче, чтобы не уезжала */
+    border-width: 2px;
+    border-radius: clamp(12px, 1.4vw, 14px);
+  }
+  .noteLogo{
+    top: clamp(14px, 1.8vw, 20px);
+    left: clamp(14px, 1.8vw, 20px);
+    width: clamp(132px, 16vw, 170px);
+    height: clamp(24px, 3vw, 30px);
+  }
+  .noteText{
+    font-size: clamp(16px, 1.8vw, 20px);
+    padding-left: clamp(14px, 2vw, 20px);
+    padding-right: clamp(16px, 2.2vw, 26px);
+    padding-bottom: clamp(12px, 1.8vw, 20px);
+  }
+  .pinDot{
+    top: clamp(8px, 1.4vw, 10px);
+    right: clamp(8px, 1.4vw, 10px);
+    width: clamp(16px, 1.8vw, 19px);
+    height: clamp(16px, 1.8vw, 19px);
+    background:#DED7FF;
+    border: none;
+  }
+
+  /* Волна — ограничиваем высоту и не даём «давить» контент */
+  .bg{
+    bottom:0;
+    top:auto;
+    transform:none;
+    width:100%;
+  }
+}
+
+/* ===== Планшет узкий (до 1024) — чуть компактнее текста */
+@media (max-width:1024px){
   .title{ font-size:46px; }
 }
 
-/* Мобильный */
+/* ===== Мобильный ===== */
 @media (max-width: 640px){
   .wrap{ padding:120px 0 0; margin-top: 0; }
 
@@ -188,6 +243,7 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
     display:block;
   }
 
+  .text{ max-width:none; }
   .title{
     font-size:33px;
     line-height:.95;
@@ -216,25 +272,21 @@ import logo from '@/assets/img/logo.svg' // ← SVG логотип
   }
   .noteLogo{
     top:14px; left:14px;
-    width:132px; height:24px;   /* компактнее на мобилке */
+    width:132px; height:24px;
   }
-
-  /* Текст с правым отступом тоже увеличен */
   .noteText{
     font-size:14px; line-height:1.3;
     padding-left:14px;
-    padding-right:18px;  /* ← добавлен правый отступ на мобилке */
+    padding-right:18px;
     padding-bottom:14px;
   }
-
-  /* Кружок — белый с бордером */
   .pinDot{
     top:8px; right:8px; width:18px; height:18px;
     background:#FFFFFF;
     border:3px solid #EAEEF7;
   }
 
-  /* Фон: по центру и на всю ширину */
+  /* Фон: по центру для мобилки */
   .bg{
     top:50%;
     bottom:auto;

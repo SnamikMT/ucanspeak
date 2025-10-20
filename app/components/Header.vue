@@ -22,7 +22,7 @@
     <!-- CTA (desktop) -->
     <NuxtLink to="/platform" class="btn btn--primary" :class="$style.primary">Перейти на платформу</NuxtLink>
 
-    <!-- Кнопка «Меню» (mobile) -->
+    <!-- Кнопка «Меню» (mobile / narrow tablets) -->
     <button
       type="button"
       :class="$style.menuBtn"
@@ -89,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import logo from '@/assets/img/logo.svg' // ← SVG логотип
+import logo from '@/assets/img/logo.svg'
 
 const props = defineProps<{ insideHero?: boolean }>()
 const route = useRoute()
@@ -99,7 +99,6 @@ const isOpen = ref(false)
 const toggle = () => (isOpen.value = !isOpen.value)
 const close  = () => (isOpen.value = false)
 
-// Escape закрывает меню
 onMounted(() => {
   const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close() }
   window.addEventListener('keydown', onKey)
@@ -113,6 +112,7 @@ onMounted(() => {
   display:flex; align-items:center; justify-content:space-between;
   max-width:1390px; margin:0 auto;
   padding:14px 0;
+  gap:12px;                      /* небольшое «воздух» между блоками */
   -webkit-tap-highlight-color: transparent;
 }
 .inHero{
@@ -123,22 +123,31 @@ onMounted(() => {
 /* Лого (SVG) */
 .logo{
   display:inline-flex; align-items:center; text-decoration:none;
-  line-height:0;        /* убираем возможные отступы из-за baseline */
+  line-height:0;
+  flex:0 0 auto;                 /* не сжимать логотип */
 }
 .logo img{
-  display:block; width:auto; height:28px; /* подгони, если нужно */
+  display:block; width:auto; height:28px;
 }
 
 /* Desktop nav */
-.nav{ display:flex; gap:10px; }
+.nav{
+  display:flex; gap:10px;
+  align-items:center;
+  flex:0 1 auto;                 /* можно немного сжимать */
+  min-width:0;                   /* чтобы не раздвигало контейнер */
+}
 .navBtn{
   padding:10px 14px; border-radius:12px; font-weight:500;
   -webkit-tap-highlight-color: transparent;
+  white-space:nowrap;            /* не переносить подписи */
 }
 .navBtn:active{ background:inherit !important; }
+
 .primary{
   padding:12px 16px; border-radius:12px;
   -webkit-tap-highlight-color: transparent;
+  white-space:nowrap;            /* не ломать CTA */
 }
 .primary:active{ background:inherit !important; }
 .link{ transition: background .2s ease; }
@@ -212,7 +221,6 @@ onMounted(() => {
   background:#F6F7FB;
   -webkit-tap-highlight-color: transparent;
 }
-/* без визуального «active» при тапе */
 .sheetLink:active{ background:#F6F7FB; transform:none; }
 
 /* CTA внутри меню */
@@ -232,7 +240,7 @@ onMounted(() => {
   display:grid; place-items:center; flex:0 0 36px;
 }
 
-/* Доступность: видимый фокус только для клавиатуры */
+/* Доступность */
 a:focus-visible, button:focus-visible{
   outline:2px solid #3232E9;
   outline-offset:2px;
@@ -255,11 +263,30 @@ a:focus-visible, button:focus-visible{
   .bar{ padding-left:25px; padding-right:25px; }
   .inHero{ padding-left:25px; padding-right:25px; }
 }
+
+/* УЗКИЕ НОУТЫ / ПЛАНШЕТЫ-ЛАНДШАФТ (анти-наезд) */
+@media (max-width:1100px){
+  .navBtn{ padding:8px 12px; }     /* чуть компактнее кнопки */
+  .primary{ padding:10px 14px; }
+  .logo img{ height:26px; }        /* микро-ужатие логотипа */
+  .inHero{ margin-bottom:60px; }
+}
+
+/* переключаемся в «мобилку» раньше, чтобы ничего не наезжало */
+@media (max-width:1020px){
+  .nav, .primary{ display:none; }  /* скрыть пункты и CTA */
+  .menuBtn{ display:flex; }        /* показать кнопку «Меню» */
+}
+
+/* классическая мобилка */
 @media (max-width:768px){
+  /* дублируем для совместимости, если брейкпоинт 1020 не сработал где-то */
   .nav, .primary{ display:none; }
   .menuBtn{ display:flex; }
   .inHero{ margin-bottom:60px; }
 }
+
+/* узкие экраны для шторки */
 @media (max-width:400px){
   .sheet{ width:100vw; border-radius:0 0 16px 16px; }
 }
